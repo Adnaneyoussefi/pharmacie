@@ -1,0 +1,185 @@
+<?php
+
+namespace App\Entity;
+
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity(repositoryClass="App\Repository\ProprietaireRepository")
+ */
+class Proprietaire
+{
+    /**
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $nom_pharmacie;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $ville;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $adresse;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Garde", inversedBy="proprietaires")
+     */
+    private $gardes;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Stock", mappedBy="proprietaire")
+     */
+    private $produits;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Admin", mappedBy="proprietaires")
+     */
+    private $admins;
+
+    
+
+    public function __construct()
+    {
+        $this->gardes = new ArrayCollection();
+        $this->produits = new ArrayCollection();
+        $this->admins = new ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getNomPharmacie(): ?string
+    {
+        return $this->nom_pharmacie;
+    }
+
+    public function setNomPharmacie(string $nom_pharmacie): self
+    {
+        $this->nom_pharmacie = $nom_pharmacie;
+
+        return $this;
+    }
+
+    public function getVille(): ?string
+    {
+        return $this->ville;
+    }
+
+    public function setVille(string $ville): self
+    {
+        $this->ville = $ville;
+
+        return $this;
+    }
+
+    public function getAdresse(): ?string
+    {
+        return $this->adresse;
+    }
+
+    public function setAdresse(string $adresse): self
+    {
+        $this->adresse = $adresse;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Garde[]
+     */
+    public function getGardes(): Collection
+    {
+        return $this->gardes;
+    }
+
+    public function addGarde(Garde $garde): self
+    {
+        if (!$this->gardes->contains($garde)) {
+            $this->gardes[] = $garde;
+        }
+
+        return $this;
+    }
+
+    public function removeGarde(Garde $garde): self
+    {
+        if ($this->gardes->contains($garde)) {
+            $this->gardes->removeElement($garde);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Stock[]
+     */
+    public function getProduits(): Collection
+    {
+        return $this->produits;
+    }
+
+    public function addProduit(Stock $produit): self
+    {
+        if (!$this->produits->contains($produit)) {
+            $this->produits[] = $produit;
+            $produit->setProprietaire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduit(Stock $produit): self
+    {
+        if ($this->produits->contains($produit)) {
+            $this->produits->removeElement($produit);
+            // set the owning side to null (unless already changed)
+            if ($produit->getProprietaire() === $this) {
+                $produit->setProprietaire(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Admin[]
+     */
+    public function getAdmins(): Collection
+    {
+        return $this->admins;
+    }
+
+    public function addAdmin(Admin $admin): self
+    {
+        if (!$this->admins->contains($admin)) {
+            $this->admins[] = $admin;
+            $admin->addProprietaire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAdmin(Admin $admin): self
+    {
+        if ($this->admins->contains($admin)) {
+            $this->admins->removeElement($admin);
+            $admin->removeProprietaire($this);
+        }
+
+        return $this;
+    }
+}
