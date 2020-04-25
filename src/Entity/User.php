@@ -43,6 +43,21 @@ class User implements UserInterface
      */
     private $prenom;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Client", mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $client;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Proprietaire", mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $proprietaire;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Admin", mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $admin;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -141,6 +156,57 @@ class User implements UserInterface
     public function setPrenom(?string $prenom): self
     {
         $this->prenom = $prenom;
+
+        return $this;
+    }
+
+    public function getClient(): ?Client
+    {
+        return $this->client;
+    }
+
+    public function setClient(Client $client): self
+    {
+        $this->client = $client;
+
+        // set the owning side of the relation if necessary
+        if ($client->getUser() !== $this) {
+            $client->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function getProprietaire(): ?Proprietaire
+    {
+        return $this->proprietaire;
+    }
+
+    public function setProprietaire(Proprietaire $proprietaire): self
+    {
+        $this->proprietaire = $proprietaire;
+
+        // set the owning side of the relation if necessary
+        if ($proprietaire->getUser() !== $this) {
+            $proprietaire->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function getAdmin(): ?Admin
+    {
+        return $this->admin;
+    }
+
+    public function setAdmin(Admin $admin): self
+    {
+        $this->admin = $admin;
+
+        // set the owning side of the relation if necessary
+        if ($admin->getUser() !== $this) {
+            $admin->setUser($this);
+        }
 
         return $this;
     }

@@ -48,6 +48,12 @@ class Proprietaire
      */
     private $admins;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="proprietaire", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
     
 
     public function __construct()
@@ -179,6 +185,18 @@ class Proprietaire
             $this->admins->removeElement($admin);
             $admin->removeProprietaire($this);
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
