@@ -1,0 +1,107 @@
+{% extends 'proprietaire/base.html.twig' %}
+{% block body %}
+<div class="site-section">
+      <div class="container">
+
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+              <a class="nav-link active" data-toggle="tab" href="#info">Information Personnelles</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#pwd">Changer le mot de passe</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#pharmacie">Information de pharmacie</a>
+              </li>
+          </ul>
+          <div id="myTabContent" class="tab-content">
+            <div class="tab-pane fade active show" id="info">
+                <form>
+                      <div class="form-group">
+                        <label for="exampleNom" class="text-black">Nom</label>
+                        <input type="text" class="form-control" id="exampleNom">
+                      </div>
+
+                      <div class="form-group">
+                        <label for="examplePrenom" class="text-black">Prenom</label>
+                        <input type="text" class="form-control" id="examplePrenom">
+                      </div>
+
+                      <div class="form-group">
+                        <label for="adresse" class="text-black">Adresse</label>
+                        <input type="text" class="form-control" id="adresse">
+                      </div>
+
+                      <div class="form-group">
+                        <label for="ville" class="text-black">Ville</label>
+                        <select class="form-control" id="ville">
+                          <option>Oujda</option>
+                          <option>Casablanca</option>
+                          <option>Rabat</option>
+                          <option>Fes</option>
+                          <option>Tanger</option>
+                        </select>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="phone" class="text-black">Phone</label>
+                        <input type="text" class="form-control" id="phone">
+                      </div>
+
+                      <div class="form-group">  
+                        <label for="genre" class="text-black">Genre</label>
+                            <div class="custom-control custom-radio">
+                              <input type="radio" id="radioM" name="genre" class="custom-control-input" checked="">
+                              <label class="custom-control-label text-black" for="radioM">M</label>
+                            </div>
+                            <div class="custom-control custom-radio">
+                              <input type="radio" id="radioF" name="genre" class="custom-control-input">
+                              <label class="custom-control-label text-black" for="radioF">F</label>
+                            </div>
+                      </div> 
+
+                      <div class="form-group">
+                        <button type="button" class="btn btn-success">Enregistrer</button>
+                      </div>
+                </form>     
+            </div>
+            <div class="tab-pane fade" id="pwd">
+              <div class="form-group">
+                <label for="Password1" class="text-black">Le mot de passe original :</label>
+                <input type="password" class="form-control" id="Password1">
+              </div>
+
+              <div class="form-group">
+                <label for="Password2" class="text-black">Nouveau Mot de Passe:</label>
+                <input type="password" class="form-control" id="Password2">
+              </div>
+
+              <div class="form-group">
+                <label for="Password3" class="text-black">Confirmer le Mot de Passe:</label>
+                <input type="password" class="form-control" id="Password3">
+              </div>
+
+              <button type="button" class="btn btn-success">Enregistrer</button>
+            </div>
+            <div class="tab-pane fade" id="pharmacie">
+
+              <form>
+                
+                <div class="form-group">
+                  <label for="nompharmacie" class="text-black">Nom pharmacie</label>
+                  <input type="text" class="form-control" id="nompharmacie">
+                </div>
+
+                <div class="form-group">
+                  <label for="adressepharmacie" class="text-black">Adresse pharmacie</label>
+                  <input type="text" class="form-control" id="adressepharmacie">
+                </div>
+
+                <button type="button" class="btn btn-success">Enregistrer</button>
+              </form>
+              </div>
+          </div>
+            
+      </div>
+    </div>
+{% endblock %}
