@@ -44,10 +44,10 @@
                       <div class="main-nav d-none d-lg-block">
                         <nav class="site-navigation text-right text-md-center" role="navigation">
                           <ul class="site-menu js-clone-nav d-none d-lg-block">
-                            <li class="{{ app.request.get('_route') == 'compte_proprietaire' ? 'active' }}"><a href="{{path('compte_proprietaire')}}">Compte</a></li>
-                            <li class="{{ app.request.get('_route') == 'stock_proprietaire' ? 'active' }}"><a href="{{path('stock_proprietaire')}}">Stock</a></li>
-                            <li><a href="vente.html">Vente</a></li>
-                            <li><a href="reclamation.html">Reclamation</a></li>
+                            <li class="{{ app.request.get('_route') == 'compte_proprietaire' ? 'active' }}"><a href="{{path('compte_proprietaire')}}" class="hyper">Compte</a></li>
+                            <li class="{{ app.request.get('_route') == 'stock_proprietaire' ? 'active' }}"><a href="{{path('stock_proprietaire')}}" class="hyper">Stock</a></li>
+                            <li><a href="vente.html" class="hyper">Vente</a></li>
+                            <li><a href="reclamation.html" class="hyper">Reclamation</a></li>
                           </ul>
                         </nav>
                       </div>
