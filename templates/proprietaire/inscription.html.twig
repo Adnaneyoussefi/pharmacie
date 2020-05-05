@@ -1,0 +1,15 @@
+{% extends 'proprietaire/base.html.twig' %}
+{% block body %}
+
+{{ form_start(form) }}
+
+{{ form_row(form.user) }}
+{{ form_row(form.nom_pharmacie) }}
+{{ form_row(form.adresse) }}
+{{ form_row(form.ville) }}
+
+<button type="submit" class="btn btn-warning btn-lg">Inscription</button>
+
+{{ form_end(form) }}
+
+{% endblock %}

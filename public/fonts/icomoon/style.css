@@ -45,6 +45,9 @@
 .icon-search:before {
   content: "\f002";
 }
+.icon-login:before {
+  content: "\f2bd";
+}
 .icon-envelope-o:before {
   content: "\f003";
 }

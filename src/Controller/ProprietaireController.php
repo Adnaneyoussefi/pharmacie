@@ -2,8 +2,15 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\User;
+use App\Entity\Proprietaire;
+use App\Form\RegistrationProType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
 
 /**
  * @Route("/proprietaire")
@@ -11,6 +18,33 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ProprietaireController extends AbstractController
 {
+    /**
+     * @Route("/inscription", name="security_registration")
+     */
+    public function registration(Request $request, UserPasswordEncoderInterface $encoder) {
+        $proprietaire = new Proprietaire();
+        $user = new User();
+        $form = $this->createForm(RegistrationProType::class, $proprietaire);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $hash = $encoder->encodePassword($user, $proprietaire->getUser()->getPassword());
+            $proprietaire->getUser()->setPassword($hash);
+            $proprietaire->getUser()->setRoles($user->getRoles());
+            
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($proprietaire);
+            $manager->flush();
+
+            return $this->redirectToRoute('app_login');
+        }
+
+        return $this->render('proprietaire/inscription.html.twig',[
+            'pagetitle'=>'Inscription',
+            'form' => $form->createView()
+        ]);
+    }
+
     /**
      * @Route("/", name="home_proprietaire")
      */
@@ -25,11 +59,13 @@ class ProprietaireController extends AbstractController
      /**
      * @Route("/compte", name="compte_proprietaire")
      */
-    public function compte()
+    public function compte(/*AuthenticationUtils $authenticationUtils*/)
     {
+        //$repos = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $authenticationUtils->getLastUsername()]);
         return $this->render('proprietaire/compte.html.twig',[
             'pagetitle'=>'Compte',
             'path'=>'compte_proprietaire',
+            //'prenom'=>$repos->getPrenom()
         ]);
     }
 
