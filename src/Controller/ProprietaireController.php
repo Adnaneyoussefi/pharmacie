@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\UserType;
 use App\Entity\Proprietaire;
 use App\Form\RegistrationProType;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,18 +23,18 @@ class ProprietaireController extends AbstractController
      * @Route("/inscription", name="security_registration")
      */
     public function registration(Request $request, UserPasswordEncoderInterface $encoder) {
-        $proprietaire = new Proprietaire();
         $user = new User();
-        $form = $this->createForm(RegistrationProType::class, $proprietaire);
+        $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $hash = $encoder->encodePassword($user, $proprietaire->getUser()->getPassword());
-            $proprietaire->getUser()->setPassword($hash);
-            $proprietaire->getUser()->setRoles($user->getRoles());
+            $hash = $encoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($hash);
+            $role[] = 'ROLE_PROP';
+            $user->setRoles($role);
             
             $manager = $this->getDoctrine()->getManager();
-            $manager->persist($proprietaire);
+            $manager->persist($user);
             $manager->flush();
 
             return $this->redirectToRoute('app_login');

@@ -1,15 +1,50 @@
 {% extends 'proprietaire/base.html.twig' %}
 {% block body %}
 
+<style type="text/css">
+        .divider-text {
+            position: relative;
+            text-align: center;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+        .divider-text span {
+            padding: 7px;
+            font-size: 12px;
+            position: relative;   
+            z-index: 2;
+            font-size: 25px;
+        }
+        .divider-text:after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            border-bottom: 1px solid #ddd;
+            top: 55%;
+            left: 0;
+            z-index: 1;
+        }
+        }
+</style>
+
+<article class="card-body mx-auto" style="max-width: 800px;">
+<p class="divider-text">
+        <span class="bg-light">Inscription</span>
+    </p>
 {{ form_start(form) }}
 
-{{ form_row(form.user) }}
-{{ form_row(form.nom_pharmacie) }}
-{{ form_row(form.adresse) }}
-{{ form_row(form.ville) }}
+{{ form_row(form.email, {'attr' : {'placeholder' : "Adresse Email", 'class' : "form-control"}}) }}
+{{ form_row(form.password, {'attr' : {'placeholder' : "Créer mot de passe"}}) }}
+{{ form_row(form.confirm_password, {'attr' : {'placeholder' : "Confirmez le mot de passe"}}) }}
+{{ form_row(form.nom, {'attr' : {'placeholder' : "Nom"}}) }}
+{{ form_row(form.prenom, {'label' : 'Prenom', 'attr' : {'placeholder' : "Prenom"}}) }}
+{{ form_row(form.proprietaire.nom_pharmacie, { 'attr' : {'placeholder' : "Nom du pharmacie"} }) }}
+{{ form_row(form.proprietaire.adresse, { 'attr' : {'placeholder' : "Adresse"} }) }}
+{{ form_row(form.proprietaire.ville, { 'attr' : {'placeholder' : "Ville"} }) }}
 
-<button type="submit" class="btn btn-warning btn-lg">Inscription</button>
+<button type="submit" class="btn btn-primary btn-block">Créer votre compte</button>
 
 {{ form_end(form) }}
+</article>
 
 {% endblock %}
