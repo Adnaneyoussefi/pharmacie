@@ -3,13 +3,13 @@
 namespace App\Form;
 
 use App\Entity\User;
-use App\Form\RegistrationProType;
+use App\Form\ClientType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
-class UserType extends AbstractType
+class UserClientType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -19,7 +19,7 @@ class UserType extends AbstractType
             ->add('confirm_password', PasswordType::class)
             ->add('nom')
             ->add('prenom')
-            ->add('proprietaire', RegistrationProType::class)
+            ->add('client', ClientType::class)
         ;
     }
 
