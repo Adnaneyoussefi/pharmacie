@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -20,6 +21,7 @@ class Client
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Length(min="9", minMessage="Votre mot de passe doit faire minimum 8 caractères")
      */
     private $adresse;
 
@@ -35,6 +37,7 @@ class Client
 
     /**
      * @ORM\Column(type="string")
+     * @Assert\Regex("/^(0[6|7])[0-9]{8}$/")
      */
     private $tel;
 
