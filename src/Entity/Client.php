@@ -34,7 +34,7 @@ class Client
     private $ville;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string")
      */
     private $tel;
 
