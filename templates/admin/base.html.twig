@@ -21,7 +21,6 @@
         </head>
         <body>
           <div class="site-wrap">
-          {% block header %}
   <div class="site-navbar py-2">
 
       <div class="container">
@@ -55,8 +54,6 @@
         </div>
       </div>
       </div>
-
-    {% block nav %}
     <div class="bg-light py-3">
         <div class="container">
           <div class="row">
@@ -67,14 +64,10 @@
           </div>
         </div>
       </div>
-    {% endblock  %}
-    {% endblock %}
+    
 
-    {% block body %} 
-    {% endblock %}
-
-    {% block javascripts %}
-            <script src="../js/jquery-3.3.1.min.js"></script>
+    {% block body %} {% endblock %}
+         <script src="../js/jquery-3.3.1.min.js"></script>
             <script src="../js/jquery-ui.js"></script>
             <script src="../js/popper.min.js"></script>
             <script src="../js/bootstrap.min.js"></script>
@@ -83,9 +76,8 @@
             <script src="../js/aos.js"></script>
             <script src="../js/main.js"></script>
 
-
-
-        {% endblock %}
+    {% block javascripts %}
+      {% endblock %}
   
        </body>
        </html>
