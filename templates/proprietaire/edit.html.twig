@@ -1,0 +1,14 @@
+{% extends 'proprietaire/base.html.twig' %}
+
+{% block title %}Edit Produit{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1>Edit Produit</h1>
+
+    
+    {{ include('proprietaire/_form.html.twig', {'button_label': 'Modifier', 'btn_type': 'btn-warning'}) }}
+    <a href="{{ path('stock_proprietaire') }}" class="btn btn-outline-secondary mt-1" style="width: 170px">Retour à la liste</a>
+    
+</div>    
+{% endblock %}

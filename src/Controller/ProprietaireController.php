@@ -4,9 +4,12 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Entity\Produit;
+use App\Form\ProduitType;
 use App\Form\UserPropType;
 use App\Entity\Proprietaire;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -67,17 +70,6 @@ class ProprietaireController extends AbstractController
             'pagetitle'=>'Compte',
             'path'=>'compte_proprietaire',
             //'prenom'=>$repos->getPrenom()
-        ]);
-    }
-
-     /**
-     * @Route("/stock", name="stock_proprietaire")
-     */
-    public function stock()
-    {
-        return $this->render('proprietaire/stock.html.twig',[
-            'pagetitle'=>'Stock',
-            'path'=>'stock_proprietaire',
         ]);
     }
 }

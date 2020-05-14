@@ -1,4 +1,4 @@
-{% extends 'base.html.twig' %}
+{% extends 'client/base.html.twig' %}
 {% block body %}
 
 <style type="text/css">
@@ -33,7 +33,7 @@
     </p>
 {{ form_start(form) }}
 
-{{ form_row(form.email, {'attr' : {'placeholder' : "Adresse Email", 'class' : "form-control"}}) }}
+{{ form_row(form.email, {'attr' : {'placeholder' : "Adresse Email"}}) }}
 {{ form_row(form.password, {'attr' : {'placeholder' : "Créer mot de passe"}}) }}
 {{ form_row(form.confirm_password, {'attr' : {'placeholder' : "Confirmez le mot de passe"}}) }}
 {{ form_row(form.nom, {'attr' : {'placeholder' : "Nom"}}) }}
