@@ -104,15 +104,22 @@ body {
 </style>
 <div class="login-page">
   <div class="form">
-    
-    <form class="login-form">
+    {% if errors %}
+
+  {{ errors.messageKey  }}
+
+    {% endif %}
+    <form class="login-form" action="{{ path ('login_admin')}}" method="post">
     <h3><p> Admin </p></h3>
-      <input type="text" placeholder="Username"/>
-      <input type="password" placeholder="password"/>
-      <button>login</button>
+      <input type="text" placeholder="Username" name="_username" value="{{ username }}"/>
+      <input type="password" placeholder="password" name="_password"/>
+      <button type="submit">login</button>
     </form>
   </div>
 </div>
 
 
-{% endblock %}
+{% endblock %} 
+ 
+
+
