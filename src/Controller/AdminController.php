@@ -2,15 +2,19 @@
 
 namespace App\Controller;
 
-use App\Entity\Admin;
 use App\Entity\User;
+use App\Entity\Admin;
 use App\Entity\Client;
 use App\Entity\Proprietaire;
-use App\Repository\ClientRepository;
 use App\Repository\UserRepository;
+use App\Repository\ClientRepository;
+use Symfony\Component\BrowserKit\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
 /**
  * @Route("/admin")
@@ -21,11 +25,20 @@ class AdminController extends AbstractController
     /**
      * @Route("/login", name="login_admin")
      */
-    public function login()
+    public function login( AuthenticationUtils $authenticationUtils)
     {
+
+        $errors = $authenticationUtils->getLastAuthenticationError();
+
+        $lastUsername = $authenticationUtils->getLastUsername();
+
         return $this->render('admin/login.html.twig', [
             'controller_name' => 'AdminController',
+            'errors' => $errors,
+            'username' => $lastUsername
         ]);
+      
+
     }
 
      /**
