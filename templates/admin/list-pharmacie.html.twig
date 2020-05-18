@@ -21,7 +21,7 @@
                 </thead>
                 <tbody>
 
-                {% for user in user %}
+                {% for user in page %}
                   <tr>
                     
                     <td class="product-name">
@@ -46,6 +46,9 @@
                 </tbody>
               </table>
             </div>
+             <div class:"navigation">
+              {{ knp_pagination_render(page)}}
+              </div>
           </form>
         </div>
     
