@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Produit;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Form\UserClientType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -47,12 +49,20 @@ class ClientController extends AbstractController
     }
 
     /**
-     * @Route("/shop", name="shop")
+     * @Route("/shop/{page}",defaults={"page"=1}, name="shop")
      */
-    public function shop()
-    {
+    public function shop($page)
+        {   $totalPages=$this->getDoctrine()->getRepository(Produit::class)->totalPages();
+            $maxPerPage=3;
+            $offset=$page*$maxPerPage;
+            $products = $this->getDoctrine()
+            ->getRepository(Produit::class)
+            ->findByPage($offset,$maxPerPage);
         return $this->render('client/shop.html.twig',[
-            'pagetitle' => 'Store'
+            'pagetitle' => 'Store',
+            'products'=>$products,
+            'totalPages'=>ceil($totalPages/$maxPerPage),
+            'current'=>$page
         ]);
     }
 
@@ -71,6 +81,15 @@ class ClientController extends AbstractController
     {
         return $this->render('client/contact.html.twig');
     }
+
+    /**
+     * @Route("/cart", name="cart")
+     */
+    public function cart()
+    {
+        return $this->render('client/cart.html.twig');
+    }
+    
 
     
 
