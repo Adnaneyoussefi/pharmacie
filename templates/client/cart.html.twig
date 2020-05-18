@@ -1,0 +1,207 @@
+
+{% extends 'client/base.html.twig' %}
+
+{% block title %}Cart{% endblock %}
+
+{% block nav %}{% endblock %}
+
+{% block body %}
+  <div class="site-section">
+      <div class="container">
+        <div class="row mb-5">
+          <form class="col-md-12" method="post">
+            <div class="site-blocks-table">
+              <table class="table table-bordered" >
+                <thead>
+                  <tr>
+                    <th class="product-thumbnail">Image</th>
+                    <th class="product-name">Product</th>
+                    <th class="product-price">Price</th>
+                    <th class="product-quantity">Quantity</th>
+                    <th class="product-total">Total</th>
+                    <th class="product-remove">Remove</th>
+                  </tr>
+                </thead>
+                <tbody id="cart-table">
+             
+              
+                </tbody>
+              </table>
+            </div>
+          </form>
+        </div>
+    
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row mb-5">
+              <div class="col-md-6 mb-3 mb-md-0">
+                <button class="btn btn-primary btn-md btn-block">Update Cart</button>
+              </div>
+              <div class="col-md-6">
+                <button class="btn btn-outline-primary btn-md btn-block">Continue Shopping</button>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <label class="text-black h4" for="coupon">Coupon</label>
+                <p>Enter your coupon code if you have one.</p>
+              </div>
+              <div class="col-md-8 mb-3 mb-md-0">
+                <input type="text" class="form-control py-3" id="coupon" placeholder="Coupon Code">
+              </div>
+              <div class="col-md-4">
+                <button class="btn btn-primary btn-md px-4">Apply Coupon</button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 pl-5">
+            <div class="row justify-content-end">
+              <div class="col-md-7">
+                <div class="row">
+                  <div class="col-md-12 text-right border-bottom mb-5">
+                    <h3 class="text-black h4 text-uppercase">Cart Totals</h3>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col-md-6">
+                    <span class="text-black">Subtotal</span>
+                  </div>
+                  <div class="col-md-6 text-right">
+                    <strong class="text-black" ></strong>
+                  </div>
+                </div>
+                <div class="row mb-5">
+                  <div class="col-md-6">
+                    <span class="text-black " >Total</span>
+                  </div>
+                  <div class="col-md-6 text-right">
+                    <strong class="text-black" id="total"></strong>
+                  </div>
+                </div>
+    
+                <div class="row">
+                  <div class="col-md-12">
+                    <button class="btn btn-primary btn-lg btn-block" onclick="window.location='checkout.html'">Proceed To
+                      Checkout</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<script>
+var items=JSON.parse(localStorage.getItem("my_cart_infos")).filter( x=>x.id==idd).map(y=>y.items)[0];
+  
+	let cart_table=document.getElementById("cart-table");	
+   let total=0;	
+	for( i=0;i<items.length;i++  )
+	{    let tr=document.createElement("tr");
+	      tr.setAttribute("id",items[i].id);
+		 let td1=document.createElement("td");
+         let td2=document.createElement("td");
+         let td3=document.createElement("td");
+         let td4=document.createElement("td");
+         let td5=document.createElement("td");
+         let td6=document.createElement("td");
+		 let td1_img=document.createElement("img");
+             td1_img.setAttribute("src",items[i].image);
+			 td1_img.setAttribute("class","img-fluid");
+             td1.append(td1_img);
+             tr.append(td1);    
+         let td2_h2=document.createElement("h2");
+             td2_h2.innerHTML=items[i].prod_name;
+             td2.append(td2_h2);
+             tr.append(td2);
+         td3.innerHTML=items[i].price;
+         tr.append(td3);	
+
+           let td4_div=document.createElement("div");
+           td4_div.className="input-group mb-3";
+           td4_div.style="max-width:150px";
+           let td4_divminus=document.createElement("div");
+           td4_divminus.className="input-group-prepend";
+           let td4_divplus=document.createElement("div");
+           td4_divplus.className="input-group-append";
+           let btnminus=document.createElement("button");
+           btnminus.innerHTML="&minus;";
+           btnminus.type="button";
+           btnminus.className="btn btn-outline-primary js-btn-minus";
+           let btnplus=document.createElement("button");
+           btnplus.type="button";
+           btnplus.className="btn btn-outline-primary js-btn-plus";
+           btnplus.innerHTML="&plus;";
+           td4_divminus.append(btnminus);
+           td4_divplus.append(btnplus);
+           let text=document.createElement("input");
+           text.type="text";
+           text.setAttribute("aria-label","Example text with button addon");
+           text.setAttribute("aria-describedby","button-addon1");
+           //aria-label="Example text with button addon" aria-describedby="button-addon1">
+           text.className="form-control text-center";
+           text.value=items[i].qt;
+           td4_div.append(td4_divminus);
+           td4_div.append(text);
+           td4_div.append(td4_divplus);
+           td4.append(td4_div);
+
+
+		  //td4.append(td4div);
+         tr.append(td4);
+		 
+		 td5.innerHTML=items[i].qt * items[i].price;
+		 td5.setAttribute("id","tot");
+		 total+=parseInt(td5.innerHTML);
+		 tr.append(td5);
+		 let td6_a=document.createElement("a");
+		 td6_a.setAttribute("class","btn btn-primary height-auto btn-sm");
+		  td6_a.innerHTML="X";
+		  td6.append(td6_a);
+		  tr.append( td6);
+	   
+	   
+	    cart_table.append(tr);	
+	}
+	document.getElementById("total").innerHTML=parseInt(total);
+				  
+				  
+   ///////////////////////////////////remove an item /////////////////////////////////////
+   var items_table=document.getElementById("cart-table");
+   const removeItem=function(){
+   let id=this.parentElement.parentElement.id;
+    let idx=items.map(x=>x.id).indexOf(id.replace("id",""));
+	items.splice(idx,1);
+	//put the new items table in storage
+	  let Storage=JSON.parse(localStorage.getItem("my_cart_infos"));
+	  let client_index=Storage.map(x=>x.id).indexOf(idd);  
+	  Storage[client_index].items=items;
+	  if(items.length)
+	   localStorage.setItem("my_cart_infos", JSON.stringify(Storage));
+      else{
+	     Storage.splice(idx,1);
+		 localStorage.setItem("my_cart_infos", JSON.stringify(Storage));
+	  
+	  } 
+	
+	//
+           for (let i = 0; i < items_table.children.length; i++) {
+		                   if(  items_table.children[i].id==id ) 
+						   {
+						    document.getElementById("total").innerHTML-=items_table.children[i].childNodes[4].innerHTML;
+						   items_table.children[i].parentElement.removeChild( items_table.children[i]);}
+                           
+							}
+              document.getElementById("my-cart").childNodes[3].innerHTML=(items.length)?items.reduce(function(acc,v){return {qt:acc.qt+v.qt}}).qt :0;
+						}
+   				
+ Array.from(document.getElementsByClassName("btn-primary height-auto btn-sm")).forEach( function(item){   item.addEventListener("click",removeItem)     }  )
+ //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  </script>
+ 
+
+
+{% endblock %}
+
+
