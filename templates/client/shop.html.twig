@@ -4,112 +4,42 @@
 
 {% block body %}
 
-<div class="site-section">
+
+<div class="site-section" >
       <div class="container">
         
-        <div class="row">
-          <div class="col-lg-6">
-            <h3 class="mb-3 h6 text-uppercase text-black d-block">Filter by Price</h3>
-            <div id="slider-range" class="border-primary"></div>
-            <input type="text" name="text" id="amount" class="form-control border-0 pl-0 bg-white" disabled="" />
-          </div>
-          <div class="col-lg-6">
-            <h3 class="mb-3 h6 text-uppercase text-black d-block">Filter by Reference</h3>
-            <button type="button" class="btn btn-secondary btn-md dropdown-toggle px-4" id="dropdownMenuReference"
-              data-toggle="dropdown">Reference</button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuReference">
-              <a class="dropdown-item" href="#">Relevance</a>
-              <a class="dropdown-item" href="#">Name, A to Z</a>
-              <a class="dropdown-item" href="#">Name, Z to A</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Price, low to high</a>
-              <a class="dropdown-item" href="#">Price, high to low</a>
-            </div>
-          </div>
-        </div>
+     
     
         <div class="row">
-          <div class="col-sm-6 col-lg-4 text-center item mb-4">
-            <span class="tag">Sale</span>
-            <a href="shop-single.html"> <img src="images/product_01.png" alt="Image"></a>
-            <h3 class="text-dark"><a href="shop-single.html">Bioderma</a></h3>
-            <p class="price"><del>95.00</del> &mdash; $55.00</p>
-          </div>
-          <div class="col-sm-6 col-lg-4 text-center item mb-4">
-            <a href="shop-single.html"> <img src="images/product_02.png" alt="Image"></a>
-            <h3 class="text-dark"><a href="shop-single.html">Chanca Piedra</a></h3>
-            <p class="price">$70.00</p>
-          </div>
-          <div class="col-sm-6 col-lg-4 text-center item mb-4">
-            <a href="shop-single.html"> <img src="images/product_03.png" alt="Image"></a>
-            <h3 class="text-dark"><a href="shop-single.html">Umcka Cold Care</a></h3>
-            <p class="price">$120.00</p>
-          </div>
-    
-          <div class="col-sm-6 col-lg-4 text-center item mb-4">
-    
-            <a href="shop-single.html"> <img src="images/product_04.png" alt="Image"></a>
-            <h3 class="text-dark"><a href="shop-single.html">Cetyl Pure</a></h3>
-            <p class="price"><del>45.00</del> &mdash; $20.00</p>
-          </div>
-          <div class="col-sm-6 col-lg-4 text-center item mb-4">
-            <a href="shop-single.html"> <img src="images/product_05.png" alt="Image"></a>
-            <h3 class="text-dark"><a href="shop-single.html">CLA Core</a></h3>
-            <p class="price">$38.00</p>
-          </div>
-          <div class="col-sm-6 col-lg-4 text-center item mb-4">
-            <span class="tag">Sale</span>
-            <a href="shop-single.html"> <img src="images/product_06.png" alt="Image"></a>
-            <h3 class="text-dark"><a href="shop-single.html">Poo Pourri</a></h3>
-            <p class="price"><del>$89</del> &mdash; $38.00</p>
+        {% for prod in products %}
+
+            <div class="col-sm-6 col-lg-4 text-center item mb-4" id="item-{{prod.id}}" >
+             <img src="{{asset('images/'~prod.image)}}" alt="Image" class="cart-item" style="max-height:150px">
+            <h3 class="text-dark" id="{{prod.id}}">{{prod.nom}}</a></h3>
+		 	<a href="#"> Details </a> 
+            <p class="price" data-price="{{prod.prixtva}}">{{prod.prixtva}} DH ttc</p>
           </div>
 
-          <div class="col-sm-6 col-lg-4 text-center item mb-4">
-            <span class="tag">Sale</span>
-            <a href="shop-single.html"> <img src="images/product_01.png" alt="Image"></a>
-            <h3 class="text-dark"><a href="shop-single.html">Bioderma</a></h3>
-            <p class="price"><del>95.00</del> &mdash; $55.00</p>
-          </div>
-          <div class="col-sm-6 col-lg-4 text-center item mb-4">
-            <a href="shop-single.html"> <img src="images/product_02.png" alt="Image"></a>
-            <h3 class="text-dark"><a href="shop-single.html">Chanca Piedra</a></h3>
-            <p class="price">$70.00</p>
-          </div>
-          <div class="col-sm-6 col-lg-4 text-center item mb-4">
-            <a href="shop-single.html"> <img ˀsrc="images/product_03.png" alt="Image"></a>
-            <h3 class="text-dark"><a href="shop-single.html">Umcka Cold Care</a></h3>
-            <p class="price">$120.00</p>
-          </div>
+
+         {% endfor %}
+         
+        
+         
+    
           
-          <div class="col-sm-6 col-lg-4 text-center item mb-4">
-          
-            <a href="shop-single.html"> <img src="images/product_04.png" alt="Image"></a>
-            <h3 class="text-dark"><a href="shop-single.html">Cetyl Pure</a></h3>
-            <p class="price"><del>45.00</del> &mdash; $20.00</p>
-          </div>
-          <div class="col-sm-6 col-lg-4 text-center item mb-4">
-            <a href="shop-single.html"> <img src="images/product_05.png" alt="Image"></a>
-            <h3 class="text-dark"><a href="shop-single.html">CLA Core</a></h3>
-            <p class="price">$38.00</p>
-          </div>
-          <div class="col-sm-6 col-lg-4 text-center item mb-4">
-            <span class="tag">Sale</span>
-            <a href="shop-single.html"> <img src="images/product_06.png" alt="Image"></a>
-            <h3 class="text-dark"><a href="shop-single.html">Poo Pourri</a></h3>
-            <p class="price"><del>$89</del> &mdash; $38.00</p>
-          </div>
         </div>
+       
         <div class="row mt-5">
           <div class="col-md-12 text-center">
             <div class="site-block-27">
               <ul>
-                <li><a href="#">&lt;</a></li>
-                <li class="active"><span>1</span></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
-                <li><a href="#">&gt;</a></li>
+        {% set currentPage= (current)?current:1 %}
+                <li><a href=" {{(currentPage>1 )?path('shop',{'page':currentPage-1}):'#'}} ">&lt;</a></li>
+               {% for i in 1..totalPages %}
+                   <li {{(i==currentPage)? 'class="active"':""}}><a href="{{path('shop',{'page':i})}}"> {{i}}</a></li>
+                 {% endfor %}
+
+                <li><a href=" {{(currentPage< totalPages)?path('shop',{'page':currentPage+1}):'#'}} ">&gt;</a></li>
               </ul>
             </div>
           </div>
@@ -117,30 +47,69 @@
       </div>
     </div>
 
-    
-    <div class="site-section bg-secondary bg-image" style="background-image: url('images/bg_2.jpg');">
-      <div class="container">
-        <div class="row align-items-stretch">
-          <div class="col-lg-6 mb-5 mb-lg-0">
-            <a href="#" class="banner-1 h-100 d-flex" style="background-image: url('images/bg_1.jpg');">
-              <div class="banner-1-inner align-self-center">
-                <h2>Pharma Products</h2>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestiae ex ad minus rem odio voluptatem.
-                </p>
-              </div>
-            </a>
-          </div>
-          <div class="col-lg-6 mb-5 mb-lg-0">
-            <a href="#" class="banner-1 h-100 d-flex" style="background-image: url('images/bg_2.jpg');">
-              <div class="banner-1-inner ml-auto  align-self-center">
-                <h2>Rated by Experts</h2>
-                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestiae ex ad minus rem odio voluptatem.
-                </p>
-              </div>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
+
+
+
+<script>
+  console.log(idd);
+	   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//   console.log(JSON.parse(localStorage.getItem("my_cart_infos")).filter( x=>x.id==idd).map(y=>y.items)[0].reduce(function(acc,v){return {qt:acc.qt+v.qt}}).qt);
+  var addtoCart=function(){
+  let storage=localStorage.getItem("my_cart_infos");
+   let parent=this.parentElement.getAttribute("id");
+   let data=document.getElementById(parent);
+   let prodName;
+   let prodId;
+   let prodPrice;
+   let prodImage;
+    for (let i = 0; i < data.children.length; i++) {
+    switch (data.children[i].tagName)
+	{
+	  case 'H3':
+	  prodName=data.children[i].innerHTML;
+	  prodId=data.children[i].id;
+	  break;
+	  case 'IMG':
+	  prodImage= data.children[i].src;
+	  break;
+	  case 'P':
+	  prodPrice= data.children[i].dataset.price;
+	  break;
+	
+	}
+	}
+   let storage_data={prod_name:prodName,price:prodPrice,image:prodImage,id:prodId,qt:1};
+   let items_table=(!storage)?[]:JSON.parse(storage);
+     console.log(idd);
+   if( items_table.map(x=>x.id).indexOf(idd)==-1)
+   {  
+     
+	  items_table.push({id:idd,items:[storage_data]    });
+   
+   }
+   else{
+     let index=items_table.map(x=>x.id).indexOf(idd);
+	 if( items_table[index].items.map(x=>x.id).indexOf(prodId)==-1 )
+     items_table[index].items.push(storage_data);
+	 else items_table[index].items[items_table[index].items.map(x=>x.id).indexOf(prodId)].qt++;
+ 
+   }
+
+   localStorage.setItem("my_cart_infos", JSON.stringify(items_table));
+   alert(" product  has been added to your cart!!");
+   
+   //CartProdNumber();//update product numbers in the cart
+   let cart=document.getElementById("my-cart");
+   cart.childNodes[3].innerHTML=  cart.childNodes[3].innerHTML*1+1;
+  
+  }
+  Array.from(document.getElementsByClassName("cart-item")).forEach( function(item){   item.addEventListener("click",addtoCart)     }  )
+  //////////////// Add an item to the cart ////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////////
+  
+  </script>
+
+
 
 {% endblock %}
