@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-    <head>
+   <head>
         <meta charset="UTF-8">
         <title>{% block title %}Proprietaire{% endblock %}</title>
         <link href="https://fonts.googleapis.com/css?family=Rubik:400,700|Crimson+Text:400,400i" rel="stylesheet">
@@ -73,16 +73,61 @@
                             <a href="{{ path('inscription') }}">Inscription</a>
                             {% endif %}
                             <a href="#" class="icons-btn d-inline-block js-search-open"><span class="icon-search"></span></a>
-                            <a href="cart.html" class="icons-btn d-inline-block bag">
+                            <a href="{{path('cart')}}" class="icons-btn d-inline-block bag" id="my-cart">
                             <span class="icon-shopping-bag"></span>
-                            <span class="number">5</span>
+                            <span class="number">0</span>
                             </a>
                             <a href="#" class="site-menu-toggle js-menu-toggle ml-3 d-inline-block d-lg-none"><span
                                 class="icon-menu"></span></a>
                             {% if not app.user %}    
+                            <script> const idd="guest"; </script>
                             <a href="{{ path('app_login') }}">Connexion</a>
                             {% else %}
-                            <a href="{{ path('app_logout') }}">Déconnexion</a>
+                            <script> const idd="{{app.user.id}}" ;
+                             if(JSON.parse(localStorage.getItem("my_cart_infos")).filter(x=>x.id=="guest").length)
+                             {      let strg=JSON.parse(localStorage.getItem("my_cart_infos"));
+                                    if(!JSON.parse(localStorage.getItem("my_cart_infos")).filter(x=>x.id=idd).length)
+                                       {
+                                          console.log( strg.filter(x=>x.id=="guest"));
+                                        let crt={id:idd,items:strg.filter(x=>x.id=="guest")[0].items};
+                                         
+                                           strg.push(crt);
+                                           console.log(strg.map(x=>x.id).indexOf("guest"));
+                                         
+                                         
+                                          
+                                       }  
+                                    else{
+                                       let arr1=strg.filter(x=>x.id=="guest")[0].items;
+                                       let arr2=strg.filter(x=>x.id==idd)[0].items;
+                                       let ar=(arr1.length>arr2.length)?arr1:arr2;
+                                       let av=(ar==arr1)?arr2:arr1;
+                                       let av_id=av.map(x=>x.id);
+                                       for(i in ar)
+                                       {
+                                         if(av_id.indexOf(ar[i].id)!==-1)
+                                         {
+                                           ar[i].qt+= av[av_id.indexOf(ar[i].id)].qt;
+                                         }
+
+                                       }
+                                       
+                                       strg.splice(strg.map(x=>x.id).indexOf(idd),1);
+                                       strg.push({id:idd,items:ar});
+
+                                       console.log(ar);
+                                      
+                                   
+                                    }
+                                    strg.splice(strg.map(x=>x.id).indexOf("guest"),1);
+                                    localStorage.setItem("my_cart_infos",JSON.stringify(strg));
+
+                             }
+
+                            
+                            
+                            </script>
+                              <b> {{app.user.nom}} </b> <a href="{{ path('app_logout') }}"> Déconnexion </a>
                             {% endif %}
                         </div>
                     </div>
@@ -156,14 +201,25 @@
         {% endblock %}
     </div>
         {% block javascripts %}
-            <script src="../js/jquery-3.3.1.min.js"></script>
-            <script src="../js/jquery-ui.js"></script>
-            <script src="../js/popper.min.js"></script>
-            <script src="../js/bootstrap.min.js"></script>
-            <script src="../js/owl.carousel.min.js"></script>
-            <script src="../js/jquery.magnific-popup.min.js"></script>
-            <script src="../js/aos.js"></script>
-            <script src="../js/main.js"></script>
+            <script>
+            
+                console.log(idd);
+             let storage=localStorage.getItem("my_cart_infos");
+             let cart=document.getElementById("my-cart");
+if(!storage) {cart.childNodes[3].innerHTML=0;}
+else { 
+  
+
+       if( JSON.parse(storage).map( x=> x.id).includes(idd )  )
+    {cart.childNodes[3].innerHTML=JSON.parse(storage).filter( x=>x.id==idd).map(y=>y.items)[0].reduce(function(acc,v){return {qt:acc.qt+v.qt}}).qt; }
+	
+	 else cart.childNodes[3].innerHTML=0;
+}
+	   
+	   
+            
+            </script>
+            
         {% endblock %}
     </body>
 </html>
