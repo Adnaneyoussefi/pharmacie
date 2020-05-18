@@ -34,26 +34,6 @@ class ProduitController extends AbstractController
         $active_tab1 = "active show";
         $active_tab2 = "";
         if ($form->isSubmitted() && $form->isValid()) {
-
-            /** @var UploadedFile $image */
-
-            $image = $form->get('produit')->get('image')->getData();
-
-            if ($image) {
-                $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
-                //$safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', "");
-                
-                $newFilename = $originalFilename.'-'.uniqid().'.'.$image->guessExtension();
-
-                try {
-                    $image->move(
-                        $this->getParameter('images_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                }
-                $stock->getProduit()->setImage($newFilename);
-            }
             
             $stock->setProprietaire($user->getProprietaire());
             //dump($user->getProprietaire()->getProduits());die;
@@ -100,24 +80,7 @@ class ProduitController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            /** @var UploadedFile $image */
-
-            $image = $form->get('produit')->get('image')->getData();
-
-            if ($image) {
-                $originalFilename = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
-                //$safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', "");
-                $newFilename = $originalFilename.'-'.uniqid().'.'.$image->guessExtension();
-                try {
-                    $image->move(
-                        $this->getParameter('images_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                }
-                $produit->setImage($newFilename);
-            }
+            
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('stock_proprietaire');

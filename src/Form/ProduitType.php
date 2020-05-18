@@ -22,19 +22,17 @@ class ProduitType extends AbstractType
             ->add('date_expiration')
             ->add('prix_ht')
             ->add('prix_tva')
-            ->add('image', FileType::class, [
-                'mapped' => false,
+            ->add('imageFile', FileType::class, [
                 'required' => false,
                 'constraints' => [
                     new File([
                         'maxSize' => '1024k',
                         'mimeTypes' => [
-                            "image/jpeg",
-                            "image/png", 
-                            "image/gif", 
-                            "image/jpg"
+                            'image/jpeg',
+                            'image/jpg',
+                            'image/png',
                         ],
-                        'mimeTypesMessage' => 'Please upload a valid IMAGE',
+                        'mimeTypesMessage' => 'Ce fichier n\'est pas une image valide',
                     ])
                 ],
                 ])
