@@ -8,11 +8,13 @@ use App\Entity\Client;
 use App\Entity\Proprietaire;
 use App\Repository\UserRepository;
 use App\Repository\ClientRepository;
-use Symfony\Component\BrowserKit\Request;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 
@@ -59,17 +61,23 @@ class AdminController extends AbstractController
      * @Route("/listpharmacie", name="listpharmacie_admin")
      */
 
-    public function listpharmacie(UserRepository $userRepository)
+    public function listpharmacie(PaginatorInterface $paginator, Request $request): Response
     {
 
         $user = $this->getDoctrine()->getRepository(Proprietaire::class)->findAll();
         dump($user);
 
+        $page = $paginator->paginate(
+            $user,
+            $request->query->getInt('page', 1),
+            1
+        );
 return $this->render('admin/list-pharmacie.html.twig', [
     'controller_name'=>'AdminController',
     'pagetitle'=>'Liste des Pharmacies',
     'path'=>'listpharmacie_admin',
-    'user' => $user
+    'user'=> $user,
+    'page'=> $page
 
 ]);
 
@@ -97,17 +105,26 @@ return $this->render('admin/list-pharmacie.html.twig', [
      * @Route("/listclient", name="listclient_admin")
      */
 
-     public function listclient(UserRepository $userRepository)
+     public function listclient(PaginatorInterface $paginator, Request $request):Response
     {
         
-         $user = $this->getDoctrine()->getRepository(Client::class)->findAll();
-         dump($user);
-    return $this->render('admin/list-client.html.twig', [
-     'controller_name'=>'AdminController',
-       'pagetitle'=>'Liste des Clients',
-     'path'=>'listclient_admin',
-      'user' => $user
-     ]);
+        $user = $this->getDoctrine()->getRepository(Client::class)->findAll();
+        dump($user);
+
+        $page = $paginator->paginate (
+            $user,
+            $request->query->getInt('page', 1),
+            1
+        );
+
+        
+        return $this->render('admin/list-client.html.twig', [
+        'controller_name'=>'AdminController',
+        'pagetitle'=>'Liste des Clients',
+        'path'=>'listclient_admin',
+        'user' => $user,
+        'page'=>$page
+    ]);
     
     }
 
