@@ -22,20 +22,36 @@ class ProduitRepository extends ServiceEntityRepository
     // /**
     //  * @return Produit[] Returns an array of Produit objects
     //  */
-    /*
+    
     public function findByExampleField($value)
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $entityManager = $this->getEntityManager();
 
+        $query = $entityManager->createQuery(
+            'SELECT p
+            FROM App\Entity\Product p
+            '
+        );
+
+        // returns an array of Product objects
+        return $query->getResult();
+    }
+    public function totalPages()
+    {
+
+
+        return $this->createQueryBuilder("p")->select('count(p.id)')->getQuery()->getSingleScalarResult();
+    }
+    public function FindByPage($offset,$max)
+     {  
+        return $this->getEntityManager()
+        ->createQuery('SELECT p FROM App\Entity\Produit p')
+        ->setMaxResults($max)
+        ->setFirstResult($offset-$max)
+        ->getResult();
+
+
+     }
     /*
     public function findOneBySomeField($value): ?Produit
     {
