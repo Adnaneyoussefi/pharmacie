@@ -20,8 +20,14 @@ security:
             guard:
                 authenticators:
                     - App\Security\UserAuthenticator
+            form_login:
+                login_path: login_admin
+                check_path: login_admin
+                default_target_path: home_admin
             logout:
                 path: app_logout
+                
+                
                 # where to redirect after logout
                 # target: app_any_route
 
@@ -37,3 +43,6 @@ security:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: /inscription, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/proprietaire, roles: ROLE_PROP }
+        - { path: admin/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin, roles: ROLE_ADMIN }
+
