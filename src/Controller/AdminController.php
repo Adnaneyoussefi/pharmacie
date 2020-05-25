@@ -64,8 +64,15 @@ class AdminController extends AbstractController
     public function listpharmacie(PaginatorInterface $paginator, Request $request): Response
     {
 
-        $user = $this->getDoctrine()->getRepository(Proprietaire::class)->findAll();
+        $user = $this->getDoctrine()->getRepository(User::class)->findPharmacie();
         dump($user);
+
+        
+        if($request->isMethod("POST"))
+        {
+            $email = $request->get('email');
+            $user = $this->getDoctrine()->getRepository(User::class)->findBy(array('email'=>$email)); 
+        }
 
         $page = $paginator->paginate(
             $user,
@@ -108,8 +115,15 @@ return $this->render('admin/list-pharmacie.html.twig', [
      public function listclient(PaginatorInterface $paginator, Request $request):Response
     {
         
-        $user = $this->getDoctrine()->getRepository(Client::class)->findAll();
+        $user = $this->getDoctrine()->getRepository(User::class)->findClients();
         dump($user);
+
+        if($request->isMethod("POST"))
+        {   
+            $email = $request->get('email');
+            $user = $this->getDoctrine()->getRepository(User::class)->findBy(array('email'=>$email)); 
+        
+        }
 
         $page = $paginator->paginate (
             $user,
@@ -124,6 +138,7 @@ return $this->render('admin/list-pharmacie.html.twig', [
         'path'=>'listclient_admin',
         'user' => $user,
         'page'=>$page
+        
     ]);
     
     }
