@@ -66,7 +66,12 @@ class AdminController extends AbstractController
 
         $user = $this->getDoctrine()->getRepository(User::class)->findPharmacie();
         dump($user);
-
+        $totalpharma = $this->getDoctrine()->getRepository(User::class)->createQueryBuilder('u')
+        ->select('count(u.id)')
+        ->where('u.roles = :client')
+        ->setParameter('client', '["ROLE_PROP"]')
+        ->getQuery()
+        ->getSingleScalarResult();
         
         if($request->isMethod("POST"))
         {
@@ -80,11 +85,12 @@ class AdminController extends AbstractController
             1
         );
 return $this->render('admin/list-pharmacie.html.twig', [
-    'controller_name'=>'AdminController',
-    'pagetitle'=>'Liste des Pharmacies',
-    'path'=>'listpharmacie_admin',
-    'user'=> $user,
-    'page'=> $page
+    'controller_name' => 'AdminController',
+    'pagetitle' => 'Liste des Pharmacies',
+    'path' => 'listpharmacie_admin',
+    'user' => $user,
+    'page' => $page,
+    'totalpharma' => $totalpharma
 
 ]);
 
@@ -117,6 +123,12 @@ return $this->render('admin/list-pharmacie.html.twig', [
         
         $user = $this->getDoctrine()->getRepository(User::class)->findClients();
         dump($user);
+        $totalclients = $this->getDoctrine()->getRepository(User::class)->createQueryBuilder('u')
+        ->select('count(u.id)')
+        ->where('u.roles = :client')
+        ->setParameter('client', '["ROLE_USER"]')
+        ->getQuery()
+        ->getSingleScalarResult();
 
         if($request->isMethod("POST"))
         {   
@@ -133,11 +145,12 @@ return $this->render('admin/list-pharmacie.html.twig', [
 
         
         return $this->render('admin/list-client.html.twig', [
-        'controller_name'=>'AdminController',
-        'pagetitle'=>'Liste des Clients',
-        'path'=>'listclient_admin',
+        'controller_name' => 'AdminController',
+        'pagetitle' => 'Liste des Clients',
+        'path' => 'listclient_admin',
         'user' => $user,
-        'page'=>$page
+        'page' => $page,
+        'totalclients' => $totalclients
         
     ]);
     
