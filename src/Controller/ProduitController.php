@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Stock;
 use App\Entity\Produit;
 use App\Form\StockType;
+use App\Data\SearchData;
+use App\Form\SearchForm;
 use App\Form\ProduitType;
 use App\Entity\Proprietaire;
 use App\Repository\ProduitRepository;
@@ -28,11 +30,15 @@ class ProduitController extends AbstractController
     public function index(UserInterface $user, Request $request): Response
     {
         $stock = new Stock();
+        $data = new SearchData();
         $form = $this->createForm(StockType::class, $stock);
+        $form2 = $this->createForm(SearchForm::class, $data);
         $form->handleRequest($request);
+        $form2->handleRequest($request);
 
         $active_tab1 = "active show";
         $active_tab2 = "";
+        $products = $this->getDoctrine()->getRepository(Stock::class)->findSearch($data,$user);
         if ($form->isSubmitted() && $form->isValid()) {
             
             $stock->setProprietaire($user->getProprietaire());
@@ -50,7 +56,8 @@ class ProduitController extends AbstractController
             $active_tab1 = ($active_tab !=="tab_2") ? "active show" : "";
         }
         return $this->render('proprietaire/stock.html.twig',[
-            'stocks' => $user->getProprietaire()->getProduits(),
+            'stocks' => $products,
+            'form2' => $form2->createView(),
             'pagetitle'=>'Stock',
             'form' => $form->createView(),
             'active_tab1' => $active_tab1,

@@ -11,9 +11,13 @@
               <a class="nav-link {{ active_tab2 }}" data-toggle="tab" href="#ajout">Ajouter des produits</a>
             </li>
           </ul>
-          <div id="myTabContent" class="tab-content">
-            
+          <div id="myTabContent" class="tab-content"> 
             <div class="tab-pane fade {{ active_tab1 }}" id="liste">
+            <h5 class="text-black">Catégories</h5>
+            {{ form_start(form2) }}
+              {{ form_row(form2.categories, { 'attr' : {'class' : "text-black"} }) }}
+              <button class="btn btn-primary" type="submit">Appliquer</button>
+            {{ form_end(form2) }}
                 <table class="table table-striped">
                     <thead>
                       <tr>
