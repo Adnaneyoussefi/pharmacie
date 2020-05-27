@@ -4,6 +4,19 @@
 
     <div class="site-section">
       <div class="container">
+      <div class="alert alert-dark" role="alert">
+          <center> <a  class="alert-link"> {{ totalpharma }}</a> pharmacies inscrites </center>
+      </div>
+       <form method="POST">
+          <div class="row mb-4">
+            <div class="form-group col-md-9">
+              <input id="exampleFormControlInput5" name="email"  placeholder="What're you searching for?"  class="form-control form-control-underlined" type="email" required >
+            </div>
+            <div class="form-group col-md-3">
+              <button type="submit" class="btn btn-primary rounded-pill btn-block shadow-sm">Search</button>
+            </div>
+          </div>
+        </form>
         <div class="row mb-5">
           <form class="col-md-12" method="post">
             <div class="site-blocks-table">
@@ -25,21 +38,21 @@
                   <tr>
                     
                     <td class="product-name">
-                      <h2 class="h5 text-black"> {{user.nomPharmacie}}</h2>
+                      <h2 class="h5 text-black"> {{user.proprietaire.nomPharmacie}}</h2>
                     </td>
                     <td class="product-name">
-                      <h2 class="h5 text-black">{{user.user.nom}}</h2>
+                      <h2 class="h5 text-black">{{user.nom}}</h2>
                     </td>
                     <td class="product-name">
-                      <h2 class="h5 text-black">{{user.user.prenom}}</h2>
+                      <h2 class="h5 text-black">{{user.prenom}}</h2>
                     </td>
-                    <td>{{user.user.email}}</td>
+                    <td>{{user.email}}</td>
                     
-                    <td>{{user.adresse}}</td>
+                    <td>{{user.proprietaire.adresse}}</td>
 
-                    <td>{{user.ville}}</td>
+                    <td>{{user.proprietaire.ville}}</td>
 
-                    <td><a href="{{ path('listpharmacie_admin_remove',{'id':user.user.id})}}" class="btn btn-primary height-auto btn-sm">X</a></td>
+                    <td><a href="{{ path('listpharmacie_admin_remove',{'id':user.id})}}" class="icons8-poubelle"></a></td>
                 </tr>
                 {% endfor %}
                 

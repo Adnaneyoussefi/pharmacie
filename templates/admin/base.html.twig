@@ -27,7 +27,7 @@
         <div class="d-flex align-items-center justify-content-between">
           <div class="logo">
             <div class="site-logo">
-              <a href="index.html" class="js-logo-clone">PharmaClic</a>
+              <a href="{{path('home_admin')}}" class="js-logo-clone">PharmaClic</a>
             </div>
           </div>
           
@@ -38,7 +38,7 @@
                 <li><a href="{{path('listpharmacie_admin')}}">tableau pharmacie</a></li>       
                 <li><a href="{{path('listclient_admin')}}">tableau client</a></li>       
                 <li class="has-children">
-                  <a href="#">Admin</a>
+                  <a>{{app.user.nom}} </a>
                   <ul class="dropdown">
                     <li><a href="{{path('parametres_admin')}}">Paramétres</a></li>
                     <li><a href="{{ path ('app_logout')}}">Déconnexion</a></li>
