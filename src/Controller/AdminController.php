@@ -77,7 +77,7 @@ class AdminController extends AbstractController
         ->select('count(us.id)')
         ->where('us.roles = :client')
         ->andwhere('MONTH(us.RegistredAt) = :date')
-        ->setParameter('client', '["ROLE_ADMIN"]')
+        ->setParameter('client', '["ROLE_PROP"]')
         ->setParameter('date',$j)
         ->getQuery()
         ->getResult();
