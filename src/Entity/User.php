@@ -72,6 +72,11 @@ class User implements UserInterface
      */
     private $admin;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $RegistredAt;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -224,4 +229,17 @@ class User implements UserInterface
 
         return $this;
     }
+
+    public function getRegistredAt(): ?\DateTimeInterface
+    {
+        return $this->RegistredAt;
+    }
+
+    public function setRegistredAt(\DateTimeInterface $RegistredAt): self
+    {
+        $this->RegistredAt = $RegistredAt;
+
+        return $this;
+    }
+    
 }
