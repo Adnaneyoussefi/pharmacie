@@ -47,14 +47,58 @@ class AdminController extends AbstractController
      * @Route("/home", name="home_admin")
      */
 
-    public function home() 
-    {
+    public function home() : Response
+ //SELECT count(id) FROM `user` WHERE MONTH(registred_at)="5" and roles like '["ROLE_USER"]' --[\"ROLE_USER\"]
+    {   
+        $t=[];
+        $w=[];
+            for($i=1; $i<=12; $i++){
+        $user = $this->getDoctrine()->getRepository(User::class)->createQueryBuilder('u')
+        ->select('count(u.id)')
+        ->where('u.roles = :client')
+        ->andwhere('MONTH(u.RegistredAt) = :date')
+        ->setParameter('client', '["ROLE_USER"]')
+        ->setParameter('date',$i)
+        ->getQuery()
+        ->getResult();
+        array_push($t,$user);
+                                 }
+  
+                foreach($t as $z=>$zvalue){
+                    foreach($zvalue as $s=>$svalue){
+                         foreach($svalue as $k=>$kvalue){  
+                             $n[]=$kvalue; 
+                                                        }
+                                                     }
+                                          }
+                                          
+         for($j=1; $j<=12; $j++){
+        $us= $this->getDoctrine()->getRepository(User::class)->createQueryBuilder('us')
+        ->select('count(us.id)')
+        ->where('us.roles = :client')
+        ->andwhere('MONTH(us.RegistredAt) = :date')
+        ->setParameter('client', '["ROLE_ADMIN"]')
+        ->setParameter('date',$j)
+        ->getQuery()
+        ->getResult();
+        array_push($w,$us);
+                        }
+        foreach($w as $z=>$zvalue){
+            foreach($zvalue as $s=>$svalue){
+                foreach($svalue as $k=>$kvalue){  
+                    $p[]=$kvalue; 
+                }
+            }
+        }
         return $this->render('admin/home.html.twig', [
             'controller_name' => 'AdminController',
             'pagetitle'=>'',
             'path'=>'home_admin',
-
+            'users'=>$n,
+            'p'=>$p
+            
         ]);
+   
     }
 
      /**
