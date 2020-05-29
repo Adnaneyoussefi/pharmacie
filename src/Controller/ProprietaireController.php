@@ -8,9 +8,11 @@ use App\Entity\Produit;
 use App\Form\ProduitType;
 use App\Form\UserPropType;
 use App\Entity\Proprietaire;
+use App\Entity\DetailsCommande;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -70,6 +72,19 @@ class ProprietaireController extends AbstractController
             'pagetitle'=>'Compte',
             'path'=>'compte_proprietaire',
             //'prenom'=>$repos->getPrenom()
+        ]);
+    }
+
+    /**
+     * @Route("/vente", name="vente_proprietaire")
+     */
+    public function vente(UserInterface $user)
+    {
+        $ventes = $this->getDoctrine()->getRepository(DetailsCommande::class)->findVentes($user);
+        return $this->render('proprietaire/vente.html.twig',[
+            'ventes' => $ventes,
+            'pagetitle'=>'Vente',
+            'path'=>'home_proprietaire',
         ]);
     }
 }

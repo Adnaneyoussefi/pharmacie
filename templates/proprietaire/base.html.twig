@@ -46,7 +46,7 @@
                         <ul class="site-menu js-clone-nav d-none d-lg-block">
                           <li class="{{ (app.request.get('_route') == 'stock_proprietaire' or app.request.get('_route') == 'produit_edit' 
                           or app.request.get('_route') == 'produit_show') ? 'active' : '' }}"><a href="{{ path('stock_proprietaire') }}" class="hyper">Stock</a></li>
-                          <li><a href="vente.html" class="hyper">Vente</a></li>
+                          <li><a href="{{ path('vente_proprietaire') }}" class="hyper">Vente</a></li>
                           <li><a href="reclamation.html" class="hyper">Reclamation</a></li>
                         </ul>
                       </nav>
