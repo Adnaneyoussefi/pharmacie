@@ -10,6 +10,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+
 
 class ClientController extends AbstractController
 {
@@ -65,6 +68,10 @@ class ClientController extends AbstractController
             'current'=>$page
         ]);
     }
+    /*public function search()
+    {  
+
+    }*/
 
     /**
      * @Route("/about", name="about")
@@ -88,6 +95,61 @@ class ClientController extends AbstractController
     public function cart()
     {
         return $this->render('client/cart.html.twig');
+    }
+    /**
+     * @Route("/chekout", name="c")
+     */
+    public function check()
+    {
+        return $this->render('client/chekout.html.twig');
+    }
+
+
+    public function Checkout()
+    {
+     $form=$this->createFormBuilder(null, array('label' => false))
+                 ->add('items',TextareaType::class, array('label' => false))
+                 ->getForm()
+                 ;
+         return $this->render('client/CheckoutForm.html.twig',['form'=>$form->createView()]);        
+    }
+    public function search()
+    {
+        $form=$this->createFormBuilder(null, array('label' => false))
+        ->add('crit',TextType::class, array('label' => false))
+        ->getForm();
+        return $this->render('client/SearchForm.html.twig',['form'=>$form->createView()]);
+
+    }
+    /**
+     * @Route("/HandleCheckout", name="HandleCheckout")
+     */
+    
+    public function HandleCheckout(Request $request)
+    {$frm=$request->request->get('form');
+      //json_decode($frm['items']);
+      //die();
+      return $this->render('client/chekout.html.twig',['items'=>json_decode($frm['items'])]); 
+
+      
+    }
+       /**
+     * @Route("/HandleSearch", name="HandleSearch")
+     */
+    
+    public function HandleSearch(Request $request)
+    {$frm=$request->request->get('form');
+        $maxPerPage=3;
+        $result=$this->getDoctrine()->getRepository(Produit::class)->search($frm['crit']);
+        return $this->render('client/shop.html.twig',[
+            'pagetitle' => 'Store',
+            'products'=>$result,
+            'current'=>1,
+            'totalPages'=>1
+        ]);
+     
+
+      
     }
     
 
