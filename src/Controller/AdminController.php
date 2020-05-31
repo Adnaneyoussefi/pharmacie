@@ -252,15 +252,7 @@ return $this->render('admin/list-pharmacie.html.twig', [
             $form->get('oldpassword')->addError(new FormError('Ancien mot de passe incorrect'));
          }
      }
- 
- 
-         return $this->render('admin/parametres.html.twig', [
-         'controller_name'=>'AdminController',
-         'pagetitle'=>'parametres',
-     'path'=>'parametres_admin',
-     'form'=>$form->createView()
- ]);
-     
+  
  
 
 return $this->render('admin/parametres.html.twig', [
