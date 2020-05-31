@@ -14,21 +14,30 @@
             top: -80px;
             }
                         </style>
+                       
          <canvas id="line-chart" width="800" height="450"></canvas>
           </div>
           <script>
          new Chart(document.getElementById("line-chart"), {
   type: 'line',
   data: {
-    labels: ["Janvier","Fevrier","Mars","Avril","Mai","Juin","Juillet","Aout","Octobre","Novembre","Decembre"],
+    labels: ["Janvier","Fevrier","Mars","Avril","Mai","Juin","Juillet","Aout","Septembre","Octobre","Novembre","Decembre"],
     datasets: [{ 
-        data: [86,114,106,106,107,111,133,221,783,2478,123,3756],
-        label: "Parapharmacie",
+        data: [  {% for  user in users %}
+             {{user}},
+                       
+              
+        {% endfor %}],
+        label: "Client",
         borderColor: "lime",
         fill: false
       }, { 
-        data: [1000,350,411,502,635,809,947,1402,3700,5267,1230,1593],
-        label: "Client",
+        data: [{% for  p in p %}
+             {{p}},
+                       
+              
+        {% endfor %}],
+        label: "Parapharmacie",
         borderColor: "aqua",
         fill: false
       },
@@ -42,6 +51,5 @@
   }
 });
           
-          </script>
-    
+          </script>   
 {% endblock %}

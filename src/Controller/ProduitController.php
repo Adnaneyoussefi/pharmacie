@@ -5,9 +5,12 @@ namespace App\Controller;
 use App\Entity\Stock;
 use App\Entity\Produit;
 use App\Form\StockType;
+use App\Data\SearchData;
+use App\Form\SearchForm;
 use App\Form\ProduitType;
 use App\Entity\Proprietaire;
 use App\Repository\ProduitRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\File\File;
@@ -25,14 +28,25 @@ class ProduitController extends AbstractController
     /**
      * @Route("/", name="stock_proprietaire", methods={"GET","POST"})
      */
-    public function index(UserInterface $user, Request $request): Response
+    public function index(PaginatorInterface $paginator, UserInterface $user, Request $request): Response
     {
         $stock = new Stock();
+        $data = new SearchData();
         $form = $this->createForm(StockType::class, $stock);
+        $form2 = $this->createForm(SearchForm::class, $data);
         $form->handleRequest($request);
+        $form2->handleRequest($request);
 
         $active_tab1 = "active show";
         $active_tab2 = "";
+        $products = $this->getDoctrine()->getRepository(Stock::class)->findSearch($data,$user);
+
+        $page = $paginator->paginate(
+            $products,
+            $request->query->getInt('page', 1),
+            1
+        );
+
         if ($form->isSubmitted() && $form->isValid()) {
             
             $stock->setProprietaire($user->getProprietaire());
@@ -50,7 +64,9 @@ class ProduitController extends AbstractController
             $active_tab1 = ($active_tab !=="tab_2") ? "active show" : "";
         }
         return $this->render('proprietaire/stock.html.twig',[
-            'stocks' => $user->getProprietaire()->getProduits(),
+            'stock' => $products,
+            'page'=> $page,
+            'form2' => $form2->createView(),
             'pagetitle'=>'Stock',
             'form' => $form->createView(),
             'active_tab1' => $active_tab1,

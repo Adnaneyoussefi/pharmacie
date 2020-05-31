@@ -27,6 +27,7 @@ class ProprietaireController extends AbstractController
      */
     public function registration(Request $request, UserPasswordEncoderInterface $encoder) {
         $user = new User();
+        $user->setRegistredAt(new \DateTime('now'));
         $form = $this->createForm(UserPropType::class, $user);
         $form->handleRequest($request);
 

@@ -21,6 +21,7 @@ class ClientController extends AbstractController
      */
     public function registration(Request $request, UserPasswordEncoderInterface $encoder) {
         $user = new User();
+        $user->setRegistredAt(new \DateTime('now'));
         $form = $this->createForm(UserClientType::class, $user);
         $form->handleRequest($request);
 

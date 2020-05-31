@@ -6,17 +6,20 @@ use App\Entity\User;
 use App\Entity\Admin;
 use App\Entity\Client;
 use App\Entity\Proprietaire;
+use App\Form\ChangePasswordType;
 use App\Repository\UserRepository;
 use App\Repository\ClientRepository;
+use Symfony\Component\Form\FormError;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("/admin")
@@ -47,14 +50,58 @@ class AdminController extends AbstractController
      * @Route("/home", name="home_admin")
      */
 
-    public function home() 
-    {
+    public function home() : Response
+ //SELECT count(id) FROM `user` WHERE MONTH(registred_at)="5" and roles like '["ROLE_USER"]' --[\"ROLE_USER\"]
+    {   
+        $t=[];
+        $w=[];
+            for($i=1; $i<=12; $i++){
+        $user = $this->getDoctrine()->getRepository(User::class)->createQueryBuilder('u')
+        ->select('count(u.id)')
+        ->where('u.roles = :client')
+        ->andwhere('MONTH(u.RegistredAt) = :date')
+        ->setParameter('client', '["ROLE_USER"]')
+        ->setParameter('date',$i)
+        ->getQuery()
+        ->getResult();
+        array_push($t,$user);
+                                 }
+  
+                foreach($t as $z=>$zvalue){
+                    foreach($zvalue as $s=>$svalue){
+                         foreach($svalue as $k=>$kvalue){  
+                             $n[]=$kvalue; 
+                                                        }
+                                                     }
+                                          }
+                                          
+         for($j=1; $j<=12; $j++){
+        $us= $this->getDoctrine()->getRepository(User::class)->createQueryBuilder('us')
+        ->select('count(us.id)')
+        ->where('us.roles = :client')
+        ->andwhere('MONTH(us.RegistredAt) = :date')
+        ->setParameter('client', '["ROLE_PROP"]')
+        ->setParameter('date',$j)
+        ->getQuery()
+        ->getResult();
+        array_push($w,$us);
+                        }
+        foreach($w as $z=>$zvalue){
+            foreach($zvalue as $s=>$svalue){
+                foreach($svalue as $k=>$kvalue){  
+                    $p[]=$kvalue; 
+                }
+            }
+        }
         return $this->render('admin/home.html.twig', [
             'controller_name' => 'AdminController',
             'pagetitle'=>'',
             'path'=>'home_admin',
-
+            'users'=>$n,
+            'p'=>$p
+            
         ]);
+   
     }
 
      /**
@@ -64,8 +111,20 @@ class AdminController extends AbstractController
     public function listpharmacie(PaginatorInterface $paginator, Request $request): Response
     {
 
-        $user = $this->getDoctrine()->getRepository(Proprietaire::class)->findAll();
+        $user = $this->getDoctrine()->getRepository(User::class)->findPharmacie();
         dump($user);
+        $totalpharma = $this->getDoctrine()->getRepository(User::class)->createQueryBuilder('u')
+        ->select('count(u.id)')
+        ->where('u.roles = :client')
+        ->setParameter('client', '["ROLE_PROP"]')
+        ->getQuery()
+        ->getSingleScalarResult();
+        
+        if($request->isMethod("POST"))
+        {
+            $email = $request->get('email');
+            $user = $this->getDoctrine()->getRepository(User::class)->findBy(array('email'=>$email)); 
+        }
 
         $page = $paginator->paginate(
             $user,
@@ -73,11 +132,12 @@ class AdminController extends AbstractController
             1
         );
 return $this->render('admin/list-pharmacie.html.twig', [
-    'controller_name'=>'AdminController',
-    'pagetitle'=>'Liste des Pharmacies',
-    'path'=>'listpharmacie_admin',
-    'user'=> $user,
-    'page'=> $page
+    'controller_name' => 'AdminController',
+    'pagetitle' => 'Liste des Pharmacies',
+    'path' => 'listpharmacie_admin',
+    'user' => $user,
+    'page' => $page,
+    'totalpharma' => $totalpharma
 
 ]);
 
@@ -108,8 +168,21 @@ return $this->render('admin/list-pharmacie.html.twig', [
      public function listclient(PaginatorInterface $paginator, Request $request):Response
     {
         
-        $user = $this->getDoctrine()->getRepository(Client::class)->findAll();
+        $user = $this->getDoctrine()->getRepository(User::class)->findClients();
         dump($user);
+        $totalclients = $this->getDoctrine()->getRepository(User::class)->createQueryBuilder('u')
+        ->select('count(u.id)')
+        ->where('u.roles = :client')
+        ->setParameter('client', '["ROLE_USER"]')
+        ->getQuery()
+        ->getSingleScalarResult();
+
+        if($request->isMethod("POST"))
+        {   
+            $email = $request->get('email');
+            $user = $this->getDoctrine()->getRepository(User::class)->findBy(array('email'=>$email)); 
+        
+        }
 
         $page = $paginator->paginate (
             $user,
@@ -119,11 +192,13 @@ return $this->render('admin/list-pharmacie.html.twig', [
 
         
         return $this->render('admin/list-client.html.twig', [
-        'controller_name'=>'AdminController',
-        'pagetitle'=>'Liste des Clients',
-        'path'=>'listclient_admin',
+        'controller_name' => 'AdminController',
+        'pagetitle' => 'Liste des Clients',
+        'path' => 'listclient_admin',
         'user' => $user,
-        'page'=>$page
+        'page' => $page,
+        'totalclients' => $totalclients
+        
     ]);
     
     }
@@ -148,12 +223,43 @@ return $this->render('admin/list-pharmacie.html.twig', [
      * @Route("/parametres", name="parametres_admin")
      */
 
-    public function parametres()
+    public function parametres(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+         $form = $this->createForm(ChangePasswordType::class);
+ 
+         $form->handleRequest($request);
+         if($form->isSubmitted() && $form->isValid()){
+     
+             $oldpassword = $request->request->get('change_password')['oldpassword'];
+             $newpassword = $request->request->get('change_password')['comnfirmpassword']['first'];
+         
+         // Si l'ancien mot de passe est bon
+         if($passwordEncoder->isPasswordValid($user, $oldpassword)){
+           $newEncodedPassword = $passwordEncoder->encodePassword($user, $newpassword);
+            $user->setPassword($newEncodedPassword);
+           
+ 
+             $em->flush();
+             $this->addFlash('notice', 'Votre mot de passe à bien été change !');
+ 
+             return $this->redirectToRoute('parametres_admin');
+         }
+         else {
+             //$this->addFlash('danger', 'Ancien mot de passe incorrect !');
+ 
+            $form->get('oldpassword')->addError(new FormError('Ancien mot de passe incorrect'));
+         }
+     }
+  
+ 
+
 return $this->render('admin/parametres.html.twig', [
     'controller_name'=>'AdminController',
     'pagetitle'=>'parametres',
     'path'=>'parametres_admin',
+    'form'=>$form->createView()
 ]);
     }
 }

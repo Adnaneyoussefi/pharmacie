@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Stock;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Data\SearchData;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Stock|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,6 +19,24 @@ class StockRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Stock::class);
+    }
+
+    public function findSearch(SearchData $search, UserInterface $user)
+    {
+        $query = $this
+            ->createQueryBuilder('s')
+            ->select('p','s')
+            ->join('s.produit', 'p')
+            ->where('s.proprietaire = :prop')
+            ->setParameter('prop', $user->getProprietaire());
+        if(!empty($search->categories))
+        {
+            $query = $query
+                ->andWhere('p.categorie IN (:categories)')
+                ->setParameter('categories', $search->categories);
+        }    
+
+        return $query->getQuery()->getResult();    
     }
 
     // /**

@@ -11,9 +11,13 @@
               <a class="nav-link {{ active_tab2 }}" data-toggle="tab" href="#ajout">Ajouter des produits</a>
             </li>
           </ul>
-          <div id="myTabContent" class="tab-content">
-            
+          <div id="myTabContent" class="tab-content"> 
             <div class="tab-pane fade {{ active_tab1 }}" id="liste">
+              <h5 class="text-black">Catégories</h5>
+                {{ form_start(form2) }}
+                  {{ form_row(form2.categories, { 'attr' : {'class' : "text-black"} }) }}
+                  <button class="btn btn-primary" type="submit">Appliquer</button>
+                {{ form_end(form2) }}
                 <table class="table table-striped">
                     <thead>
                       <tr>
@@ -29,7 +33,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                    {% for stock in stocks|reverse %}
+                       {% for stock in page|reverse %}
                         <tr>
                             <th>{{ stock.produit.id }}</th>
                             <td>
@@ -50,14 +54,17 @@
                         </tr>
                         {% endfor %}
                     </tbody>
-                    </table>   
+                </table>  
+                <div class:"navigation">
+                {{ knp_pagination_render(page)}}
+                </div> 
             </div>
 
             <div class="tab-pane fade {{ active_tab2 }}" id="ajout">
               
                 {{ include('proprietaire/_form.html.twig') }}
 
-            </div>
+          </div>
             
             
       </div>
