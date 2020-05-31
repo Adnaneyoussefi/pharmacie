@@ -6,17 +6,20 @@ use App\Entity\User;
 use App\Entity\Admin;
 use App\Entity\Client;
 use App\Entity\Proprietaire;
+use App\Form\ChangePasswordType;
 use App\Repository\UserRepository;
 use App\Repository\ClientRepository;
+use Symfony\Component\Form\FormError;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("/admin")
@@ -220,12 +223,51 @@ return $this->render('admin/list-pharmacie.html.twig', [
      * @Route("/parametres", name="parametres_admin")
      */
 
-    public function parametres()
+    public function parametres(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+         $form = $this->createForm(ChangePasswordType::class);
+ 
+         $form->handleRequest($request);
+         if($form->isSubmitted() && $form->isValid()){
+     
+             $oldpassword = $request->request->get('change_password')['oldpassword'];
+             $newpassword = $request->request->get('change_password')['comnfirmpassword']['first'];
+         
+         // Si l'ancien mot de passe est bon
+         if($passwordEncoder->isPasswordValid($user, $oldpassword)){
+           $newEncodedPassword = $passwordEncoder->encodePassword($user, $newpassword);
+            $user->setPassword($newEncodedPassword);
+           
+ 
+             $em->flush();
+             $this->addFlash('notice', 'Votre mot de passe à bien été change !');
+ 
+             return $this->redirectToRoute('parametres_admin');
+         }
+         else {
+             //$this->addFlash('danger', 'Ancien mot de passe incorrect !');
+ 
+            $form->get('oldpassword')->addError(new FormError('Ancien mot de passe incorrect'));
+         }
+     }
+ 
+ 
+         return $this->render('admin/parametres.html.twig', [
+         'controller_name'=>'AdminController',
+         'pagetitle'=>'parametres',
+     'path'=>'parametres_admin',
+     'form'=>$form->createView()
+ ]);
+     
+ 
+
 return $this->render('admin/parametres.html.twig', [
     'controller_name'=>'AdminController',
     'pagetitle'=>'parametres',
     'path'=>'parametres_admin',
+    'form'=>$form->createView()
 ]);
     }
 }
