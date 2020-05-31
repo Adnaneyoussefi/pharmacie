@@ -52,6 +52,15 @@ class ProduitRepository extends ServiceEntityRepository
 
 
      }
+     public function search($crit)
+     {
+        return $this->createQueryBuilder("p")->where('p.nom LIKE :crit')
+                                                ->setParameter('crit',$crit.'%')
+                                                ->getQuery()
+                                                ->getResult();
+
+
+     }
     /*
     public function findOneBySomeField($value): ?Produit
     {
