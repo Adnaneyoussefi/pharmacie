@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Visite;
 use App\Entity\Admin;
 use App\Entity\Client;
 use App\Entity\Proprietaire;
@@ -53,6 +54,7 @@ class AdminController extends AbstractController
     public function home() : Response
  //SELECT count(id) FROM `user` WHERE MONTH(registred_at)="5" and roles like '["ROLE_USER"]' --[\"ROLE_USER\"]
     {   
+        //statistique nombre d inscription client/pharmacie
         $t=[];
         $w=[];
             for($i=1; $i<=12; $i++){
@@ -66,16 +68,15 @@ class AdminController extends AbstractController
         ->getResult();
         array_push($t,$user);
                                  }
-  
-                foreach($t as $z=>$zvalue){
-                    foreach($zvalue as $s=>$svalue){
-                         foreach($svalue as $k=>$kvalue){  
-                             $n[]=$kvalue; 
+            foreach($t as $z=>$zvalue){
+                foreach($zvalue as $s=>$svalue){
+                        foreach($svalue as $k=>$kvalue){  
+                            $n[]=$kvalue; 
                                                         }
-                                                     }
-                                          }
+                                                }
+                                        }
                                           
-         for($j=1; $j<=12; $j++){
+            for($j=1; $j<=12; $j++){
         $us= $this->getDoctrine()->getRepository(User::class)->createQueryBuilder('us')
         ->select('count(us.id)')
         ->where('us.roles = :client')
@@ -93,15 +94,30 @@ class AdminController extends AbstractController
                 }
             }
         }
+        //nombre totale du pharmacie
+        $totalpharma = $this->getDoctrine()->getRepository(User::class)->createQueryBuilder('u')
+        ->select('count(u.id)')
+        ->where('u.roles = :client')
+        ->setParameter('client', '["ROLE_PROP"]')
+        ->getQuery()
+        ->getSingleScalarResult();
+        //nombre totale des client
+        $totalclients = $this->getDoctrine()->getRepository(User::class)->createQueryBuilder('u')
+        ->select('count(u.id)')
+        ->where('u.roles = :client')
+        ->setParameter('client', '["ROLE_USER"]')
+        ->getQuery()
+        ->getSingleScalarResult();
+
         return $this->render('admin/home.html.twig', [
             'controller_name' => 'AdminController',
             'pagetitle'=>'',
             'path'=>'home_admin',
             'users'=>$n,
-            'p'=>$p
-            
+            'p'=>$p,
+            'totalpharma'=> $totalpharma,
+            'totalclients'=> $totalclients,  
         ]);
-   
     }
 
      /**
