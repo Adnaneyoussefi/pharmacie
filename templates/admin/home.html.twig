@@ -4,18 +4,53 @@
 
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
+<div class="container">
+    <div class="row">
+     <div class="col-md-3">
+      <div class="card-counter info">
+        <i class="fa fa-users"></i>
+        <span class="count-numbers">  {{ totalpharma }}</span>
+        <span class="count-name">Pharmacie</span>
+      </div>
+    </div>
+    
+    <div class="col-md-3">
+      <div class="card-counter success">
+        <i class="fa fa-users"></i>
+        <span class="count-numbers">{{totalclients}}</span>
+        <span class="count-name">Client</span>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card-counter danger">
+        <i class="fa fa-eye"></i>
+        <span class="count-numbers">599</span>
+        <span class="count-name">Vues</span>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card-counter primary">
+        <i class="fa fa-code-fork"></i>
+        <span class="count-numbers">6875</span>
+        <span class="count-name">Follower</span>
+      </div>
+    </div>
+
+  </div>
+</div>
  <div class="site-section">
       <div class="container">
-        <div style="width :75%"> 
-          <style>
-            #line-chart{
-            position: relative;
-            top: -80px;
-            }
-                        </style>
-                       
+        <div style="width :65%">
          <canvas id="line-chart" width="800" height="450"></canvas>
+         <canvas id="pie-chart" width="900" height="450"></canvas>
           </div>
           <script>
          new Chart(document.getElementById("line-chart"), {
@@ -50,6 +85,22 @@
     }
   }
 });
-          
+          new Chart(document.getElementById("pie-chart"), {
+    type: 'pie',
+    data: {
+      labels: ["oujda", "nador", "casa", "houcima", "fes"],
+      datasets: [{
+        label: "Population (millions)",
+        backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+        data: [2478,5267,734,784,433]
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: 'Predicted world population (millions) in 2050'
+      }
+    }
+});
           </script>   
 {% endblock %}
