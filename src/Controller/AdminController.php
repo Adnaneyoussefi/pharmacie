@@ -184,6 +184,50 @@ return $this->render('admin/list-pharmacie.html.twig', [
          return $this->redirectToRoute('listpharmacie_admin');
     }
 
+     /**
+     * @Route("/listpharmacie/{id}/activate", name="listpharmacie_admin_activer")
+     */
+
+
+    public function activatepharmacie($id) {
+
+        $em = $this->getDoctrine()->getManager(); 
+        $user = $em->getRepository(User::class)->findOneBy(['id' => $id]);
+       dump($user);
+       if($user->getIsActive() === false){
+           $user->setIsActive(true);
+         $em->persist($user);
+          $em->flush();
+          $this->addFlash('notice', 'Vous avez activé le compte avec succées !');
+           } else {
+            $this->addFlash('notice', 'Ce compte est déjà activé!');
+    }
+    return $this->redirectToRoute('listpharmacie_admin');
+
+    }
+
+     /**
+     * @Route("/listpharmacie/{id}/desactivate", name="listpharmacie_admin_desactiver")
+     */
+
+
+    public function desactivatepharmacie($id) {
+
+        $em = $this->getDoctrine()->getManager(); 
+        $user = $em->getRepository(User::class)->findOneBy(['id' => $id]);
+       dump($user);
+       if($user->getIsActive()=== true){
+           $user->setIsActive(false);
+         $em->persist($user);
+          $em->flush();
+          $this->addFlash('notice', 'Vous avez desactiver le compte avec succées !');
+           } else {
+            $this->addFlash('notice', 'ce compte est déjà desactivé!');
+    }
+    return $this->redirectToRoute('listpharmacie_admin');
+    } 
+
+
     
 
     /**
@@ -242,6 +286,49 @@ return $this->render('admin/list-pharmacie.html.twig', [
           $em->flush();
  
          return $this->redirectToRoute('listclient_admin');
+    }
+
+
+    /**
+     * @Route("/listclient/{id}/activate", name="listclient_admin_activer")
+     */
+
+
+    public function activateclient($id) {
+
+        $em = $this->getDoctrine()->getManager(); 
+        $user = $em->getRepository(User::class)->findOneBy(['id' => $id]);
+       dump($user);
+       if($user->getIsActive() === false){
+           $user->setIsActive(true);
+         $em->persist($user);
+          $em->flush();
+          $this->addFlash('notice', 'Vous avez activé le compte avec succées !');
+           } else {
+            $this->addFlash('notice', 'Ce compte est déjà activé!');
+    }
+    return $this->redirectToRoute('listclient_admin');
+    }
+
+     /**
+     * @Route("/listclient/{id}/desactivate", name="listclient_admin_desactiver")
+     */
+
+
+    public function desactivateclient($id) {
+
+        $em = $this->getDoctrine()->getManager(); 
+        $user = $em->getRepository(User::class)->findOneBy(['id' => $id]);
+       dump($user);
+       if($user->getIsActive()=== true){
+           $user->setIsActive(false);
+         $em->persist($user);
+          $em->flush();
+          $this->addFlash('notice', 'Vous avez desactiver le compte avec succées !');
+           } else {
+            $this->addFlash('notice', 'ce compte est déjà desactivé!');
+    }
+    return $this->redirectToRoute('listclient_admin');
     }
 
     /**
