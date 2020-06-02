@@ -136,7 +136,9 @@ class ClientController extends AbstractController
     public function search()
     {
         $form=$this->createFormBuilder(null, array('label' => false))
-        ->add('crit',TextType::class, array('label' => false))
+        ->add('crit',TextType::class, array('label' => false,'attr' => array(
+            'placeholder' => 'search for a product','style'=>'width:350px;border-rauis:5px;margin:auto'
+        )))
         ->getForm();
         return $this->render('client/SearchForm.html.twig',['form'=>$form->createView()]);
 
