@@ -8,6 +8,7 @@ use App\Entity\Produit;
 use App\Form\ProduitType;
 use App\Form\UserPropType;
 use App\Entity\Proprietaire;
+use App\Form\PropChangeInfoPersoType;
 use App\Form\PropChangePasswordType;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
@@ -70,35 +71,44 @@ class ProprietaireController extends AbstractController
     public function compte(/*AuthenticationUtils $authenticationUtils*/Request $request,UserPasswordEncoderInterface $passwordEncoder)
     {
         //$repos = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $authenticationUtils->getLastUsername()]);
-
+       
         $em = $this->getDoctrine()->getManager();
         $prop = $this->getUser();
-        $form = $this->createForm(PropChangePasswordType::class);
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
+       
+        $formInfoPerso = $this->createForm(PropChangeInfoPersoType::class);
+        $formInfoPerso->handleRequest($request);
+        $formPassword = $this->createForm(PropChangePasswordType::class);
+        $formPassword->handleRequest($request);
+        if($formPassword->isSubmitted() && $formPassword->isValid()){
             $oldpassword = $request->request->get('prop_change_password')['oldpassword'];
             $newpassword = $request->request->get('prop_change_password')['confirmpassword']['first'];
             // Si l'ancien mot de passe est bon
          if($passwordEncoder->isPasswordValid($prop, $oldpassword)){
             $newEncodedPassword = $passwordEncoder->encodePassword($prop, $newpassword);
              $prop->setPassword($newEncodedPassword);
-            
-  
               $em->flush();
               $this->addFlash('notice', 'Votre mot de passe à bien été change !');
-  
               return $this->redirectToRoute('compte_proprietaire');
           }
           else {
-              //$this->addFlash('danger', 'Ancien mot de passe incorrect !');
-  
-             $form->get('oldpassword')->addError(new FormError('Ancien mot de passe incorrect'));
+             $formPassword->get('oldpassword')->addError(new FormError('Ancien mot de passe incorrect'));
           }
         }
+        if($formInfoPerso->isSubmitted() && $formInfoPerso->isValid()){
+            $newnom = $request->request->get('prop_change_info_perso')['nom'];
+            $newprenom = $request->request->get('prop_change_info_perso')['prenom'];
+            $prop->setNom($newnom);
+            $prop->setPrenom($newprenom);
+            $em->flush();
+            $this->addFlash('notice', 'Vos infos sont bien modifiés!');
+            return $this->redirectToRoute('compte_proprietaire');        
+        }
+        
         return $this->render('proprietaire/compte.html.twig',[
             'pagetitle'=>'Compte',
             'path'=>'compte_proprietaire',
-            'form'=>$form->createView()
+            'formPassword'=>$formPassword->createView(),
+            'formInfoPerso'=>$formInfoPerso->createView()
             //'prenom'=>$repos->getPrenom()
         ]);
     }
