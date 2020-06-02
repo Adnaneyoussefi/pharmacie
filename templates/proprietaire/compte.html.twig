@@ -2,7 +2,11 @@
 {% block body %}
 <div class="site-section">
       <div class="container">
-
+{% for message in app.flashes('notice') %}
+              <div class="flash-notice">
+                 {{ message }}
+              </div>
+              {% endfor %}
         <ul class="nav nav-tabs">
             <li class="nav-item">
               <a class="nav-link active" data-toggle="tab" href="#info">Information Personnelles</a>
@@ -66,22 +70,16 @@
                 </form>     
             </div>
             <div class="tab-pane fade" id="pwd">
-              <div class="form-group">
-                <label for="Password1" class="text-black">Le mot de passe original :</label>
-                <input type="password" class="form-control" id="Password1">
-              </div>
+              
+              {{ form_start(form) }}
+              
+              {{ form_row(form.oldpassword, {'label' : 'Le mot de passe actuel', 'attr' : {'placeholder' : "Ecrire l'ancien mot de passe"}}) }}
 
-              <div class="form-group">
-                <label for="Password2" class="text-black">Nouveau Mot de Passe:</label>
-                <input type="password" class="form-control" id="Password2">
-              </div>
+              {{ form_end(form) }}
+              
 
-              <div class="form-group">
-                <label for="Password3" class="text-black">Confirmer le Mot de Passe:</label>
-                <input type="password" class="form-control" id="Password3">
-              </div>
+              
 
-              <button type="button" class="btn btn-primary">Enregistrer</button>
             </div>
             <div class="tab-pane fade" id="pharmacie">
 
