@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Visite;
 use App\Entity\Produit;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\UserClientType;
@@ -22,6 +23,7 @@ class ClientController extends AbstractController
     public function registration(Request $request, UserPasswordEncoderInterface $encoder) {
         $user = new User();
         $user->setRegistredAt(new \DateTime('now'));
+        $user->setIsActive(true);
         $form = $this->createForm(UserClientType::class, $user);
         $form->handleRequest($request);
 
@@ -47,9 +49,26 @@ class ClientController extends AbstractController
     /**
      * @Route("/", name="home")
      */
-    public function index()
-    {
-        return $this->render('client/index.html.twig');
+    public function index(){
+      //nombre de visite du site
+      $nb_visite = $this->getDoctrine()->getManager(); 
+      $nb = $nb_visite->getRepository(Visite::class)->findOneBy(['id' => '1']);
+     if($nb){
+         $nb->setNbVisite($nb->getNbVisite()+1);
+       $nb_visite->persist($nb);
+       $nb_visite->flush();
+      } 
+      else{
+        $user = new Visite();
+        $user->setNbVisite('1');
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($user);
+        $manager->flush();
+      }
+      dump($nb);
+        return $this->render('client/index.html.twig',[
+           'nb_visite'=>$nb
+        ]);
     }
 
     /**
