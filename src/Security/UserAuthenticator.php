@@ -72,6 +72,8 @@ class UserAuthenticator extends AbstractFormLoginAuthenticator implements Passwo
         if (!$user) {
             // fail authentication with a custom error
             throw new CustomUserMessageAuthenticationException('Email could not be found.');
+        } else if ($user->getIsActive() === False) {
+            throw new CustomUserMessageAuthenticationException("Votre compte n'est pas encore activer !! Veuillez attendre ");
         }
 
         return $user;
