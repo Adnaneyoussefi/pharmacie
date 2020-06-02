@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Validator\Constraints\Length;
 
 class ChangePasswordType extends AbstractType
 {
@@ -18,6 +19,12 @@ class ChangePasswordType extends AbstractType
                 'mapped'=>false
             ))
             ->add('comnfirmpassword', RepeatedType::class, [
+                'constraints' => [
+                    NEW Length([
+                        'min' => 8,
+                        'minMessage' => 'Votre mot de passe doit faire minimum 8 caractères'
+                    ])
+                    ],
                 'type' => PasswordType::class,
                 'invalid_message' => 'The password fields must match.',
                 'options' => ['attr' => ['class' => 'password-field']],
