@@ -108,7 +108,13 @@ class AdminController extends AbstractController
         ->setParameter('client', '["ROLE_USER"]')
         ->getQuery()
         ->getSingleScalarResult();
-
+        //nombre de visite
+        $nb_visite = $this->getDoctrine()->getManager(); 
+      $nb = $nb_visite->getRepository(Visite::class)->findOneBy(['id' => '1']);
+      dump($nb);
+        //ville
+       // $client = $this->getDoctrine()->getRepository(Client::class)->OrientaleClient();
+        //dump($client);
         return $this->render('admin/home.html.twig', [
             'controller_name' => 'AdminController',
             'pagetitle'=>'',
@@ -116,8 +122,11 @@ class AdminController extends AbstractController
             'users'=>$n,
             'p'=>$p,
             'totalpharma'=> $totalpharma,
-            'totalclients'=> $totalclients,  
+            'totalclients'=> $totalclients,
+            'nombre_visite'=> $nb->getNbVisite()
+
         ]);
+   
     }
 
      /**
