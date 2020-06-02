@@ -58,6 +58,13 @@ class ClientController extends AbstractController
        $nb_visite->persist($nb);
        $nb_visite->flush();
       } 
+      else{
+        $user = new Visite();
+        $user->setNbVisite('1');
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($user);
+        $manager->flush();
+      }
       dump($nb);
         return $this->render('client/index.html.twig',[
            'nb_visite'=>$nb
