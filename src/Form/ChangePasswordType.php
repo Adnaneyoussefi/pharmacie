@@ -20,7 +20,7 @@ class ChangePasswordType extends AbstractType
             ))
             ->add('comnfirmpassword', RepeatedType::class, [
                 'constraints' => [
-                    NEW Length([
+                    new Length([
                         'min' => 8,
                         'minMessage' => 'Votre mot de passe doit faire minimum 8 caractères'
                     ])
