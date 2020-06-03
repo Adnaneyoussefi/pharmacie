@@ -6,7 +6,7 @@
 {% block nav %}{% endblock %}
 
 {% block body %}
-{{render(controller('App\\Controller\\ClientController::Search'))}}
+
   <div class="site-section">
       <div class="container">
       
@@ -97,10 +97,13 @@
     </div>
 
 <script>
-  document.getElementById('form_items').style='display:none'
+
+var items=JSON.parse(localStorage.getItem("my_cart_infos")).filter( x=>x.id==idd).map(y=>y.items)[0] || [];
+
+  //document.getElementById('form_items').style='display:none'
   function QuantityIncr()
   {
-    
+    if(!items.length) return
    let tmp=this.parentElement.parentElement.childNodes[1]
    if(this.className.includes('minus')) {if(tmp.value==0)return
                                     tmp.value--
@@ -110,7 +113,7 @@
   }
 
 function CalcTotal()
-{
+{  if(!items.length) {console.log(0);return}
   let qts=[...document.getElementsByClassName('form-control text-center')]
   let prices=[...document.getElementsByClassName('price')]
   let product_total=[...document.getElementsByClassName('tot')]
@@ -129,6 +132,7 @@ function CalcTotal()
 function SubmitOrder()
 {
   let items=[...document.getElementsByClassName('items_')]
+  if(!items.length) {console.log(0);return}
   let data=items.map((item)=>{return {prod_name:item.querySelector('.product_name').innerText,prod_id:item.id,price:item.querySelector('.price').innerHTML,qt:item.querySelector('#tot').innerHTML/item.querySelector('.price').innerHTML}})
   data=data.filter((x)=>x.qt>0)
   data.push({total:document.getElementById('total').innerText})
@@ -143,9 +147,11 @@ function SubmitOrder()
 
 
 
-var items=JSON.parse(localStorage.getItem("my_cart_infos")).filter( x=>x.id==idd).map(y=>y.items)[0];
-  
+
+function FillCart(){
+  if(!items.length) return 
 	let cart_table=document.getElementById("cart-table");	
+
    let total=0;	
 	for( i=0;i<items.length;i++  )
 	{    let tr=document.createElement("tr");
@@ -219,6 +225,9 @@ var items=JSON.parse(localStorage.getItem("my_cart_infos")).filter( x=>x.id==idd
 	   
 	    cart_table.append(tr);	
 	}
+}
+
+FillCart();
 
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////

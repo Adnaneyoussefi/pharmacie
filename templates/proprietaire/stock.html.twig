@@ -33,22 +33,22 @@
                       </tr>
                     </thead>
                     <tbody>
-                       {% for stock in page|reverse %}
+                       {% for products in page|reverse %}
                         <tr>
-                            <th>{{ stock.produit.id }}</th>
+                            <th>{{ products.id }}</th>
                             <td>
-                            <img src={{ asset('images/' ~ stock.produit.image) }} alt="Image" style="width: 120px;">                              
+                            <img src={{ asset('images/' ~ products.image) }} alt="Image" style="width: 120px;">                              
                               </td>
-                            <td>{{ stock.produit.nom }}</td>
-                            <td>{{ stock.produit.description }}</td>
-                            <td>{{ stock.produit.PrixHt }}</td>
-                            <td>{{ stock.produit.PrixTva }}</td>
-                            <td>{{ stock.quantite }}</td>
-                            <td>{{ stock.produit.DateExpiration | date('d/m/Y') }}</td>
+                            <td>{{ products.nom }}</td>
+                            <td>{{ products.description }}</td>
+                            <td>{{ products.PrixHt }}</td>
+                            <td>{{ products.PrixTva }}</td>
+                            <td>{{ products.quantite }}</td>
+                            <td>{{ products.DateExpiration | date('d/m/Y') }}</td>
                             <td>
                                 
-                                <a href="{{ path('produit_show', {'id': stock.produit.id}) }}" class="btn btn-primary btn-sm d-block mb-1" style="width: 100px">Afficher</a>
-                                <a href="{{ path('produit_edit', {'id': stock.produit.id}) }}" class="btn btn-warning btn-sm d-block mb-1" style="width: 100px">Modifier</a>
+                                <a href="{{ path('produit_show', {'id': products.id}) }}" class="btn btn-primary btn-sm d-block mb-1" style="width: 100px">Afficher</a>
+                                <a href="{{ path('produit_edit', {'id': products.id}) }}" class="btn btn-warning btn-sm d-block mb-1" style="width: 100px">Modifier</a>
                                 {{ include('proprietaire/_delete_form.html.twig') }}
                             </td>
                         </tr>

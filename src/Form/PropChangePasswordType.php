@@ -4,13 +4,13 @@ namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
-use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class ChangePasswordType extends AbstractType
+class PropChangePasswordType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -18,22 +18,21 @@ class ChangePasswordType extends AbstractType
             ->add('oldpassword', PasswordType::class, array (
                 'mapped'=>false
             ))
-            ->add('comnfirmpassword', RepeatedType::class, [
+            ->add('confirmpassword', RepeatedType::class,[
                 'constraints' => [
                     new Length([
-                        'min' => 8,
-                        'minMessage' => 'Votre mot de passe doit faire minimum 8 caractères'
-                    ])
-                    ],
+                    'min' => 8,
+                    'minMessage' => 'Votre mot de passe doit faire minimum 8 caractères'
+                ])
+                ],
                 'type' => PasswordType::class,
-                'invalid_message' => 'The password fields must match.',
+                'invalid_message' => 'The password fields must match',
                 'options' => ['attr' => ['class' => 'password-field']],
                 'required' => true,
-                'first_options'  => ['label' => 'Nouveau mot de passe', 'attr' => ['placeholder' => 'Ecrire le nouveau mot de passe']],
-                'second_options' => ['label' => 'confirmation du nouveau mot de passe','attr' => ['placeholder' => 'confirmer le mot de passe']]
+                'first_options' => ['label' => 'Nouveau mot de passe', 'attr' => ['placeholder' => 'Ecrire le nouveau mot de passe']],
+                'second_options' => ['label' => 'confirmation du nouveau mot de passe', 'attr' => ['placeholder' => 'confirmer le mot de passe']],              
             ])
-
-            ->add('Enregistrer', SubmitType::class, array(
+            ->add('Enregistrer', SubmitType::class, array (
                 'attr'=>array(
                     'class'=>'btn btn-primary bnt-block'
                 )
@@ -42,8 +41,8 @@ class ChangePasswordType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-       // $resolver->setDefaults([
+        $resolver->setDefaults([
             // Configure your form options here
-      //  ]);
+        ]);
     }
 }

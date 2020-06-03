@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200601161902 extends AbstractMigration
+final class Version20200602193108 extends AbstractMigration
 {
     public function getDescription() : string
     {
@@ -22,8 +22,6 @@ final class Version20200601161902 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('DROP TABLE stock');
-        $this->addSql('CREATE TABLE visite (id INT AUTO_INCREMENT NOT NULL, nb_visite INT NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('ALTER TABLE categorie CHANGE nom nom VARCHAR(255) DEFAULT NULL');
         $this->addSql('ALTER TABLE commande CHANGE client_id client_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE details_commande CHANGE commande_id commande_id INT DEFAULT NULL, CHANGE produit_id produit_id INT DEFAULT NULL, CHANGE quantite quantite INT DEFAULT NULL');
@@ -36,7 +34,9 @@ final class Version20200601161902 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
-        $this->addSql('DROP TABLE visite');
+        $this->addSql('CREATE TABLE proprietaire_categorie (proprietaire_id INT NOT NULL, categorie_id INT NOT NULL, INDEX IDX_23A957F6BCF5E72D (categorie_id), INDEX IDX_23A957F676C50E4A (proprietaire_id), PRIMARY KEY(proprietaire_id, categorie_id)) DEFAULT CHARACTER SET utf8 COLLATE `utf8_unicode_ci` ENGINE = InnoDB COMMENT = \'\' ');
+        $this->addSql('ALTER TABLE proprietaire_categorie ADD CONSTRAINT FK_23A957F676C50E4A FOREIGN KEY (proprietaire_id) REFERENCES proprietaire (id) ON DELETE CASCADE');
+        $this->addSql('ALTER TABLE proprietaire_categorie ADD CONSTRAINT FK_23A957F6BCF5E72D FOREIGN KEY (categorie_id) REFERENCES categorie (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE categorie CHANGE nom nom VARCHAR(255) CHARACTER SET utf8mb4 DEFAULT \'NULL\' COLLATE `utf8mb4_unicode_ci`');
         $this->addSql('ALTER TABLE commande CHANGE client_id client_id INT DEFAULT NULL');
         $this->addSql('ALTER TABLE details_commande CHANGE commande_id commande_id INT DEFAULT NULL, CHANGE produit_id produit_id INT DEFAULT NULL, CHANGE quantite quantite INT DEFAULT NULL');

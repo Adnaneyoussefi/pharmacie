@@ -61,11 +61,6 @@ class Produit
     private $imageFile;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Stock", mappedBy="produit")
-     */
-    private $proprietaires;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Categorie", inversedBy="produits")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -81,9 +76,13 @@ class Produit
      */
     private $updated_at;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $quantite;
+
     public function __construct()
     {
-        $this->proprietaires = new ArrayCollection();
         $this->commandes = new ArrayCollection();
     }
 
@@ -178,37 +177,6 @@ class Produit
         return $this;
     }
 
-    /**
-     * @return Collection|Stock[]
-     */
-    public function getProprietaires(): Collection
-    {
-        return $this->proprietaires;
-    }
-
-    public function addProprietaire(Stock $proprietaire): self
-    {
-        if (!$this->proprietaires->contains($proprietaire)) {
-            $this->proprietaires[] = $proprietaire;
-            $proprietaire->setProduit($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProprietaire(Stock $proprietaire): self
-    {
-        if ($this->proprietaires->contains($proprietaire)) {
-            $this->proprietaires->removeElement($proprietaire);
-            // set the owning side to null (unless already changed)
-            if ($proprietaire->getProduit() === $this) {
-                $proprietaire->setProduit(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getCategorie(): ?Categorie
     {
         return $this->categorie;
@@ -260,6 +228,18 @@ class Produit
     public function setUpdatedAt(\DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function getQuantite(): ?int
+    {
+        return $this->quantite;
+    }
+
+    public function setQuantite(int $quantite): self
+    {
+        $this->quantite = $quantite;
 
         return $this;
     }

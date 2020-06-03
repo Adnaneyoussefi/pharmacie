@@ -39,11 +39,6 @@ class Proprietaire
     private $gardes;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Stock", mappedBy="proprietaire")
-     */
-    private $produits;
-
-    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Admin", mappedBy="proprietaires")
      */
     private $admins;
@@ -54,13 +49,18 @@ class Proprietaire
      */
     private $user;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Categorie::class, mappedBy="proprietaire")
+     */
+    private $categories;
+
     
 
     public function __construct()
     {
         $this->gardes = new ArrayCollection();
-        $this->produits = new ArrayCollection();
         $this->admins = new ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -131,37 +131,6 @@ class Proprietaire
     }
 
     /**
-     * @return Collection|Stock[]
-     */
-    public function getProduits(): Collection
-    {
-        return $this->produits;
-    }
-
-    public function addProduit(Stock $produit): self
-    {
-        if (!$this->produits->contains($produit)) {
-            $this->produits[] = $produit;
-            $produit->setProprietaire($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProduit(Stock $produit): self
-    {
-        if ($this->produits->contains($produit)) {
-            $this->produits->removeElement($produit);
-            // set the owning side to null (unless already changed)
-            if ($produit->getProprietaire() === $this) {
-                $produit->setProprietaire(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection|Admin[]
      */
     public function getAdmins(): Collection
@@ -197,6 +166,37 @@ class Proprietaire
     public function setUser(User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Categorie[]
+     */
+    public function getCategories(): Collection
+    {
+        return $this->categories;
+    }
+
+    public function addCategory(Categorie $category): self
+    {
+        if (!$this->categories->contains($category)) {
+            $this->categories[] = $category;
+            $category->setProprietaire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCategory(Categorie $category): self
+    {
+        if ($this->categories->contains($category)) {
+            $this->categories->removeElement($category);
+            // set the owning side to null (unless already changed)
+            if ($category->getProprietaire() === $this) {
+                $category->setProprietaire(null);
+            }
+        }
 
         return $this;
     }
