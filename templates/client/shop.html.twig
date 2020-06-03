@@ -5,7 +5,9 @@
 {% block body %}
 
 
+
 <div class="site-section" >
+      {{render(controller('App\\Controller\\ClientController::Search'))}}
       <div class="container">
         
      
@@ -41,6 +43,7 @@
 
                 <li><a href=" {{(currentPage< totalPages)?path('shop',{'page':currentPage+1}):'#'}} ">&gt;</a></li>
               </ul>
+             
             </div>
           </div>
         </div>

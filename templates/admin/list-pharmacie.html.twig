@@ -4,6 +4,10 @@
 
     <div class="site-section">
       <div class="container">
+         {% for message in app.flashes('notice') %}
+    <div class="alert alert-notice">
+        {{ message }}
+        {% endfor %}
       <div class="alert alert-dark" role="alert">
           <center> <a  class="alert-link"> {{ totalpharma }}</a> pharmacies inscrites </center>
       </div>
@@ -52,7 +56,10 @@
 
                     <td>{{user.proprietaire.ville}}</td>
 
-                    <td><a href="{{ path('listpharmacie_admin_remove',{'id':user.id})}}" class="icons8-poubelle"></a></td>
+                    <td><a href="{{ path('listpharmacie_admin_remove',{'id':user.id})}}" class="icons8-poubelle"></a>
+                        <a href="{{ path('listpharmacie_admin_activer',{'id':user.id})}}" class="icons8-coche"></a>
+                        <a href="{{ path('listpharmacie_admin_desactiver', {'id':user.id})}}" class="icons8-effacer"></a>
+                    </td>
                 </tr>
                 {% endfor %}
                 

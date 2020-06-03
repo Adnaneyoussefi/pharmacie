@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Visite;
 use App\Entity\Produit;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\UserClientType;
@@ -10,6 +11,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+
 
 class ClientController extends AbstractController
 {
@@ -19,6 +23,7 @@ class ClientController extends AbstractController
     public function registration(Request $request, UserPasswordEncoderInterface $encoder) {
         $user = new User();
         $user->setRegistredAt(new \DateTime('now'));
+        $user->setIsActive(true);
         $form = $this->createForm(UserClientType::class, $user);
         $form->handleRequest($request);
 
@@ -44,9 +49,26 @@ class ClientController extends AbstractController
     /**
      * @Route("/", name="home")
      */
-    public function index()
-    {
-        return $this->render('client/index.html.twig');
+    public function index(){
+      //nombre de visite du site
+      $nb_visite = $this->getDoctrine()->getManager(); 
+      $nb = $nb_visite->getRepository(Visite::class)->findOneBy(['id' => '1']);
+     if($nb){
+         $nb->setNbVisite($nb->getNbVisite()+1);
+       $nb_visite->persist($nb);
+       $nb_visite->flush();
+      } 
+      else{
+        $user = new Visite();
+        $user->setNbVisite('1');
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($user);
+        $manager->flush();
+      }
+      dump($nb);
+        return $this->render('client/index.html.twig',[
+           'nb_visite'=>$nb
+        ]);
     }
 
     /**
@@ -66,6 +88,10 @@ class ClientController extends AbstractController
             'current'=>$page
         ]);
     }
+    /*public function search()
+    {  
+
+    }*/
 
     /**
      * @Route("/about", name="about")
@@ -89,6 +115,63 @@ class ClientController extends AbstractController
     public function cart()
     {
         return $this->render('client/cart.html.twig');
+    }
+    /**
+     * @Route("/chekout", name="c")
+     */
+    public function check()
+    {
+        return $this->render('client/chekout.html.twig');
+    }
+
+
+    public function Checkout()
+    {
+     $form=$this->createFormBuilder(null, array('label' => false))
+                 ->add('items',TextareaType::class, array('label' => false))
+                 ->getForm()
+                 ;
+         return $this->render('client/CheckoutForm.html.twig',['form'=>$form->createView()]);        
+    }
+    public function search()
+    {
+        $form=$this->createFormBuilder(null, array('label' => false))
+        ->add('crit',TextType::class, array('label' => false,'attr' => array(
+            'placeholder' => 'search for a product','style'=>'width:350px;border-rauis:5px;margin:auto'
+        )))
+        ->getForm();
+        return $this->render('client/SearchForm.html.twig',['form'=>$form->createView()]);
+
+    }
+    /**
+     * @Route("/HandleCheckout", name="HandleCheckout")
+     */
+    
+    public function HandleCheckout(Request $request)
+    {$frm=$request->request->get('form');
+      //json_decode($frm['items']);
+      //die();
+      return $this->render('client/chekout.html.twig',['items'=>json_decode($frm['items'])]); 
+
+      
+    }
+       /**
+     * @Route("/HandleSearch", name="HandleSearch")
+     */
+    
+    public function HandleSearch(Request $request)
+    {$frm=$request->request->get('form');
+        $maxPerPage=3;
+        $result=$this->getDoctrine()->getRepository(Produit::class)->search($frm['crit']);
+        return $this->render('client/shop.html.twig',[
+            'pagetitle' => 'Store',
+            'products'=>$result,
+            'current'=>1,
+            'totalPages'=>1
+        ]);
+     
+
+      
     }
     
 

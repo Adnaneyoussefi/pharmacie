@@ -77,6 +77,11 @@ class User implements UserInterface
      */
     private $RegistredAt;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -238,6 +243,18 @@ class User implements UserInterface
     public function setRegistredAt(\DateTimeInterface $RegistredAt): self
     {
         $this->RegistredAt = $RegistredAt;
+
+        return $this;
+    }
+
+    public function getIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
 
         return $this;
     }
