@@ -1,5 +1,5 @@
-<form class="d-inline" method="post" action="{{ path('produit_delete', {'id': stock.produit.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+<form class="d-inline" method="post" action="{{ path('produit_delete', {'id': products.id}) }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
     <input type="hidden" name="_method" value="DELETE">
-    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ stock.id) }}">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ products.id) }}">
     <button class="btn btn-danger btn-sm" style="width: 100px">Supprimer</button>
 </form>

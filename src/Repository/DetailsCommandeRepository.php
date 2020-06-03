@@ -26,8 +26,8 @@ class DetailsCommandeRepository extends ServiceEntityRepository
             ->createQueryBuilder('d')
             ->select('p','d')
             ->join('d.produit', 'p')
-            ->join('p.proprietaires', 's')
-            ->where('s.proprietaire = :prop')
+            ->join('p.categorie', 'c')
+            ->where('c.proprietaire = :prop')
             ->setParameter('prop', $user->getProprietaire());
         return $query->getQuery()->getResult();    
     }

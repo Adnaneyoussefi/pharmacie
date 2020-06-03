@@ -3,7 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Produit;
-use App\Form\StockType;
 use App\Entity\Categorie;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -22,6 +21,7 @@ class ProduitType extends AbstractType
             ->add('date_expiration')
             ->add('prix_ht')
             ->add('prix_tva')
+            ->add('quantite')
             ->add('imageFile', FileType::class, [
                 'required' => false,
                 'constraints' => [
