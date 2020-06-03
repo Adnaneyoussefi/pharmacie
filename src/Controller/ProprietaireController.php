@@ -70,10 +70,8 @@ class ProprietaireController extends AbstractController
      /**
      * @Route("/compte", name="compte_proprietaire")
      */
-    public function compte(/*AuthenticationUtils $authenticationUtils*/Request $request,UserPasswordEncoderInterface $passwordEncoder)
-    {
-        //$repos = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $authenticationUtils->getLastUsername()]);
-       
+    public function compte(Request $request,UserPasswordEncoderInterface $passwordEncoder)
+    {       
         $em = $this->getDoctrine()->getManager();
         $prop = $this->getUser();
        
