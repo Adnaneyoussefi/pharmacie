@@ -18,6 +18,18 @@ class ClientRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Client::class);
     }
+    public function findOrientale()
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT count(c.id)
+            FROM App\Entity\Client c
+            WHERE c.ville = :ville1
+            or c.ville=:ville2 '
+              )->setParameter('ville1', 'oujda')->setParameter('ville2', 'nador');
+        return $query->getSingleScalarResult();
+    }
 
     // /**
     //  * @return Client[] Returns an array of Client objects
