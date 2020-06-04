@@ -21,8 +21,8 @@
           <div id="myTabContent" class="tab-content">
             <div class="tab-pane fade active show" id="info">
               {{ form_start(formInfoPerso) }}
-              {{form_row(formInfoPerso.nom, {'label' : 'Nom', 'attr' : {'placeholder' : "Entrer le nouveau nom"}})}}
-              {{ form_row(formInfoPerso.prenom, {'label' : 'Prenom', 'attr' : {'placeholder' : "Entrer le nouveau prenom"}}) }}
+              {{form_row(formInfoPerso.nom, {'label' : 'Nom', 'attr' : {'value' : app.user.nom}})}}
+              {{ form_row(formInfoPerso.prenom, {'label' : 'Prenom', 'attr' : {'value' : app.user.prenom}}) }}
 
               {{ form_end(formInfoPerso) }}
             </div>
@@ -33,27 +33,17 @@
               {{ form_row(formPassword.oldpassword, {'label' : 'Le mot de passe actuel', 'attr' : {'placeholder' : "Ecrire l'ancien mot de passe"}}) }}
               
               {{ form_end(formPassword) }}
-              
-
-              
-
             </div>
+
+
             <div class="tab-pane fade" id="pharmacie">
+              {{ form_start(formInfoPharma)}}
+              {{ form_row(formInfoPharma.nom_pharmacie, {'label' : 'Nom de pharmacie', 'attr' : {'value' : app.user.proprietaire.nomPharmacie}}) }}
+              {{ form_row(formInfoPharma.adresse_pharmacie, {'label' : 'Adresse', 'attr' : {'value' : app.user.proprietaire.adresse}}) }}
+              {{ form_row(formInfoPharma.ville, {'label' : 'Ville', 'attr' : {'value' : app.user.proprietaire.ville}}) }}
+              {{ form_end(formInfoPharma)}}
+              
 
-              <form>
-                
-                <div class="form-group">
-                  <label for="nompharmacie" class="text-black">Nom pharmacie</label>
-                  <input type="text" class="form-control" id="nompharmacie">
-                </div>
-
-                <div class="form-group">
-                  <label for="adressepharmacie" class="text-black">Adresse pharmacie</label>
-                  <input type="text" class="form-control" id="adressepharmacie">
-                </div>
-
-                <button type="button" class="btn btn-primary">Enregistrer</button>
-              </form>
               </div>
           </div>
             
