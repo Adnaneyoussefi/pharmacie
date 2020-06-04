@@ -11,6 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class ProduitType extends AbstractType
@@ -26,7 +27,7 @@ class ProduitType extends AbstractType
         $builder
             ->add('nom')
             ->add('description')
-            ->add('date_expiration')
+            ->add('date_expiration', DateType::class)
             ->add('prix_ht')
             ->add('prix_tva')
             ->add('quantite')
