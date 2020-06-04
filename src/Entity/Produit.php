@@ -81,6 +81,12 @@ class Produit
      */
     private $quantite;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Proprietaire::class, inversedBy="produits")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $proprietaire;
+
     public function __construct()
     {
         $this->commandes = new ArrayCollection();
@@ -240,6 +246,18 @@ class Produit
     public function setQuantite(int $quantite): self
     {
         $this->quantite = $quantite;
+
+        return $this;
+    }
+
+    public function getProprietaire(): ?Proprietaire
+    {
+        return $this->proprietaire;
+    }
+
+    public function setProprietaire(?Proprietaire $proprietaire): self
+    {
+        $this->proprietaire = $proprietaire;
 
         return $this;
     }

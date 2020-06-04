@@ -28,11 +28,6 @@ class Categorie
      */
     private $produits;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Proprietaire::class, inversedBy="categories")
-     */
-    private $proprietaire;
-
     public function __construct()
     {
         $this->produits = new ArrayCollection();
@@ -82,18 +77,6 @@ class Categorie
                 $produit->setCategorie(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getProprietaire(): ?Proprietaire
-    {
-        return $this->proprietaire;
-    }
-
-    public function setProprietaire(?Proprietaire $proprietaire): self
-    {
-        $this->proprietaire = $proprietaire;
 
         return $this;
     }

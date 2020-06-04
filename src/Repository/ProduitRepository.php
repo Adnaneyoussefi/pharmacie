@@ -61,7 +61,7 @@ class ProduitRepository extends ServiceEntityRepository
             ->createQueryBuilder('p')
             ->select('c','p')
             ->join('p.categorie', 'c')
-            ->where('c.proprietaire = :prop')
+            ->where('p.proprietaire = :prop')
             ->setParameter('prop', $user->getProprietaire());
         if(!empty($search->categories))
         {

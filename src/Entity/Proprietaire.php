@@ -50,17 +50,15 @@ class Proprietaire
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity=Categorie::class, mappedBy="proprietaire")
+     * @ORM\OneToMany(targetEntity=Produit::class, mappedBy="proprietaire", orphanRemoval=true)
      */
-    private $categories;
-
-    
+    private $produits;
 
     public function __construct()
     {
         $this->gardes = new ArrayCollection();
         $this->admins = new ArrayCollection();
-        $this->categories = new ArrayCollection();
+        $this->produits = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -171,30 +169,30 @@ class Proprietaire
     }
 
     /**
-     * @return Collection|Categorie[]
+     * @return Collection|Produit[]
      */
-    public function getCategories(): Collection
+    public function getProduits(): Collection
     {
-        return $this->categories;
+        return $this->produits;
     }
 
-    public function addCategory(Categorie $category): self
+    public function addProduit(Produit $produit): self
     {
-        if (!$this->categories->contains($category)) {
-            $this->categories[] = $category;
-            $category->setProprietaire($this);
+        if (!$this->produits->contains($produit)) {
+            $this->produits[] = $produit;
+            $produit->setProprietaire($this);
         }
 
         return $this;
     }
 
-    public function removeCategory(Categorie $category): self
+    public function removeProduit(Produit $produit): self
     {
-        if ($this->categories->contains($category)) {
-            $this->categories->removeElement($category);
+        if ($this->produits->contains($produit)) {
+            $this->produits->removeElement($produit);
             // set the owning side to null (unless already changed)
-            if ($category->getProprietaire() === $this) {
-                $category->setProprietaire(null);
+            if ($produit->getProprietaire() === $this) {
+                $produit->setProprietaire(null);
             }
         }
 

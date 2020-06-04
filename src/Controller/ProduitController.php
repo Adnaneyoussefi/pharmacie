@@ -47,8 +47,7 @@ class ProduitController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             
-            $produit->getCategorie()->setProprietaire($user->getProprietaire());
-            //dump($user->getProprietaire()->getProduits());die;
+            $produit->setProprietaire($user->getProprietaire());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($produit);
             $entityManager->flush();

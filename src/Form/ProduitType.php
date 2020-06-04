@@ -4,7 +4,9 @@ namespace App\Form;
 
 use App\Entity\Produit;
 use App\Entity\Categorie;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\File;
@@ -13,6 +15,12 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class ProduitType extends AbstractType
 {
+    private $security;
+
+        public function __construct(Security $security)
+        {
+            $this->security = $security;
+        }
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -38,7 +46,7 @@ class ProduitType extends AbstractType
                 ])
             ->add('categorie', EntityType::class, [
                 'class' => Categorie::class,
-                'choice_label' => 'nom'
+                'choice_label' => 'nom',
             ])
         ;
     }

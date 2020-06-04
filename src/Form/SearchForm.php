@@ -30,7 +30,9 @@ class SearchForm extends AbstractType
                 'multiple' => true,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('c')
-                    ->where('c.proprietaire = :prop')
+                    ->select('p','c')
+                    ->join('c.produits', 'p')
+                    ->where('p.proprietaire = :prop')
                     ->setParameter('prop', $this->security->getUser()->getProprietaire());
                 },
                 'choice_label' => function(Categorie $cat) {
