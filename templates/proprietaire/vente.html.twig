@@ -6,8 +6,9 @@
             <table class="table table-striped">
                     <thead>
                       <tr>
-                        <th>Produits</th>
-                        <th>Clients</th>
+                        <th>Image</th>
+                        <th>Nom</th>
+                        <th>Client</th>
                         <th>Quantité</th>
                         <th>Prix Total</th>
                         <th>Action</th>
@@ -16,12 +17,15 @@
                     <tbody>
                         {% for vente in ventes|reverse %}
                         <tr>
-                            <th>{{ vente.produit.nom }}</th>
+                            <td>
+                                <img src={{ asset('images/' ~ vente.produit.image) }} alt="Image" style="width: 120px;">
+                            </td>
+                            <td>{{ vente.produit.nom }}</td>
                             <td>{{ vente.commande.client.user.nom }}</td>
                             <td>{{ vente.quantite }}</td>
-                            <td></td>
+                            <td>{{ (vente.produit.prixtva + vente.produit.prixht) * vente.quantite }} Dhs</td>
                             <td>
-                                <a href="#" class="btn btn-primary btn-sm d-block mb-1" style="width: 100px">Afficher</a>
+                                <a href="#" class="btn btn-primary btn-sm d-block" style="width: 100px">Afficher</a>
                             </td>
                         </tr>
                         {% endfor %}
