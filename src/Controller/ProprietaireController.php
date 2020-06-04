@@ -10,9 +10,10 @@ use App\Form\UserPropType;
 use App\Entity\Proprietaire;
 use App\Entity\DetailsCommande;
 use App\Form\PharmaChangeInfoType;
-use App\Form\PropChangeInfoPersoType;
 use App\Form\PropChangePasswordType;
+use App\Form\PropChangeInfoPersoType;
 use Symfony\Component\Form\FormError;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -137,11 +138,17 @@ class ProprietaireController extends AbstractController
     /**
      * @Route("/vente", name="vente_proprietaire")
      */
-    public function vente(UserInterface $user)
+    public function vente(PaginatorInterface $paginator, UserInterface $user, Request $request)
     {
         $ventes = $this->getDoctrine()->getRepository(DetailsCommande::class)->findVentes($user);
+        $page = $paginator->paginate(
+            $ventes,
+            $request->query->getInt('page', 1),
+            1
+        );
         return $this->render('proprietaire/vente.html.twig',[
             'ventes' => $ventes,
+            'page'=> $page,
             'pagetitle'=>'Vente',
             'path'=>'home_proprietaire',
         ]);
