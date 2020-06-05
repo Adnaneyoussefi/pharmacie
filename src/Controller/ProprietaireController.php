@@ -83,31 +83,51 @@ class ProprietaireController extends AbstractController
         $formPassword->handleRequest($request);
         $formInfoPharma = $this->createForm(PharmaChangeInfoType::class);
         $formInfoPharma->handleRequest($request);
+        $active_tab1 = "active show";
+        $active_tab2 = "";
+        $active_tab3 = "";
         if($formPassword->isSubmitted() && $formPassword->isValid()){
             $oldpassword = $request->request->get('prop_change_password')['oldpassword'];
             $newpassword = $request->request->get('prop_change_password')['confirmpassword']['first'];
+
+            $active_tab = $_POST['active_tab'];
+            $active_tab1 = ($active_tab ==="tab_1") ? "active show" : "";
+            $active_tab2 = ($active_tab ==="tab_2") ? "active show" : "";
+            $active_tab3 = ($active_tab ==="tab_3") ? "active show" : "";
             // Si l'ancien mot de passe est bon
-         if($passwordEncoder->isPasswordValid($prop, $oldpassword)){
-            $newEncodedPassword = $passwordEncoder->encodePassword($prop, $newpassword);
-             $prop->setPassword($newEncodedPassword);
-              $em->flush();
-              $this->addFlash('notice', 'Votre mot de passe à bien été change !');
-              return $this->redirectToRoute('compte_proprietaire');
-          }
-          else {
-             $formPassword->get('oldpassword')->addError(new FormError('Ancien mot de passe incorrect'));
-          }
+            if($passwordEncoder->isPasswordValid($prop, $oldpassword)){
+
+                $newEncodedPassword = $passwordEncoder->encodePassword($prop, $newpassword);
+                $prop->setPassword($newEncodedPassword);
+                $em->flush();
+                $this->addFlash('success', 'Votre mot de passe a bien été changé !');
+            }
+            else {
+                $formPassword->get('oldpassword')->addError(new FormError('Ancien mot de passe incorrect'));
+            }
         }
+        elseif ($formPassword->isSubmitted()) {
+            $active_tab = $_POST['active_tab'];
+            $active_tab1 = ($active_tab ==="tab_1") ? "active show" : "";
+            $active_tab2 = ($active_tab ==="tab_2") ? "active show" : "";
+            $active_tab3 = ($active_tab ==="tab_3") ? "active show" : "";
+        }
+
         if($formInfoPerso->isSubmitted() && $formInfoPerso->isValid()){
             $newnom = $request->request->get('prop_change_info_perso')['nom'];
             $newprenom = $request->request->get('prop_change_info_perso')['prenom'];
             $prop->setNom($newnom);
             $prop->setPrenom($newprenom);
             $em->flush();
-            $this->addFlash('notice', 'Vos infos sont bien modifiés!');
+            $this->addFlash('success', 'Vos infos sont bien modifiés!');
             return $this->redirectToRoute('compte_proprietaire');        
         }
         if($formInfoPharma->isSubmitted() && $formInfoPharma->isValid()){
+
+            $active_tab = $_POST['active_tab'];
+            $active_tab1 = ($active_tab !=="tab_3") ? "active show" : "";
+            $active_tab2 = ($active_tab !=="tab_3") ? "active show" : "";
+            $active_tab3 = ($active_tab ==="tab_3") ? "active show" : "";
 
             $newnompharma = $request->request->get('pharma_change_info')['nom_pharmacie'];
             $newadressepharma = $request->request->get('pharma_change_info')['adresse_pharmacie'];
@@ -118,19 +138,17 @@ class ProprietaireController extends AbstractController
             $proprietaire->setVille($newvillepharma);
 
             $em->flush();
-            $this->addFlash('notice', 'Vos infos sont bien modifiés!');
-            return $this->redirectToRoute('compte_proprietaire');        
-
-
-
-
+            $this->addFlash('success', 'Vos infos de pharmacie sont bien modifiés !');
         }
         return $this->render('proprietaire/compte.html.twig',[
             'pagetitle'=>'Compte',
             'path'=>'compte_proprietaire',
             'formPassword'=>$formPassword->createView(),
             'formInfoPerso'=>$formInfoPerso->createView(),
-            'formInfoPharma'=>$formInfoPharma->createView()
+            'formInfoPharma'=>$formInfoPharma->createView(),
+            'active_tab1' => $active_tab1,
+            'active_tab2' => $active_tab2,
+            'active_tab3' => $active_tab3,
             //'prenom'=>$repos->getPrenom()
         ]);
     }
