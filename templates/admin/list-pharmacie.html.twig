@@ -56,9 +56,9 @@
 
                     <td>{{user.proprietaire.ville}}</td>
 
-                    <td><a href="{{ path('listpharmacie_admin_remove',{'id':user.id})}}" class="icons8-poubelle"></a>
-                        <a href="{{ path('listpharmacie_admin_activer',{'id':user.id})}}" class="icons8-coche"></a>
-                        <a href="{{ path('listpharmacie_admin_desactiver', {'id':user.id})}}" class="icons8-effacer"></a>
+                    <td><a href="{{ path('listpharmacie_admin_remove',{'id':user.id})}}" class="icons8-poubelle" onclick="return confirm('Tu es sure de vouloir supprimer cette pharmacie ?')"></a>
+                        <a href="{{ path('listpharmacie_admin_activer',{'id':user.id})}}" class="icons8-coche" onclick="return confirm('Tu es sure de vouloir activer le compte de cette pharmacie ?')"></a>
+                        <a href="{{ path('listpharmacie_admin_desactiver', {'id':user.id})}}" class="icons8-effacer" onclick="return confirm('Tu es sure de vouloir desactiver le compte de cette pharmacie ?')"></a>
                     </td>
                 </tr>
                 {% endfor %}
