@@ -154,7 +154,7 @@ class AdminController extends AbstractController
         $page = $paginator->paginate(
             $user,
             $request->query->getInt('page', 1),
-            1
+            3
         );
 return $this->render('admin/list-pharmacie.html.twig', [
     'controller_name' => 'AdminController',
@@ -256,7 +256,7 @@ return $this->render('admin/list-pharmacie.html.twig', [
         $page = $paginator->paginate (
             $user,
             $request->query->getInt('page', 1),
-            1
+            3
         );
 
         
