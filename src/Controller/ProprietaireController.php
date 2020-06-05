@@ -132,10 +132,12 @@ class ProprietaireController extends AbstractController
             $newnompharma = $request->request->get('pharma_change_info')['nom_pharmacie'];
             $newadressepharma = $request->request->get('pharma_change_info')['adresse_pharmacie'];
             $newvillepharma = $request->request->get('pharma_change_info')['ville'];
+            $newtelpharma = $request->request->get('pharma_change_info')['tel'];
             $proprietaire = $prop->getProprietaire();
             $proprietaire->setNomPharmacie($newnompharma);
             $proprietaire->setAdresse($newadressepharma);
             $proprietaire->setVille($newvillepharma);
+            $proprietaire->setTel($newtelpharma);
 
             $em->flush();
             $this->addFlash('success', 'Vos infos de pharmacie sont bien modifiés !');
