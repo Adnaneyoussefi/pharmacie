@@ -58,9 +58,9 @@
 
                     <td>{{user.client.tel}} </td>  
 
-                    <td><a href="{{ path('listclient_admin_remove',{'id':user.id})}}" class="icons8-poubelle"></a>
-                        <a href="{{ path('listclient_admin_activer',{'id':user.id})}}" class="icons8-coche"></a>
-                        <a href="{{ path('listclient_admin_desactiver', {'id':user.id})}}" class="icons8-effacer"></a>
+                    <td><a href="{{ path('listclient_admin_remove',{'id':user.id})}}" class="icons8-poubelle" onclick="return confirm('Tu es sure de vouloir supprimer ce client ?')"></a>
+                        <a href="{{ path('listclient_admin_activer',{'id':user.id})}}" class="icons8-coche" onclick="return confirm('Tu es sure de vouloir activer le compte ce client ?')"></a>
+                        <a href="{{ path('listclient_admin_desactiver', {'id':user.id})}}" class="icons8-effacer" onclick="return confirm('Tu es sure de vouloir desactiver le code de ce client ?')"></a>
                     </td>
                   </tr>
                
