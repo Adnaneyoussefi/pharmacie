@@ -5,14 +5,18 @@
     <div class="site-section">
       <div class="container">
          {% for message in app.flashes('success') %}
-    <div class="alert alert-success" role="success">
+    <center><div class="alert alert-success alert-dismissible fade show" role="success">
         {{ message }}
-        </div>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </div></center>
         {% endfor %}
         {% for message in app.flashes('alert') %}
-    <div class="alert alert-danger" role="danger">
+   <center> <div class="alert alert-danger alert-dismissible fade show" role="danger">
         {{ message }}
-        </div>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </div></center>
         {% endfor %}
       <div class="alert alert-dark" role="alert">
           <center> <a  class="alert-link"> {{ totalpharma }}</a> pharmacies inscrites </center>
