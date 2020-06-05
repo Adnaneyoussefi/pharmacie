@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -53,6 +54,17 @@ class Proprietaire
      * @ORM\OneToMany(targetEntity=Produit::class, mappedBy="proprietaire", orphanRemoval=true)
      */
     private $produits;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\Regex("/^(0[5|6|7])[0-9]{8}$/")
+     */
+    private $tel;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $region;
 
     public function __construct()
     {
@@ -195,6 +207,30 @@ class Proprietaire
                 $produit->setProprietaire(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTel(): ?string
+    {
+        return $this->tel;
+    }
+
+    public function setTel(string $tel): self
+    {
+        $this->tel = $tel;
+
+        return $this;
+    }
+
+    public function getRegion(): ?string
+    {
+        return $this->region;
+    }
+
+    public function setRegion(string $region): self
+    {
+        $this->region = $region;
 
         return $this;
     }

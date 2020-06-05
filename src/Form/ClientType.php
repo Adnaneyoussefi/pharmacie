@@ -37,7 +37,6 @@ class ClientType extends AbstractType
                     'Taza' => 'Taza',
                     'Khémisset' => 'Khémisset',
                     'Autre...' => 'Autre',
-                    
                 ],
             ])
             ->add('region', ChoiceType::class, [
