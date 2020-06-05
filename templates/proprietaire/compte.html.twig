@@ -62,6 +62,8 @@
               {{ form_row(formInfoPharma.nom_pharmacie, {'label' : 'Nom de pharmacie', 'attr' : {'value' : app.user.proprietaire.nomPharmacie}}) }}
               {{ form_row(formInfoPharma.adresse_pharmacie, {'label' : 'Adresse', 'attr' : {'value' : app.user.proprietaire.adresse}}) }}
               {{ form_row(formInfoPharma.ville, {'label' : 'Ville', 'attr' : {'value' : app.user.proprietaire.ville}}) }}
+              {{ form_row(formInfoPharma.tel, {'label' : 'Tel', 'attr' : {'value' : app.user.proprietaire.tel}}) }}
+
               <input type="hidden" name="active_tab" value="tab_3"/>
               {{ form_end(formInfoPharma)}}
               
