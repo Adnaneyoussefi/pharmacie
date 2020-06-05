@@ -51,6 +51,7 @@ class ProduitController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($produit);
             $entityManager->flush();
+            $this->addFlash('success', 'Le produit '.$produit->getNom().' a été ajouté avec succès');
 
             return $this->redirectToRoute('stock_proprietaire');
         }
@@ -94,6 +95,7 @@ class ProduitController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', 'Le produit '.$produit->getId().' est bien modifié!');
 
             return $this->redirectToRoute('stock_proprietaire');
         }
@@ -116,6 +118,7 @@ class ProduitController extends AbstractController
             $entityManager->remove($repos);
             $entityManager->remove($produit);
             $entityManager->flush();
+            $this->addFlash('alert', 'Le produit a été supprimé');
         }
 
         return $this->redirectToRoute('stock_proprietaire');

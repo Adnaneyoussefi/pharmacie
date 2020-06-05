@@ -2,45 +2,69 @@
 {% block body %}
 <div class="site-section">
       <div class="container">
-{% for message in app.flashes('notice') %}
-              <div class="flash-notice">
-                 {{ message }}
-              </div>
-              {% endfor %}
         <ul class="nav nav-tabs">
             <li class="nav-item">
-              <a class="nav-link active" data-toggle="tab" href="#info">Information Personnelles</a>
+              <a class="nav-link {{ active_tab1 }}" data-toggle="tab" href="#info">Information Personnelles</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" data-toggle="tab" href="#pwd">Changer le mot de passe</a>
+              <a class="nav-link {{ active_tab2 }}" data-toggle="tab" href="#pwd">Changer le mot de passe</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#pharmacie">Information de pharmacie</a>
+              <a class="nav-link {{ active_tab3 }}" data-toggle="tab" href="#pharmacie">Information de pharmacie</a>
               </li>
           </ul>
           <div id="myTabContent" class="tab-content">
-            <div class="tab-pane fade active show" id="info">
+            <div class="tab-pane fade {{ active_tab1 }}" id="info">
+            {% if active_tab1 == "active show" %}
+              {% for message in app.flashes('success') %}
+                  <div class="alert alert-success" role="success">
+                      {{ message }}
+                      </div>
+              {% endfor %}
+            {% endif %}  
+          
               {{ form_start(formInfoPerso) }}
-              {{form_row(formInfoPerso.nom, {'label' : 'Nom', 'attr' : {'value' : app.user.nom}})}}
+
+              {{ form_row(formInfoPerso.nom, {'label' : 'Nom', 'attr' : {'value' : app.user.nom}}) }}
               {{ form_row(formInfoPerso.prenom, {'label' : 'Prenom', 'attr' : {'value' : app.user.prenom}}) }}
 
+              <input type="hidden" name="active_tab" value="tab_1"/>
               {{ form_end(formInfoPerso) }}
             </div>
-            <div class="tab-pane fade" id="pwd">
+            <div class="tab-pane fade {{ active_tab2 }}" id="pwd">
+            {% if active_tab2 == "active show" %}
+              {% for message in app.flashes('success') %}
+                  <div class="alert alert-success" role="success">
+                      {{ message }}
+                      </div>
+              {% endfor %}
+            {% endif %}  
               
               {{ form_start(formPassword) }}
               
               {{ form_row(formPassword.oldpassword, {'label' : 'Le mot de passe actuel', 'attr' : {'placeholder' : "Ecrire l'ancien mot de passe"}}) }}
               
+              <input type="hidden" name="active_tab" value="tab_2"/>
               {{ form_end(formPassword) }}
             </div>
 
 
-            <div class="tab-pane fade" id="pharmacie">
+            <div class="tab-pane fade {{ active_tab3 }}" id="pharmacie">
+            {% if active_tab3 == "active show" %}
+              {% for message in app.flashes('success') %}
+                  <div class="alert alert-success" role="success">
+                      {{ message }}
+                      </div>
+              {% endfor %}
+            {% endif %}  
+              
               {{ form_start(formInfoPharma)}}
               {{ form_row(formInfoPharma.nom_pharmacie, {'label' : 'Nom de pharmacie', 'attr' : {'value' : app.user.proprietaire.nomPharmacie}}) }}
               {{ form_row(formInfoPharma.adresse_pharmacie, {'label' : 'Adresse', 'attr' : {'value' : app.user.proprietaire.adresse}}) }}
               {{ form_row(formInfoPharma.ville, {'label' : 'Ville', 'attr' : {'value' : app.user.proprietaire.ville}}) }}
+              {{ form_row(formInfoPharma.tel, {'label' : 'Tel', 'attr' : {'value' : app.user.proprietaire.tel}}) }}
+
+              <input type="hidden" name="active_tab" value="tab_3"/>
               {{ form_end(formInfoPharma)}}
               
 

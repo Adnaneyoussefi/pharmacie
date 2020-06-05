@@ -2,7 +2,6 @@
 {% block body %}
 <div class="site-section">
       <div class="container">
-
         <ul class="nav nav-tabs">
             <li class="nav-item">
               <a class="nav-link {{ active_tab1 }}" data-toggle="tab" href="#liste">Liste des produits</a>
@@ -13,6 +12,17 @@
           </ul>
           <div id="myTabContent" class="tab-content"> 
             <div class="tab-pane fade {{ active_tab1 }}" id="liste">
+              {% for message in app.flashes('success') %}
+                  <div class="alert alert-success" role="success">
+                      {{ message }}
+                      </div>
+              {% endfor %}
+              {% for message in app.flashes('alert') %}
+                  <center><div class="alert alert-danger" role="alert">
+                      {{ message }}
+                      </div></center>
+              {% endfor %}
+
               <h5 class="text-black">Catégories</h5>
                 {{ form_start(form2) }}
                   {{ form_row(form2.categories, { 'attr' : {'class' : "text-black"} }) }}

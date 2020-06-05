@@ -27,7 +27,9 @@ class ProduitType extends AbstractType
         $builder
             ->add('nom')
             ->add('description')
-            ->add('date_expiration', DateType::class)
+            ->add('date_expiration', DateType::class, [
+                'widget' => 'single_text',
+            ])
             ->add('prix_ht')
             ->add('prix_tva')
             ->add('quantite')

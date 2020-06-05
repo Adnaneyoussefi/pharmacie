@@ -77,7 +77,7 @@ class ClientController extends AbstractController
      */
     public function shop($page)
         {   $totalPages=$this->getDoctrine()->getRepository(Produit::class)->totalPages();
-            $maxPerPage=3;
+            $maxPerPage=6;
             $offset=$page*$maxPerPage;
             $products = $this->getDoctrine()
             ->getRepository(Produit::class)
@@ -142,9 +142,11 @@ class ClientController extends AbstractController
     }
     public function search()
     {
+
+        // class="form-control my-0 py-1 amber-border" type="text" placeholder="Search" aria-label="Search"
         $form=$this->createFormBuilder(null, array('label' => false))
         ->add('crit',TextType::class, array('label' => false,'attr' => array(
-            'placeholder' => 'search for a product','style'=>'width:350px;border-rauis:5px;margin:auto'
+            'placeholder' => 'search for a product','style'=>'width:350px;margin:auto','class'=>"form-control my-0 py-1 amber-border",'aria-label'=>"Search"
         )))
         ->getForm();
         return $this->render('client/SearchForm.html.twig',['form'=>$form->createView()]);
@@ -181,7 +183,7 @@ class ClientController extends AbstractController
       
     }
     /**
-     * @Route("/", name="home")
+     * @Route("/listtri", name="listtri")
      */
     public function listtri()
     {
@@ -192,9 +194,8 @@ class ClientController extends AbstractController
         $repository = $doctrine->getRepository(Categorie::class);
         $categories=$repository->findAll();
         return $this->render('client/index.html.twig', ['produits'=>$produits,'categories'=>$categories]);
-        
     }
-    
+
      /**
      * @Route("/detailspro/{id}", name="details")
      */

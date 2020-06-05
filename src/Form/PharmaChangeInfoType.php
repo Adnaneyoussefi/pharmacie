@@ -15,6 +15,7 @@ class PharmaChangeInfoType extends AbstractType
             ->add('nom_pharmacie')
             ->add('adresse_pharmacie')
             ->add('ville')
+            ->add('tel')
             ->add('Enregistrer', SubmitType::class, array (
                 'attr'=>array(
                     'class'=>'btn btn-primary bnt-block'

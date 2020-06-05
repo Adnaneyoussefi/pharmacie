@@ -4,9 +4,19 @@
 
     <div class="site-section">
       <div class="container">
-         {% for message in app.flashes('notice') %}
-    <div class="alert alert-notice">
+         {% for message in app.flashes('success') %}
+    <center><div class="alert alert-success alert-dismissible fade show" role="success">
         {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </div></center>
+        {% endfor %}
+        {% for message in app.flashes('alert') %}
+   <center> <div class="alert alert-danger alert-dismissible fade show" role="danger">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </div></center>
         {% endfor %}
       <div class="alert alert-dark" role="alert">
           <center> <a  class="alert-link"> {{ totalpharma }}</a> pharmacies inscrites </center>
@@ -28,12 +38,12 @@
                 <thead>
                   <tr>
                     <th class="product-name">Pharmacie</th>
-                    <th class="product-name">Nom du propriétaire</th>
-                    <th class="product-name">Prénom du propriétaire</th>
+                    <th class="product-name">Nom </th>
+                    <th class="product-name">Prénom</th>
                     <th class="product-adresse">Email</th>
                     <th class="product-telephone">Adresse</th>
                     <th class="product-telephone">Ville</th>
-                    <th class="product-remove">Supprimer</th>
+                    <th class="product-remove">Actions</th>
                   </tr>
                 </thead>
                 <tbody>

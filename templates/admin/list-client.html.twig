@@ -4,9 +4,21 @@
  
    <div class="site-section">
       <div class="container">
-      {% for message in app.flashes('notice') %}
-    <div class="alert alert-notice">
+      {% for message in app.flashes('success') %}
+  <center>  <div class="alert alert-success alert-dismissible fade show" role="success">
         {{ message }}
+         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+
+        </div></center>
+        {% endfor %}
+         {% for message in app.flashes('alert') %}
+    <center><div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ message }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+</button>
+        </div></center>
         {% endfor %}
         <div class="alert alert-dark" role="alert">
             <center>   <a  class="alert-link"> {{ totalclients }}</a> clients inscrits </center>
@@ -35,7 +47,7 @@
 
                     <th class="product-telephone">tel</th>
 
-                    <th class="product-remove">Supprimer</th>
+                    <th class="product-remove">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
