@@ -4,9 +4,15 @@
 
     <div class="site-section">
       <div class="container">
-         {% for message in app.flashes('notice') %}
-    <div class="alert alert-notice">
+         {% for message in app.flashes('success') %}
+    <div class="alert alert-success" role="success">
         {{ message }}
+        </div>
+        {% endfor %}
+        {% for message in app.flashes('alert') %}
+    <div class="alert alert-danger" role="danger">
+        {{ message }}
+        </div>
         {% endfor %}
       <div class="alert alert-dark" role="alert">
           <center> <a  class="alert-link"> {{ totalpharma }}</a> pharmacies inscrites </center>
