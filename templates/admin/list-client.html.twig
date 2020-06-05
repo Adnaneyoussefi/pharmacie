@@ -28,10 +28,11 @@
                 <thead>
                   <tr>
                     <th class="product-name">Nom</th>             
-                    <th class="product-name">Prénom</th>
-                    <th class="product-name">email</th>
+                    <th class="product-prenom">Prénom</th>
+                    <th class="product-email">email</th>
                     <th class="product-adresse">adresse</th>
-                    <th class="product-telephone">pays</th>
+                    <th class="product-adresse">ville</th>
+
                     <th class="product-telephone">tel</th>
 
                     <th class="product-remove">Supprimer</th>
@@ -54,13 +55,13 @@
              
                     <td>{{user.client.adresse}}</td>
                     
-                    <td>{{user.client.pays}}</td>
+                    <td>{{user.client.ville}}</td>
 
                     <td>{{user.client.tel}} </td>  
 
-                    <td><a href="{{ path('listclient_admin_remove',{'id':user.id})}}" class="icons8-poubelle"></a>
-                        <a href="{{ path('listclient_admin_activer',{'id':user.id})}}" class="icons8-coche"></a>
-                        <a href="{{ path('listclient_admin_desactiver', {'id':user.id})}}" class="icons8-effacer"></a>
+                    <td><a href="{{ path('listclient_admin_remove',{'id':user.id})}}" class="icons8-poubelle" onclick="return confirm('Tu es sure de vouloir supprimer ce client ?')"></a>
+                        <a href="{{ path('listclient_admin_activer',{'id':user.id})}}" class="icons8-coche" onclick="return confirm('Tu es sure de vouloir activer le compte ce client ?')"></a>
+                        <a href="{{ path('listclient_admin_desactiver', {'id':user.id})}}" class="icons8-effacer" onclick="return confirm('Tu es sure de vouloir desactiver le code de ce client ?')"></a>
                     </td>
                   </tr>
                

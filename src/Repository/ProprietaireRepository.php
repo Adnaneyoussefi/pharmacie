@@ -18,7 +18,18 @@ class ProprietaireRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Proprietaire::class);
     }
+    public function findOrientaleProp()
+    {
+        $entityManager = $this->getEntityManager();
 
+        $query = $entityManager->createQuery(
+            'SELECT count(p.id)
+            FROM App\Entity\Proprietaire p
+            WHERE p.ville = :oujda
+            or p.ville=:nador '
+              )->setParameter('oujda', 'oujda')->setParameter('nador', 'nador');
+        return $query->getSingleScalarResult();
+    }
     // /**
     //  * @return Proprietaire[] Returns an array of Proprietaire objects
     //  */

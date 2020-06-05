@@ -8,12 +8,16 @@ use App\Entity\Produit;
 use App\Form\ProduitType;
 use App\Form\UserPropType;
 use App\Entity\Proprietaire;
-use App\Form\PropChangeInfoPersoType;
+use App\Entity\DetailsCommande;
+use App\Form\PharmaChangeInfoType;
 use App\Form\PropChangePasswordType;
+use App\Form\PropChangeInfoPersoType;
 use Symfony\Component\Form\FormError;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -68,10 +72,8 @@ class ProprietaireController extends AbstractController
      /**
      * @Route("/compte", name="compte_proprietaire")
      */
-    public function compte(/*AuthenticationUtils $authenticationUtils*/Request $request,UserPasswordEncoderInterface $passwordEncoder)
-    {
-        //$repos = $this->getDoctrine()->getRepository(User::class)->findOneBy(['email' => $authenticationUtils->getLastUsername()]);
-       
+    public function compte(Request $request,UserPasswordEncoderInterface $passwordEncoder)
+    {       
         $em = $this->getDoctrine()->getManager();
         $prop = $this->getUser();
        
@@ -79,6 +81,8 @@ class ProprietaireController extends AbstractController
         $formInfoPerso->handleRequest($request);
         $formPassword = $this->createForm(PropChangePasswordType::class);
         $formPassword->handleRequest($request);
+        $formInfoPharma = $this->createForm(PharmaChangeInfoType::class);
+        $formInfoPharma->handleRequest($request);
         if($formPassword->isSubmitted() && $formPassword->isValid()){
             $oldpassword = $request->request->get('prop_change_password')['oldpassword'];
             $newpassword = $request->request->get('prop_change_password')['confirmpassword']['first'];
@@ -103,13 +107,50 @@ class ProprietaireController extends AbstractController
             $this->addFlash('notice', 'Vos infos sont bien modifiés!');
             return $this->redirectToRoute('compte_proprietaire');        
         }
-        
+        if($formInfoPharma->isSubmitted() && $formInfoPharma->isValid()){
+
+            $newnompharma = $request->request->get('pharma_change_info')['nom_pharmacie'];
+            $newadressepharma = $request->request->get('pharma_change_info')['adresse_pharmacie'];
+            $newvillepharma = $request->request->get('pharma_change_info')['ville'];
+            $proprietaire = $prop->getProprietaire();
+            $proprietaire->setNomPharmacie($newnompharma);
+            $proprietaire->setAdresse($newadressepharma);
+            $proprietaire->setVille($newvillepharma);
+
+            $em->flush();
+            $this->addFlash('notice', 'Vos infos sont bien modifiés!');
+            return $this->redirectToRoute('compte_proprietaire');        
+
+
+
+
+        }
         return $this->render('proprietaire/compte.html.twig',[
             'pagetitle'=>'Compte',
             'path'=>'compte_proprietaire',
             'formPassword'=>$formPassword->createView(),
-            'formInfoPerso'=>$formInfoPerso->createView()
+            'formInfoPerso'=>$formInfoPerso->createView(),
+            'formInfoPharma'=>$formInfoPharma->createView()
             //'prenom'=>$repos->getPrenom()
+        ]);
+    }
+
+    /**
+     * @Route("/vente", name="vente_proprietaire")
+     */
+    public function vente(PaginatorInterface $paginator, UserInterface $user, Request $request)
+    {
+        $ventes = $this->getDoctrine()->getRepository(DetailsCommande::class)->findVentes($user);
+        $page = $paginator->paginate(
+            $ventes,
+            $request->query->getInt('page', 1),
+            1
+        );
+        return $this->render('proprietaire/vente.html.twig',[
+            'ventes' => $ventes,
+            'page'=> $page,
+            'pagetitle'=>'Vente',
+            'path'=>'home_proprietaire',
         ]);
     }
 }

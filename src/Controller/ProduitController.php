@@ -2,9 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Stock;
 use App\Entity\Produit;
-use App\Form\StockType;
 use App\Data\SearchData;
 use App\Form\SearchForm;
 use App\Form\ProduitType;
@@ -30,30 +28,28 @@ class ProduitController extends AbstractController
      */
     public function index(PaginatorInterface $paginator, UserInterface $user, Request $request): Response
     {
-        $stock = new Stock();
+        $produit = new Produit();
         $data = new SearchData();
-        $form = $this->createForm(StockType::class, $stock);
+        $form = $this->createForm(ProduitType::class, $produit);
         $form2 = $this->createForm(SearchForm::class, $data);
         $form->handleRequest($request);
         $form2->handleRequest($request);
 
         $active_tab1 = "active show";
         $active_tab2 = "";
-        $products = $this->getDoctrine()->getRepository(Stock::class)->findSearch($data,$user);
+        $products = $this->getDoctrine()->getRepository(Produit::class)->findSearch($data,$user);
 
         $page = $paginator->paginate(
             $products,
             $request->query->getInt('page', 1),
-            1
+            3
         );
 
         if ($form->isSubmitted() && $form->isValid()) {
             
-            $stock->setProprietaire($user->getProprietaire());
-            //dump($user->getProprietaire()->getProduits());die;
+            $produit->setProprietaire($user->getProprietaire());
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($stock->getProduit());
-            $entityManager->persist($stock);
+            $entityManager->persist($produit);
             $entityManager->flush();
 
             return $this->redirectToRoute('stock_proprietaire');
@@ -64,7 +60,7 @@ class ProduitController extends AbstractController
             $active_tab1 = ($active_tab !=="tab_2") ? "active show" : "";
         }
         return $this->render('proprietaire/stock.html.twig',[
-            'stock' => $products,
+            'products' => $products,
             'page'=> $page,
             'form2' => $form2->createView(),
             'pagetitle'=>'Stock',
@@ -79,9 +75,9 @@ class ProduitController extends AbstractController
      */
     public function show(Produit $produit, UserInterface $user): Response
     {
-        $repos = $this->getDoctrine()->getRepository(Stock::class)->findOneBy(['produit' => $produit, 'proprietaire' => $user->getProprietaire()]);
+        $repos = $this->getDoctrine()->getRepository(Produit::class)->find(['id' => $produit->getId()]);
         return $this->render('proprietaire/show.html.twig', [
-            'stock' => $repos,
+            'products' => $repos,
             'pagetitle'=>'Stock',
         ]);
     }
@@ -91,8 +87,8 @@ class ProduitController extends AbstractController
      */
     public function edit(Request $request, Produit $produit, UserInterface $user): Response
     {
-        $repos = $this->getDoctrine()->getRepository(Stock::class)->findOneBy(['produit' => $produit, 'proprietaire' => $user->getProprietaire()]);
-        $form = $this->createForm(StockType::class, $repos);
+        $repos = $this->getDoctrine()->getRepository(Produit::class)->findOneBy(['id' => $produit->getId()]);
+        $form = $this->createForm(ProduitType::class, $repos);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -114,8 +110,8 @@ class ProduitController extends AbstractController
      */
     public function delete(Request $request, Produit $produit, UserInterface $user): Response
     {
-        $repos = $this->getDoctrine()->getRepository(Stock::class)->findOneBy(['produit' => $produit, 'proprietaire' => $user->getProprietaire()]);
-        if ($this->isCsrfTokenValid('delete'.$repos->getId(), $request->request->get('_token'))) {
+        $repos = $this->getDoctrine()->getRepository(Produit::class)->findOneBy(['id' => $produit->getId()]);
+        if ($this->isCsrfTokenValid('delete'.$produit->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($repos);
             $entityManager->remove($produit);

@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Produit;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Data\SearchData;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Produit|null find($id, $lockMode = null, $lockVersion = null)
@@ -52,6 +54,22 @@ class ProduitRepository extends ServiceEntityRepository
 
 
      }
+
+    public function findSearch(SearchData $search, UserInterface $user)
+    {
+        $query = $this
+            ->createQueryBuilder('p')
+            ->where('p.proprietaire = :prop')
+            ->setParameter('prop', $user->getProprietaire());
+        if(!empty($search->categories))
+        {
+            $query = $query
+                ->andWhere('p.categorie IN (:categories)')
+                ->setParameter('categories', $search->categories);
+        }    
+
+        return $query->getQuery()->getResult();    
+    }
      public function search($crit)
      {
         return $this->createQueryBuilder("p")->where('p.nom LIKE :crit')

@@ -21,14 +21,8 @@ class Client
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(min="9", minMessage="Votre mot de passe doit faire minimum 8 caractères")
      */
     private $adresse;
-
-    /**
-     * @ORM\Column(type="string", length=50)
-     */
-    private $pays;
 
     /**
      * @ORM\Column(type="string", length=100)
@@ -37,7 +31,7 @@ class Client
 
     /**
      * @ORM\Column(type="string")
-     * @Assert\Regex("/^(0[6|7])[0-9]{8}$/")
+     * @Assert\Regex("/^(0[5|6|7])[0-9]{8}$/")
      */
     private $tel;
 
@@ -56,6 +50,11 @@ class Client
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $region;
 
     public function __construct()
     {
@@ -76,18 +75,6 @@ class Client
     public function setAdresse(string $adresse): self
     {
         $this->adresse = $adresse;
-
-        return $this;
-    }
-
-    public function getPays(): ?string
-    {
-        return $this->pays;
-    }
-
-    public function setPays(string $pays): self
-    {
-        $this->pays = $pays;
 
         return $this;
     }
@@ -183,6 +170,18 @@ class Client
     public function setUser(User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getRegion(): ?string
+    {
+        return $this->region;
+    }
+
+    public function setRegion(string $region): self
+    {
+        $this->region = $region;
 
         return $this;
     }

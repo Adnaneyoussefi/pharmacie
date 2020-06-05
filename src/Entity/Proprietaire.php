@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -39,11 +40,6 @@ class Proprietaire
     private $gardes;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Stock", mappedBy="proprietaire")
-     */
-    private $produits;
-
-    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Admin", mappedBy="proprietaires")
      */
     private $admins;
@@ -54,13 +50,27 @@ class Proprietaire
      */
     private $user;
 
-    
+    /**
+     * @ORM\OneToMany(targetEntity=Produit::class, mappedBy="proprietaire", orphanRemoval=true)
+     */
+    private $produits;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\Regex("/^(0[5|6|7])[0-9]{8}$/")
+     */
+    private $tel;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $region;
 
     public function __construct()
     {
         $this->gardes = new ArrayCollection();
-        $this->produits = new ArrayCollection();
         $this->admins = new ArrayCollection();
+        $this->produits = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -131,37 +141,6 @@ class Proprietaire
     }
 
     /**
-     * @return Collection|Stock[]
-     */
-    public function getProduits(): Collection
-    {
-        return $this->produits;
-    }
-
-    public function addProduit(Stock $produit): self
-    {
-        if (!$this->produits->contains($produit)) {
-            $this->produits[] = $produit;
-            $produit->setProprietaire($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProduit(Stock $produit): self
-    {
-        if ($this->produits->contains($produit)) {
-            $this->produits->removeElement($produit);
-            // set the owning side to null (unless already changed)
-            if ($produit->getProprietaire() === $this) {
-                $produit->setProprietaire(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection|Admin[]
      */
     public function getAdmins(): Collection
@@ -197,6 +176,61 @@ class Proprietaire
     public function setUser(User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Produit[]
+     */
+    public function getProduits(): Collection
+    {
+        return $this->produits;
+    }
+
+    public function addProduit(Produit $produit): self
+    {
+        if (!$this->produits->contains($produit)) {
+            $this->produits[] = $produit;
+            $produit->setProprietaire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduit(Produit $produit): self
+    {
+        if ($this->produits->contains($produit)) {
+            $this->produits->removeElement($produit);
+            // set the owning side to null (unless already changed)
+            if ($produit->getProprietaire() === $this) {
+                $produit->setProprietaire(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getTel(): ?string
+    {
+        return $this->tel;
+    }
+
+    public function setTel(string $tel): self
+    {
+        $this->tel = $tel;
+
+        return $this;
+    }
+
+    public function getRegion(): ?string
+    {
+        return $this->region;
+    }
+
+    public function setRegion(string $region): self
+    {
+        $this->region = $region;
 
         return $this;
     }

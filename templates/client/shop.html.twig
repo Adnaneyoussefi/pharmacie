@@ -13,6 +13,7 @@
      
     
         <div class="row">
+      {% if products %}
         {% for prod in products %}
 
             <div class="col-sm-6 col-lg-4 text-center item mb-4" id="item-{{prod.id}}" >
@@ -24,6 +25,9 @@
 
 
          {% endfor %}
+         {% else %}
+                             <p style='margin:auto'>No results found </p>
+         {% endif %}
          
         
          

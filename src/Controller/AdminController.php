@@ -52,9 +52,8 @@ class AdminController extends AbstractController
      */
 
     public function home() : Response
- //SELECT count(id) FROM `user` WHERE MONTH(registred_at)="5" and roles like '["ROLE_USER"]' --[\"ROLE_USER\"]
     {   
-        //statistique nombre d inscription client/pharmacie
+    //statistique nombre d inscription client/pharmacie
         $t=[];
         $w=[];
             for($i=1; $i<=12; $i++){
@@ -94,27 +93,26 @@ class AdminController extends AbstractController
                 }
             }
         }
-        //nombre totale du pharmacie
+        //nombre totale des pharmacies
         $totalpharma = $this->getDoctrine()->getRepository(User::class)->createQueryBuilder('u')
         ->select('count(u.id)')
         ->where('u.roles = :client')
         ->setParameter('client', '["ROLE_PROP"]')
         ->getQuery()
         ->getSingleScalarResult();
-        //nombre totale des client
+        //nombre totale des clients
         $totalclients = $this->getDoctrine()->getRepository(User::class)->createQueryBuilder('u')
         ->select('count(u.id)')
         ->where('u.roles = :client')
         ->setParameter('client', '["ROLE_USER"]')
         ->getQuery()
         ->getSingleScalarResult();
-        //nombre de visite
+        //nombre de visite du page Client/index
         $nb_visite = $this->getDoctrine()->getManager(); 
       $nb = $nb_visite->getRepository(Visite::class)->findOneBy(['id' => '1']);
-      dump($nb);
-        //ville
-       // $client = $this->getDoctrine()->getRepository(Client::class)->OrientaleClient();
-        //dump($client);
+        //nombre des pharmacies/clients par ville
+       $client_Oriental = $this->getDoctrine()->getRepository(Client::class)->findOrientale();
+       $prop_Oriental = $this->getDoctrine()->getRepository(Proprietaire::class)->findOrientaleProp();
         return $this->render('admin/home.html.twig', [
             'controller_name' => 'AdminController',
             'pagetitle'=>'',
@@ -123,8 +121,10 @@ class AdminController extends AbstractController
             'p'=>$p,
             'totalpharma'=> $totalpharma,
             'totalclients'=> $totalclients,
-            'nombre_visite'=> $nb->getNbVisite()
-
+            'nombre_visite'=> $nb->getNbVisite(),
+            'orientalP'=>$prop_Oriental,
+            'orientalC'=>$client_Oriental,
+            'orientaltotal'=>$client_Oriental+$prop_Oriental,
         ]);
    
     }

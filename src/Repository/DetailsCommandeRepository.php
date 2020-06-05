@@ -3,8 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\DetailsCommande;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method DetailsCommande|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,6 +18,17 @@ class DetailsCommandeRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, DetailsCommande::class);
+    }
+
+    public function findVentes(UserInterface $user)
+    {
+        $query = $this
+            ->createQueryBuilder('d')
+            ->select('p','d')
+            ->join('d.produit', 'p')
+            ->where('p.proprietaire = :prop')
+            ->setParameter('prop', $user->getProprietaire());
+        return $query->getQuery()->getResult();    
     }
 
     // /**

@@ -4,18 +4,18 @@
         <meta charset="UTF-8">
         <title>{% block title %}Proprietaire{% endblock %}</title>
         <link href="https://fonts.googleapis.com/css?family=Rubik:400,700|Crimson+Text:400,400i" rel="stylesheet">
-        <link rel="stylesheet" href="../../../fonts/icomoon/style.css">
+        <link rel="stylesheet" href="{{ asset('fonts/icomoon/style.css') }}">
 
-        <link rel="stylesheet" href="../../../css/bootstrap.min.css">
-        <link rel="stylesheet" href="../../../css/magnific-popup.css">
-        <link rel="stylesheet" href="../../../css/jquery-ui.css">
-        <link rel="stylesheet" href="../../../css/owl.carousel.min.css">
-        <link rel="stylesheet" href="../../../css/owl.theme.default.min.css">
+        <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/magnific-popup.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/jquery-ui.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/owl.theme.default.min.css') }}">
 
 
-        <link rel="stylesheet" href="../../../css/aos.css">
+        <link rel="stylesheet" href="{{ asset('css/aos.css') }}">
 
-        <link rel="stylesheet" href="../../../css/style.css">
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
         
         {% block stylesheets %}{% endblock %}
     </head>
@@ -46,7 +46,7 @@
                         <ul class="site-menu js-clone-nav d-none d-lg-block">
                           <li class="{{ (app.request.get('_route') == 'stock_proprietaire' or app.request.get('_route') == 'produit_edit' 
                           or app.request.get('_route') == 'produit_show') ? 'active' : '' }}"><a href="{{ path('stock_proprietaire') }}" class="hyper">Stock</a></li>
-                          <li><a href="vente.html" class="hyper">Vente</a></li>
+                          <li class="{{ (app.request.get('_route') == 'vente_proprietaire') ? 'active' : '' }}"><a href="{{ path('vente_proprietaire') }}" class="hyper">Vente</a></li>
                           <li><a href="reclamation.html" class="hyper">Reclamation</a></li>
                         </ul>
                       </nav>
@@ -60,10 +60,10 @@
                           </a></li>
         
                           <li class="has-children">
-                              <a href="#">{{app.user.nom}}</a>
+                              <a href="#">{{app.user.proprietaire.nomPharmacie}}</a>
                               <ul class="dropdown">
                                 <li>
-                                    <a href="{{ path('compte_proprietaire') }}">Paramètre</a>
+                                    <a href="{{ path('compte_proprietaire') }}">Paramètres</a>
                                     <a href="{{ path('app_logout') }}">Déconnexion</a>
                                 </li>
                               </ul>
@@ -142,14 +142,14 @@
         {% endblock %}
     </div>
         {% block javascripts %}
-            <script src="../../../js/jquery-3.3.1.min.js"></script>
-            <script src="../../../js/jquery-ui.js"></script>
-            <script src="../../../js/popper.min.js"></script>
-            <script src="../../../js/bootstrap.min.js"></script>
-            <script src="../../../js/owl.carousel.min.js"></script>
-            <script src="../../../js/jquery.magnific-popup.min.js"></script>
-            <script src="../../../js/aos.js"></script>
-            <script src="../../../js/main.js"></script>
+            <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
+            <script src="{{ asset('js/jquery-ui.js') }}"></script>
+            <script src="{{ asset('js/popper.min.js') }}"></script>
+            <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+            <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
+            <script src="{{ asset('js/jquery.magnific-popup.min.js') }}"></script>
+            <script src="{{ asset('js/aos.js') }}"></script>
+            <script src="{{ asset('js/main.js') }}"></script>
         {% endblock %}
     </body>
 </html>

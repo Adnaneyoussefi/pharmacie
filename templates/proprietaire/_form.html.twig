@@ -1,12 +1,12 @@
 {{ form_start(form) }}
     
-    {{ form_row(form.produit.nom,  {'label_attr': {'class': 'text-black'}, 'attr' : {'placeholder' : "Nom du produit"}}) }}
-    {{ form_row(form.produit.description, {'label_attr': {'class': 'text-black'}, 'attr' : {'placeholder' : "Description"}}) }}
-    {{ form_row(form.produit.date_expiration, {'label_attr': {'class': 'text-black'} }) }}
-    {{ form_row(form.produit.prix_ht, {'label_attr': {'class': 'text-black'}, 'attr' : {'placeholder' : "Prix HT"}}) }}
-    {{ form_row(form.produit.prix_tva, {'label_attr': {'class': 'text-black'}, 'attr' : {'placeholder' : "Prix TVA"}}) }}
-    {{ form_row(form.produit.imageFile, {'label_attr': {'class': 'text-black'}, 'attr' : {'placeholder' : "Image du produit"}}) }}
-    {{ form_row(form.produit.categorie, {'label_attr': {'class': 'text-black'}, 'attr' : {'placeholder' : "Categorie"}}) }}
+    {{ form_row(form.nom,  {'label_attr': {'class': 'text-black'}, 'attr' : {'placeholder' : "Nom du produit"}}) }}
+    {{ form_row(form.description, {'label_attr': {'class': 'text-black'}, 'attr' : {'placeholder' : "Description"}}) }}
+    {{ form_row(form.date_expiration, {'label_attr': {'class': 'text-black'} }) }}
+    {{ form_row(form.prix_ht, {'label_attr': {'class': 'text-black'}, 'attr' : {'placeholder' : "Prix HT"}}) }}
+    {{ form_row(form.prix_tva, {'label_attr': {'class': 'text-black'}, 'attr' : {'placeholder' : "Prix TVA"}}) }}
+    {{ form_row(form.imageFile, {'label_attr': {'class': 'text-black'}, 'attr' : {'placeholder' : "Image du produit"}}) }}
+    {{ form_row(form.categorie, {'label_attr': {'class': 'text-black'}, 'attr' : {'placeholder' : "Categorie"}}) }}
     {{ form_row(form.quantite, {'label_attr': {'class': 'text-black'}, 'attr' : {'placeholder' : "Quantité"}}) }}
 
     <input type="hidden" name="active_tab" value="tab_2"/>

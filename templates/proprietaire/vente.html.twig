@@ -1,0 +1,39 @@
+{% extends 'proprietaire/base.html.twig' %}
+{% block body %}
+<div class="site-section">
+      <div class="container">
+
+            <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>Image</th>
+                        <th>Nom</th>
+                        <th>Client</th>
+                        <th>Quantité</th>
+                        <th>Prix Total</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        {% for ventes in page|reverse %}
+                        <tr>
+                            <td>
+                                <img src={{ asset('images/' ~ ventes.produit.image) }} alt="Image" style="width: 120px;">
+                            </td>
+                            <td>{{ ventes.produit.nom }}</td>
+                            <td>{{ ventes.commande.client.user.nom }}</td>
+                            <td>{{ ventes.quantite }}</td>
+                            <td>{{ (ventes.produit.prixtva + ventes.produit.prixht) * ventes.quantite }} Dhs</td>
+                            <td>
+                                <a href="#" class="btn btn-primary btn-sm d-block" style="width: 100px">Afficher</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class:"navigation">
+                {{ knp_pagination_render(page)}}
+                </div> 
+      </div>
+    </div>
+{% endblock %}

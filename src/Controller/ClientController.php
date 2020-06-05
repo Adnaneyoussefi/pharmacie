@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Visite;
 use App\Entity\Produit;
+use App\Entity\Categorie;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Form\UserClientType;
 use Symfony\Component\HttpFoundation\Request;
@@ -98,7 +99,10 @@ class ClientController extends AbstractController
      */
     public function about()
     {
-        return $this->render('client/about.html.twig');
+        return $this->render('client/about.html.twig',[
+            'pagetitle'=>'About us',
+           
+        ]);
     }
 
     /**
@@ -106,7 +110,10 @@ class ClientController extends AbstractController
      */
     public function contact()
     {
-        return $this->render('client/contact.html.twig');
+        return $this->render('client/contact.html.twig',[
+            'pagetitle'=>'Contact',
+           
+        ]);
     }
 
     /**
@@ -173,9 +180,49 @@ class ClientController extends AbstractController
 
       
     }
+    /**
+     * @Route("/", name="home")
+     */
+    public function listtri()
+    {
+        $doctrine = $this->getDoctrine();
+        $repository = $doctrine->getRepository(Produit::class);
+        $produits=$repository->findAll();
+        $doctrine = $this->getDoctrine();
+        $repository = $doctrine->getRepository(Categorie::class);
+        $categories=$repository->findAll();
+        return $this->render('client/index.html.twig', ['produits'=>$produits,'categories'=>$categories]);
+        
+    }
     
-
+     /**
+     * @Route("/detailspro/{id}", name="details")
+     */
+    public function detailprod($id)
+    {
+        $doctrine = $this->getDoctrine();
+        $repository = $doctrine->getRepository(Produit::class);
+        $produits=$repository->findBy( ['id'=>$id]);
+        return $this->render('client/detailsprod.html.twig', ['produit'=>$produits[0]]);
     
+    }
 
-
+    /**
+     * @Route("/", name="combocat")
+     */
+    
+    public function combocatg()
+    {
+        $doctrine = $this->getDoctrine();
+        $repository = $doctrine->getRepository(Categorie::class);
+        $categories=$repository->findAll();
+        return $this->render('client/base.html.twig', ['categories'=>$categories]);
+        
+    }
+  // public function combocatg(CategorieRepository $CategorieRepository)
+    // {
+    //     return $this->render('client/base.html.twig' ,
+    //     array('categorie'=> $CategorieRepository->findall()
+    //     ));
+    // }
 }
