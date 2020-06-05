@@ -183,7 +183,7 @@ class ClientController extends AbstractController
       
     }
     /**
-     * @Route("/listtri", name="listtri")
+     * @Route("/", name="home")
      */
     public function listtri()
     {
@@ -209,7 +209,7 @@ class ClientController extends AbstractController
     }
 
     /**
-     * @Route("/combocat", name="combocat")
+     * @Route("/", name="combocat")
      */
     
     public function combocatg()
