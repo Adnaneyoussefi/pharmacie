@@ -209,7 +209,7 @@ class ClientController extends AbstractController
     }
 
     /**
-     * @Route("/", name="combocat")
+     * @Route("/combocat", name="combocat")
      */
     
     public function combocatg()
