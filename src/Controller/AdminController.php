@@ -198,9 +198,9 @@ return $this->render('admin/list-pharmacie.html.twig', [
            $user->setIsActive(true);
          $em->persist($user);
           $em->flush();
-          $this->addFlash('notice', 'Vous avez activé le compte avec succées !');
+          $this->addFlash('success', 'Vous avez activé le compte avec succées !');
            } else {
-            $this->addFlash('notice', 'Ce compte est déjà activé!');
+            $this->addFlash('alert', 'Ce compte est déjà activé!');
     }
     return $this->redirectToRoute('listpharmacie_admin');
 
@@ -220,9 +220,9 @@ return $this->render('admin/list-pharmacie.html.twig', [
            $user->setIsActive(false);
          $em->persist($user);
           $em->flush();
-          $this->addFlash('notice', 'Vous avez desactiver le compte avec succées !');
+          $this->addFlash('success', 'Vous avez desactiver le compte avec succées !');
            } else {
-            $this->addFlash('notice', 'ce compte est déjà desactivé!');
+            $this->addFlash('alert', 'ce compte est déjà desactivé!');
     }
     return $this->redirectToRoute('listpharmacie_admin');
     } 
@@ -303,9 +303,9 @@ return $this->render('admin/list-pharmacie.html.twig', [
            $user->setIsActive(true);
          $em->persist($user);
           $em->flush();
-          $this->addFlash('notice', 'Vous avez activé le compte avec succées !');
+          $this->addFlash('success', 'Vous avez activé le compte avec succées !');
            } else {
-            $this->addFlash('notice', 'Ce compte est déjà activé!');
+            $this->addFlash('alert', 'Ce compte est déjà activé!');
     }
     return $this->redirectToRoute('listclient_admin');
     }
@@ -324,9 +324,9 @@ return $this->render('admin/list-pharmacie.html.twig', [
            $user->setIsActive(false);
          $em->persist($user);
           $em->flush();
-          $this->addFlash('notice', 'Vous avez desactiver le compte avec succées !');
+          $this->addFlash('success', 'Vous avez desactiver le compte avec succées !');
            } else {
-            $this->addFlash('notice', 'ce compte est déjà desactivé!');
+            $this->addFlash('alert', 'ce compte est déjà desactivé!');
     }
     return $this->redirectToRoute('listclient_admin');
     }
