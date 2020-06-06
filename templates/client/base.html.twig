@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <title>{% block title %}Proprietaire{% endblock %}</title>
         <link href="https://fonts.googleapis.com/css?family=Rubik:400,700|Crimson+Text:400,400i" rel="stylesheet">
+
         <link rel="stylesheet" href="{{ asset('fonts/icomoon/style.css') }}">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -19,8 +20,10 @@
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         
-        {% block stylesheets %}{% endblock %}
+        {% block stylesheets %}
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
+        {% endblock %}
     </head>
     <body>
     <div class="site-wrap">
@@ -246,7 +249,6 @@ else {
                   <script src="{{ asset('js/popper.min.js') }}"></script>
                   <script src="{{ asset('js/bootstrap.min.js') }}"></script>
                   <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
-              
       
 
             
