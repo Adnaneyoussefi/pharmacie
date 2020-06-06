@@ -232,7 +232,8 @@ FillCart();
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////
   /*              control Qt changes                                                               */
-  [...document.getElementsByClassName('form-control text-center')].forEach((text)=> text.addEventListener('input',CalcTotal ))
+  [...document.getElementsByClassName('form-control text-center')].forEach((text)=> text.addEventListener('input',function(){if(!Number(this.value)){this.value=1}
+                                                                                                                              CalcTotal()} ))
   let buttons=[...document.getElementsByClassName("btn btn-outline-primary js-btn-minus"),...document.getElementsByClassName("btn btn-outline-primary js-btn-plus")]
   buttons.forEach((button)=>button.addEventListener('click',QuantityIncr))
   
