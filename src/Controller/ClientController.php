@@ -207,23 +207,17 @@ class ClientController extends AbstractController
         return $this->render('client/detailsprod.html.twig', ['produit'=>$produits[0]]);
     
     }
-
-    /**
-     * @Route("/", name="combocat")
+     /**
+     * @Route("/categories", name="categories")
      */
     
-    public function combocatg()
+    public function categories()
     {
         $doctrine = $this->getDoctrine();
         $repository = $doctrine->getRepository(Categorie::class);
-        $categories=$repository->findAll();
-        return $this->render('client/base.html.twig', ['categories'=>$categories]);
+        $cat=$repository->findAll();
+         return $this->json(array_map(function($x){return $x->getNom();}, $cat),200);
         
     }
-  // public function combocatg(CategorieRepository $CategorieRepository)
-    // {
-    //     return $this->render('client/base.html.twig' ,
-    //     array('categorie'=> $CategorieRepository->findall()
-    //     ));
-    // }
+ 
 }
