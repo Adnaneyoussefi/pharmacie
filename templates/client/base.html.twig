@@ -38,7 +38,10 @@
                     <div class="d-flex align-items-center justify-content-between">
                         <div class="logo">
                             <div class="site-logo">
+
+                          
                             <a href="{{ path('home') }}" class="js-logo-clone">MaPharmacie</a>
+
                             </div>
                         </div>
                         <div class="main-nav d-none d-lg-block">
@@ -46,24 +49,21 @@
                             <ul class="site-menu js-clone-nav d-none d-lg-block">
                                 <li class="{{ app.request.get('_route') == 'home' ? 'active' }}"><a href="{{ path('home') }}" class="hyper">Acceuil</a></li>
                                 <li class="{{ app.request.get('_route') == 'shop' ? 'active' }}"><a href="{{ path('shop') }}"class="hyper">Marquet</a></li>
+                                {% if categories|default(null) %}
                                 <li class="has-children">
+                                
                                 <a href="#" class="hyper">Catégorie</a>
                                 <ul class="dropdown">
-                                    <li><a href="#">Supplements</a></li>
-                                    <li class="has-children">
-                                    <a href="#">Vitamins</a>
-                                    <ul class="dropdown">
-                                        <li><a href="#">Supplements</a></li>
-                                        <li><a href="#">Vitamins</a></li>
-                                        <li><a href="#">Diet &amp; Nutrition</a></li>
-                                        <li><a href="#">Tea &amp; Coffee</a></li>
-                                    </ul>
-                                    </li>
-                                    <li><a href="#">Diet &amp; Antibiotique</a></li>
-                                    <li><a href="#">Tea &amp; Produit de beauté</a></li>
-                                    
+                          {% for categorie in categories %}
+                                
+                                    <li><a href="#">{{categorie.nom}}</a></li> 
+                              
+                            {% endfor %}
                                 </ul>
+
+                  
                                 </li>
+                                {% endif %}
                                 <li><a href="{{ path('about') }}" class="hyper">About</a></li>
                                 <li><a href="{{ path('contact') }}" class="hyper">Contact</a></li>
                             </ul>
@@ -108,7 +108,7 @@
                                        {
                                          if(av_id.indexOf(ar[i].id)!==-1)
                                          {
-                                           ar[i].qt=ar[i].qt*1 + av[av_id.indexOf(ar[i].id)].qt *1;
+                                           ar[i].qt=ar[i].qt*1 + av[av_id.indexOf(ar[i].id)].qt*1;
                                          }
 
                                        }
@@ -158,6 +158,8 @@
                       <h3 class="footer-heading mb-4">About Us</h3>
                       <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius quae reiciendis distinctio voluptates
                         sed dolorum excepturi iure eaque, aut unde.</p>
+                        <u> <a href="{{ path('about') }}" class="text-primary">Nous connaitre mieux</a></u>
+
                     </div>
 
                   </div>
@@ -169,6 +171,7 @@
                       <li><a href="#">Diet &amp; Nutrition</a></li>
                       <li><a href="#">Tea &amp; Coffee</a></li>
                     </ul>
+                    <u> <a href="{{ path('shop') }}" class="text-primary">Voir plus dans le marquet</a></u>
                   </div>
 
                   <div class="col-md-6 col-lg-3">
@@ -179,6 +182,7 @@
                         <li class="phone"><a href="tel://23923929210">+2 392 3929 210</a></li>
                         <li class="email">emailaddress@domain.com</li>
                       </ul>
+                      <u> <a href="{{ path('contact') }}" class="text-primary">Dites nous ce que vous pensez !
                     </div>
 
 
@@ -190,8 +194,8 @@
                       <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                       Copyright &copy;
                       <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made
-                      with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank"
-                        class="text-primary">Colorlib</a>
+                      with <i class="icon-heart" aria-hidden="true"></i> by <a href="{{path('about')}}" target="_blank"
+                        class="text-primary">WASIM</a>
                       <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                     </p>
                   </div>
@@ -212,7 +216,7 @@ else {
   
 
        if( JSON.parse(storage).map( x=> x.id).includes(idd )  )
-    {cart.childNodes[3].innerHTML=JSON.parse(storage).filter( x=>x.id==idd).map(y=>y.items)[0].reduce(function(acc,v){return {qt:acc.qt*1+v.qt*1}}).qt; }
+    {cart.childNodes[3].innerHTML=JSON.parse(storage).filter( x=>x.id==idd).map(y=>y.items)[0].reduce(function(acc,v){return {qt:acc.qt*1 +v.qt*1}}).qt; }
 	
 	 else cart.childNodes[3].innerHTML=0;
 }
@@ -232,3 +236,4 @@ else {
         {% endblock %}
     </body>
 </html>
+
