@@ -13,7 +13,7 @@
               <h2 class="sub-title"> Medicine Effective, Nouvelle Medicine chaque jour</h2>
               <h1>Bienvenue chez vous</h1>
               <p>
-                <a href=" {{path('shop')}}" class="btn btn-primary px-5 py-3">Commander</a>
+                <a href=" {{path('shop')}}" class="btn btn-success px-5 py-3">Commander</a>
               </p>
             </div>
           </div>
@@ -68,7 +68,7 @@
             <img src="{{asset('images/'~produit.image)}}" alt="Image" style="max-height:250px">
             <h3 class="text-dark"><a href="shop-single.html">{{produit.nom}}</a></h3>
             <p class="price">{{produit.prixtva}} DH</p>
-            <a class="btn btn-default" href=" {{path('details', {'id':produit.id})}}" role="button" style:color="green">Découvrir</a>
+            <a class="btn btn-success" href=" {{path('details', {'id':produit.id})}}" role="button">Découvrir</a>
           </div>
         {% endfor %}
       </div>
