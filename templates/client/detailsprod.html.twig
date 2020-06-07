@@ -24,10 +24,13 @@
 
             </div>
           </div>
+
+           
      
           <div class="col-md-6">
             <h2 class="text-black">{{produit.nom}}</h2>
             <p>{{produit.description}}</p>
+            Stock : {{produit.quantite}} 
             
 
             <p><strong class="text-primary h4">{{produit.prixtva}}</strong></p>
@@ -166,9 +169,10 @@
 
 document.getElementById('addprod').addEventListener('click',(e)=>{
             e.preventDefault()
-            let qtt=Number(document.getElementById('qt').value)|| 1
+            let qtt=Math.min( (Number(document.getElementById('qt').value)|| 1) , Number('{{produit.quantite}}'));
+            console.log(qtt)
             let storage=localStorage.getItem("my_cart_infos");
-            let storage_data={prod_name:'{{produit.nom}}',price:'{{produit.prixtva}}',image:"{{asset('images/'~produit.image)}}",id:'{{produit.id}}',qt:qtt};
+            let storage_data={prod_name:'{{produit.nom}}',prop:'{{produit.proprietaire.id}}',price:'{{produit.prixtva}}',image:"{{asset('images/'~produit.image)}}",id:'{{produit.id}}',qt:qtt};
   
    let items_table=(!storage)?[]:JSON.parse(storage);
      console.log(idd);
@@ -182,12 +186,15 @@ document.getElementById('addprod').addEventListener('click',(e)=>{
      let index=items_table.map(x=>x.id).indexOf(idd);
 	 if( items_table[index].items.map(x=>x.id).indexOf('{{produit.id}}')==-1 )
      items_table[index].items.push(storage_data);
-	 else items_table[index].items[items_table[index].items.map(x=>x.id).indexOf('{{produit.id}}')].qt=qtt*1 + items_table[index].items[items_table[index].items.map(x=>x.id).indexOf('{{produit.id}}')].qt*1;
- 
+	 else items_table[index].items[items_table[index].items.map(x=>x.id).indexOf('{{produit.id}}')].qt=Math.min(qtt*1+items_table[index].items[items_table[index].items.map(x=>x.id).indexOf('{{produit.id}}')].qt*1,Number('{{produit.quantite}}'));
+
    }
 
    localStorage.setItem("my_cart_infos", JSON.stringify(items_table));
-   cart.childNodes[3].innerHTML=  cart.childNodes[3].innerHTML*1+ qtt*1;
+   if(storage && JSON.parse(storage).filter( x=>x.id==idd).length )
+   {cart.childNodes[3].innerHTML=JSON.parse(storage).filter( x=>x.id==idd).map(y=>y.items)[0].reduce(function(acc,v){return {qt:acc.qt*1 +v.qt*1}}).qt +qtt*1}
+   else
+   {cart.childNodes[3].innerHTML=cart.childNodes[3].innerHTML*1+qtt*1;}
    alert(" product  has been added to your cart!!");
 
         
