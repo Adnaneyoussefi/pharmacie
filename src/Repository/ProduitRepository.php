@@ -79,6 +79,16 @@ class ProduitRepository extends ServiceEntityRepository
 
 
      }
+     public function getLastProduct(){
+     $entityManager = $this->getEntityManager();
+
+     $query = $entityManager->createQuery(
+         'SELECT p 
+         FROM App\Entity\produit p 
+         ORDER BY p.id DESC ')
+         ->setMaxResults(6);
+     return $query->getResult();
+     }
     /*
     public function findOneBySomeField($value): ?Produit
     {
