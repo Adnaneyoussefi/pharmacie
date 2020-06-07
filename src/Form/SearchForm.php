@@ -45,7 +45,7 @@ class SearchForm extends AbstractType
                 'required' => false,
             ])
             ->add('epuise', CheckboxType::class, [
-                'label' => 'Produits epuisés',
+                'label' => 'Produits épuisés',
                 'required' => false,
             ])
         ;
