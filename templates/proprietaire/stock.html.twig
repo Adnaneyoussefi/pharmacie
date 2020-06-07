@@ -34,7 +34,6 @@
                 <table class="table table-striped">
                     <thead>
                       <tr>
-                        <th>Id</th>
                         <th>Image</th>
                         <th>Nom</th>
                         <th>Description</th>
@@ -46,12 +45,10 @@
                       </tr>
                     </thead>
                     <tbody>
-                       {% for products in page|reverse %}
-                          
+                       {% for products in page %}
                         <tr class={% if products.DateExpiration <= date() %}
                         "table-danger"
                           {% endif %}>
-                            <th>{{ products.id }}</th>
                             <td>
                             <img src={{ asset('images/' ~ products.image) }} alt="Image" style="width: 120px;">                              
                               </td>
