@@ -10,6 +10,7 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class SearchForm extends AbstractType
 {
@@ -38,6 +39,14 @@ class SearchForm extends AbstractType
                 'choice_label' => function(Categorie $cat) {
                     return $cat->getNom()." (". $cat->getProduits()->count().")"; 
                 },
+            ])
+            ->add('expire', CheckboxType::class, [
+                'label' => 'Produits expirés',
+                'required' => false,
+            ])
+            ->add('epuise', CheckboxType::class, [
+                'label' => 'Produits épuisés',
+                'required' => false,
             ])
         ;
     }

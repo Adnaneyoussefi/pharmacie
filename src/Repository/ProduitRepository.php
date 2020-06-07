@@ -66,6 +66,22 @@ class ProduitRepository extends ServiceEntityRepository
             $query = $query
                 ->andWhere('p.categorie IN (:categories)')
                 ->setParameter('categories', $search->categories);
+        }
+        if(!empty($search->expire))
+        {
+            $query = $query
+                ->andWhere("p.date_expiration <= CURRENT_DATE() ");
+        }
+        if(!empty($search->epuise))
+        {
+            $query = $query
+                ->andWhere("p.quantite = 0 ");
+        }
+        if(!empty($search->expire) && !empty($search->epuise))
+        {
+            $query = $query
+                ->andWhere("p.date_expiration <= CURRENT_DATE() ")
+                ->orWhere("p.quantite = 0 ");
         }    
 
         return $query->getQuery()->getResult();    
@@ -78,6 +94,16 @@ class ProduitRepository extends ServiceEntityRepository
                                                 ->getResult();
 
 
+     }
+     public function getLastProduct(){
+     $entityManager = $this->getEntityManager();
+
+     $query = $entityManager->createQuery(
+         'SELECT p 
+         FROM App\Entity\produit p 
+         ORDER BY p.id DESC ')
+         ->setMaxResults(6);
+     return $query->getResult();
      }
     /*
     public function findOneBySomeField($value): ?Produit

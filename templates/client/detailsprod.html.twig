@@ -166,7 +166,7 @@
 
 document.getElementById('addprod').addEventListener('click',(e)=>{
             e.preventDefault()
-            let qtt=document.getElementById('qt').value
+            let qtt=Number(document.getElementById('qt').value)|| 1
             let storage=localStorage.getItem("my_cart_infos");
             let storage_data={prod_name:'{{produit.nom}}',price:'{{produit.prixtva}}',image:"{{asset('images/'~produit.image)}}",id:'{{produit.id}}',qt:qtt};
   

@@ -13,7 +13,7 @@
               <h2 class="sub-title"> Medicine Effective, Nouvelle Medicine chaque jour</h2>
               <h1>Bienvenue chez vous</h1>
               <p>
-                <a href=" {{path('shop')}}" class="btn btn-primary px-5 py-3">Commander</a>
+                <a href=" {{path('shop')}}" class="btn btn-success px-5 py-3">Commander</a>
               </p>
             </div>
           </div>
@@ -61,14 +61,27 @@
         </div>
       </div>
     </div>
-
+<center><h1> Les 6 derniers produits ajoutés </h1></center>
+<br><br>
     <div class="row">
       {% for produit in produits %}
           <div class="col-sm-6 col-lg-4 text-center item mb-4">
             <img src="{{asset('images/'~produit.image)}}" alt="Image" style="max-height:250px">
             <h3 class="text-dark"><a href="shop-single.html">{{produit.nom}}</a></h3>
             <p class="price">{{produit.prixtva}} DH</p>
-            <a class="btn btn-default" href=" {{path('details', {'id':produit.id})}}" role="button" style:color="green">Découvrir</a>
+            <a class="btn btn-success" href=" {{path('details', {'id':produit.id})}}" role="button">Découvrir</a>
+          </div>
+        {% endfor %}
+      </div>
+      <br><br>
+<center><h1> Les 6 dernieres pharmacie inscrites </h1></center>
+<br><br>
+       <div class="row">
+      {% for proprietaire in pharmacie %}
+          <div class="col-sm-6 col-lg-4 text-center item mb-4">
+            <h3 class="text-dark"><a href="s">Pharmacie {{proprietaire.nomPharmacie}}</a></h3>
+            <p class="price">{{proprietaire.adresse}}</p>
+            <a class="btn btn-primary" href="" role="button">Profile</a>
           </div>
         {% endfor %}
       </div>

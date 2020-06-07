@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <title>{% block title %}Proprietaire{% endblock %}</title>
         <link href="https://fonts.googleapis.com/css?family=Rubik:400,700|Crimson+Text:400,400i" rel="stylesheet">
+
         <link rel="stylesheet" href="{{ asset('fonts/icomoon/style.css') }}">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -17,8 +18,12 @@
         <link rel="stylesheet" href="{{ asset('css/aos.css') }}">
 
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         
-        {% block stylesheets %}{% endblock %}
+        {% block stylesheets %}
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+        {% endblock %}
     </head>
     <body>
     <div class="site-wrap">
@@ -46,24 +51,22 @@
                         </div>
                         <div class="main-nav d-none d-lg-block">
                             <nav class="site-navigation text-right text-md-center" role="navigation">
-                            <ul class="site-menu js-clone-nav d-none d-lg-block">
+                            <ul class="site-menu js-clone-nav d-none d-lg-block" >
                                 <li class="{{ app.request.get('_route') == 'home' ? 'active' }}"><a href="{{ path('home') }}" class="hyper">Acceuil</a></li>
                                 <li class="{{ app.request.get('_route') == 'shop' ? 'active' }}"><a href="{{ path('shop') }}"class="hyper">Marquet</a></li>
-                                {% if categories|default(null) %}
+                               
                                 <li class="has-children">
                                 
                                 <a href="#" class="hyper">Catégorie</a>
-                                <ul class="dropdown">
-                          {% for categorie in categories %}
-                                
-                                    <li><a href="#">{{categorie.nom}}</a></li> 
-                              
-                            {% endfor %}
+                                <ul class="dropdown" id='categories'>
+                                  
+                         
                                 </ul>
 
                   
                                 </li>
-                                {% endif %}
+                                
+                               
                                 <li><a href="{{ path('about') }}" class="hyper">About</a></li>
                                 <li><a href="{{ path('contact') }}" class="hyper">Contact</a></li>
                             </ul>
@@ -87,7 +90,7 @@
                             <script> const idd="{{app.user.id}}" ;
                              if(JSON.parse(localStorage.getItem("my_cart_infos")).filter(x=>x.id=="guest").length)
                              {      let strg=JSON.parse(localStorage.getItem("my_cart_infos"));
-                                    if(!JSON.parse(localStorage.getItem("my_cart_infos")).filter(x=>x.id=idd).length)
+                                    if(!JSON.parse(localStorage.getItem("my_cart_infos")).filter(x=>x.id==idd).length)
                                        {
                                           console.log( strg.filter(x=>x.id=="guest"));
                                         let crt={id:idd,items:strg.filter(x=>x.id=="guest")[0].items};
@@ -108,7 +111,7 @@
                                        {
                                          if(av_id.indexOf(ar[i].id)!==-1)
                                          {
-                                           ar[i].qt+= av[av_id.indexOf(ar[i].id)].qt;
+                                           ar[i].qt=ar[i].qt*1 + av[av_id.indexOf(ar[i].id)].qt*1;
                                          }
 
                                        }
@@ -206,6 +209,23 @@
         {% endblock %}
     </div>
         {% block javascripts %}
+        <script>
+          axios.get('{{path("categories")}}').then(function(response){
+            let categories=document.getElementById('categories')
+            for( i in response.data)
+            {
+            let li=document.createElement('li');
+            let href=document.createElement('a');
+                  href.innerText=response.data[i]
+                  href.href='#'
+                  li.append(href)
+                  categories.append(li)
+
+            }
+            
+            console.log(response.data)
+            })
+        </script>
             <script>
             
                 console.log(idd);
@@ -229,10 +249,10 @@ else {
                   <script src="{{ asset('js/popper.min.js') }}"></script>
                   <script src="{{ asset('js/bootstrap.min.js') }}"></script>
                   <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
-              
       
 
             
         {% endblock %}
     </body>
 </html>
+
