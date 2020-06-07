@@ -4,7 +4,58 @@
 
 {% block nav %}{% endblock %}
 
+
 {% block body %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+.cards{
+display: grid;
+ 
+grid-template-columns: repeat(3, 1fr);
+ 
+grid-auto-rows: auto;
+ 
+grid-gap: 1rem;
+}
+.card {
+ 
+ width:100%;
+padding: .5rem;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  max-width: 300px;
+  margin: auto;
+  text-align: center;
+  font-family: arial;
+}
+
+.title {
+  color: grey;
+  font-size: 18px;
+}
+
+.click {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 8px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-size: 18px;
+}
+
+.social {
+  text-decoration: none;
+  font-size: 22px;
+  color: black;
+}
+
+button:hover, a:hover {
+  opacity: 0.7;
+}
+</style>
 <div class="site-blocks-cover" style="background-image: url('images/acceuil1.jpg');">
       <div class="container">
         <div class="row">
@@ -61,7 +112,7 @@
         </div>
       </div>
     </div>
-<center><h1> Les 6 derniers produits ajoutés </h1></center>
+<center><h1> Les derniers produits ajoutés </h1></center>
 <br><br>
     <div class="row">
       {% for produit in produits %}
@@ -73,18 +124,26 @@
           </div>
         {% endfor %}
       </div>
-      <br><br>
-<center><h1> Les 6 dernieres pharmacie inscrites </h1></center>
+      <br><hr><br>
+<center><h1> Les dernieres pharmacies inscrites </h1></center>
 <br><br>
-       <div class="row">
-      {% for proprietaire in pharmacie %}
-          <div class="col-sm-6 col-lg-4 text-center item mb-4">
-            <h3 class="text-dark"><a href="s">Pharmacie {{proprietaire.nomPharmacie}}</a></h3>
-            <p class="price">{{proprietaire.adresse}}</p>
-            <a class="btn btn-primary" href="" role="button">Profile</a>
-          </div>
-        {% endfor %}
-      </div>
+<div class="cards">
+{% for proprietaire in pharmacie %}
+      <div class="card">
+  <img src="/w3images/team2.jpg" alt="" style="width:100%">
+  <center><h3>Pharmacie<br> {{proprietaire.nomPharmacie}}</h3></center>
+  <center><p class="title">{{proprietaire.adresse}}</p></center>
+ <center> <p>{{proprietaire.ville}}</p></center>
+ <center> <div style="margin: 24px 0;">
+    <a class="social" href="#"><i class="fa fa-dribbble"></i></a> 
+    <a class="social" href="#"><i class="fa fa-twitter"></i></a>  
+    <a class="social" href="#"><i class="fa fa-linkedin"></i></a>  
+    <a class="social" href="#"><i class="fa fa-facebook"></i></a> 
+  </div></center>
+  <p><button class="click">Profile</button></p>
+</div>
+{% endfor %}
+</div>
 
     <div class="site-section">
       <div class="container">
