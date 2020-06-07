@@ -61,7 +61,6 @@ class ProduitController extends AbstractController
             $active_tab1 = ($active_tab !=="tab_2") ? "active show" : "";
         }
         return $this->render('proprietaire/stock.html.twig',[
-            'products' => $products,
             'page'=> $page,
             'form2' => $form2->createView(),
             'pagetitle'=>'Stock',

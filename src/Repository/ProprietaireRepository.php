@@ -30,6 +30,17 @@ class ProprietaireRepository extends ServiceEntityRepository
               )->setParameter('oujda', 'oujda')->setParameter('nador', 'nador');
         return $query->getSingleScalarResult();
     }
+
+    public function getLastPharmacie(){
+        $entityManager = $this->getEntityManager();
+   
+        $query = $entityManager->createQuery(
+            'SELECT p 
+            FROM App\Entity\Proprietaire p 
+            ORDER BY p.id DESC ')
+            ->setMaxResults(6);
+        return $query->getResult();
+        }
     // /**
     //  * @return Proprietaire[] Returns an array of Proprietaire objects
     //  */
