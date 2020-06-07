@@ -16,11 +16,11 @@
       {% if products %}
         {% for prod in products %}
 
-            <div class="col-sm-6 col-lg-4 text-center item mb-4" id="item-{{prod.id}}" >
+            <div class="col-sm-6 col-lg-4 text-center item mb-4" id="p-{{prod.proprietaire.id}}item-{{prod.id}}" >
              <img src="{{asset('images/'~prod.image)}}" alt="Image" class="cart-item" style="max-height:150px">
             <h3 class="text-dark" id="{{prod.id}}">{{prod.nom}}</a></h3>
 		 	<a href=" {{path('details', {'id':prod.id})}}"> Details </a> 
-            <p class="price" data-price="{{prod.prixtva}}">{{prod.prixtva}} DH ttc</p>
+            <p class="price" data-price="{{prod.prixtva}}" data-prop="{{prod.proprietaire.id}}" data-max='{{prod.quantite}}'>{{prod.prixtva}} DH ttc</p>
           </div>
 
 
@@ -70,6 +70,9 @@
    let prodId;
    let prodPrice;
    let prodImage;
+   let prodProp;
+   let stck;
+   let incr=1;
     for (let i = 0; i < data.children.length; i++) {
     switch (data.children[i].tagName)
 	{
@@ -82,24 +85,30 @@
 	  break;
 	  case 'P':
 	  prodPrice= data.children[i].dataset.price;
+    propProd=data.children[i].dataset.prop;
+    stck=data.children[i].max;
 	  break;
 	
 	}
 	}
-   let storage_data={prod_name:prodName,price:prodPrice,image:prodImage,id:prodId,qt:1};
+   let storage_data={prod_name:prodName,prop:prodProp,price:prodPrice,image:prodImage,id:prodId,qt:1,stock:stck};
    let items_table=(!storage)?[]:JSON.parse(storage);
      console.log(idd);
    if( items_table.map(x=>x.id).indexOf(idd)==-1)
    {  
      
-	  items_table.push({id:idd,items:[storage_data]    });
+	  items_table.push({id:idd,items:[storage_data]});
    
    }
    else{
      let index=items_table.map(x=>x.id).indexOf(idd);
 	 if( items_table[index].items.map(x=>x.id).indexOf(prodId)==-1 )
      items_table[index].items.push(storage_data);
-	 else items_table[index].items[items_table[index].items.map(x=>x.id).indexOf(prodId)].qt++;
+	 else {
+     if(items_table[index].items[items_table[index].items.map(x=>x.id).indexOf(prodId)].qt<stck-1)
+     
+     {items_table[index].items[items_table[index].items.map(x=>x.id).indexOf(prodId)].qt++;incr--;}
+   }
  
    }
 
@@ -108,7 +117,7 @@
    
    //CartProdNumber();//update product numbers in the cart
    let cart=document.getElementById("my-cart");
-   cart.childNodes[3].innerHTML=  cart.childNodes[3].innerHTML*1+1;
+   cart.childNodes[3].innerHTML=cart.childNodes[3].innerHTML*1+incr;
   
   }
   Array.from(document.getElementsByClassName("cart-item")).forEach( function(item){   item.addEventListener("click",addtoCart)     }  )
