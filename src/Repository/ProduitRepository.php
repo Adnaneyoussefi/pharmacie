@@ -66,6 +66,11 @@ class ProduitRepository extends ServiceEntityRepository
             $query = $query
                 ->andWhere('p.categorie IN (:categories)')
                 ->setParameter('categories', $search->categories);
+        }
+        if(!empty($search->expire))
+        {
+            $query = $query
+                ->andWhere("p.date_expiration <= CURRENT_DATE() ");
         }    
 
         return $query->getQuery()->getResult();    

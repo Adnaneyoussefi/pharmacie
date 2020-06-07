@@ -10,4 +10,9 @@ class SearchData
      * @var Categorie[]
      */
     public $categories = [];
+
+    /**
+     * @var boolean
+     */
+    public $expire = false;
 }

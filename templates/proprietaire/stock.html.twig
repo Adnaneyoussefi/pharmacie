@@ -23,10 +23,13 @@
                       </div></center>
               {% endfor %}
 
-              <h5 class="text-black">Catégories</h5>
+              
                 {{ form_start(form2) }}
+                {{ form_row(form2.expire, { 'attr' : {'class' : "text-black"} }) }}
+                <h5 class="text-black">Catégories</h5>
                   {{ form_row(form2.categories, { 'attr' : {'class' : "text-black"} }) }}
-                  <button class="btn btn-primary" type="submit">Appliquer</button>
+                  
+                  <button class="btn btn-primary btn-block btn-sm" type="submit">Appliquer</button>
                 {{ form_end(form2) }}
                 <table class="table table-striped">
                     <thead>
@@ -44,7 +47,10 @@
                     </thead>
                     <tbody>
                        {% for products in page|reverse %}
-                        <tr>
+                          
+                        <tr class={% if products.DateExpiration <= date() %}
+                        "table-danger"
+                          {% endif %}>
                             <th>{{ products.id }}</th>
                             <td>
                             <img src={{ asset('images/' ~ products.image) }} alt="Image" style="width: 120px;">                              
