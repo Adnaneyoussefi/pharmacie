@@ -6,14 +6,15 @@ use App\Entity\User;
 use App\Entity\Visite;
 use App\Entity\Produit;
 use App\Entity\Categorie;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Proprietaire;
 use App\Form\UserClientType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 
 class ClientController extends AbstractController
@@ -189,11 +190,13 @@ class ClientController extends AbstractController
     {
         $doctrine = $this->getDoctrine();
         $repository = $doctrine->getRepository(Produit::class);
-        $produits=$repository->findAll();
-        $doctrine = $this->getDoctrine();
+        $produits=$repository->getLastProduct();
         $repository = $doctrine->getRepository(Categorie::class);
         $categories=$repository->findAll();
-        return $this->render('client/index.html.twig', ['produits'=>$produits,'categories'=>$categories]);
+        $repository=$doctrine->getRepository(Proprietaire::class);
+        $pharmacie=$repository->getLastPharmacie();
+
+        return $this->render('client/index.html.twig', ['produits'=>$produits,'categories'=>$categories, 'pharmacie'=>$pharmacie]);
     }
 
      /**
