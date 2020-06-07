@@ -26,6 +26,7 @@
               
                 {{ form_start(form2) }}
                 {{ form_row(form2.expire, { 'attr' : {'class' : "text-black"} }) }}
+                {{ form_row(form2.epuise, { 'attr' : {'class' : "text-black"} }) }}
                 <h5 class="text-black">Catégories</h5>
                   {{ form_row(form2.categories, { 'attr' : {'class' : "text-black"} }) }}
                   
@@ -48,6 +49,8 @@
                        {% for products in page %}
                         <tr class={% if products.DateExpiration <= date() %}
                         "table-danger"
+                        {% elseif products.quantite == 0 %}
+                        "table-warning"
                           {% endif %}>
                             <td>
                             <img src={{ asset('images/' ~ products.image) }} alt="Image" style="width: 120px;">                              

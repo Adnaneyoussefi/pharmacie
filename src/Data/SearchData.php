@@ -15,4 +15,9 @@ class SearchData
      * @var boolean
      */
     public $expire = false;
+
+    /**
+     * @var boolean
+     */
+    public $epuise = false;
 }

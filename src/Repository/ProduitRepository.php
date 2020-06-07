@@ -71,6 +71,11 @@ class ProduitRepository extends ServiceEntityRepository
         {
             $query = $query
                 ->andWhere("p.date_expiration <= CURRENT_DATE() ");
+        }
+        if(!empty($search->epuise))
+        {
+            $query = $query
+                ->andWhere("p.quantite = 0 ");
         }    
 
         return $query->getQuery()->getResult();    
