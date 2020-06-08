@@ -9,6 +9,7 @@ use App\Entity\Categorie;
 use App\Entity\Proprietaire;
 use App\Form\UserClientType;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -222,5 +223,30 @@ class ClientController extends AbstractController
          return $this->json(array_map(function($x){return $x->getNom();}, $cat),200);
         
     }
- 
+    /**
+     * @Route("/profilepharma", name="profile")
+     */
+    public function profile() {
+
+        return $this->render('client/detailspharmacie.html.twig',[
+            'pagetitle'=>'profile'
+            ]);
+    }
+
+    /**
+     * @Route("/pharmacies", name="toutpharmacies")
+     */
+    public function listpharma(PaginatorInterface $paginator, Request $request){
+        $pharmacies = $this->getDoctrine()->getRepository(Proprietaire::class)->findAll();
+        $page = $paginator->paginate(
+            $pharmacies,
+            $request->query->getInt('page', 1),
+            9
+        );
+        return $this->render('client/list-pharmacie.html.twig',[
+            'pagetitle'=>'pharmacies',
+            'pharmacies' => $pharmacies,
+            'page' => $page
+            ]);
+    }
 }
