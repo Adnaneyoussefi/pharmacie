@@ -169,8 +169,8 @@
 
 
                         {% endfor %}
-                     
-                      
+                  
+                  
                       
                     </tbody>
                   </table>
@@ -212,7 +212,7 @@
                   </div>
     
                   <div class="form-group">
-                    <button class="btn btn-primary btn-lg btn-block" onclick="window.location='thankyou.html'">Place
+                    <button class="btn btn-primary btn-lg btn-block" id='place'>Place
                       Order</button>
                   </div>
     
@@ -225,6 +225,35 @@
         <!-- </form> -->
       </div>
     </div>
+    <script>
+
+    function placeOrder()
+    { let client_infos=[document.getElementById('c_fname'),document.getElementById('c_lname'),document.getElementById('c_address'),document.getElementById('c_phone')]
+        if(!client_infos.some(x=>''==x.value.replace(/ */g,''))){
+          
+           if(!/^(0[5|6|7])[0-9]{8}$/.test()){ alert('invalid phone number');return;}
+           let order_details=JSON.parse('{{items|json_encode()|raw}}')
+           console.log( [ {"commande":client_infos.map(function(x){ 
+             let c={}
+             c[x.id.split('_')[1]]=x.value
+             return c
+            })},{"details_commndes":order_details}])
+
+        }
+        else{
+          alert('fill required fields')
+          return ;
+        }
+
+
+
+    }
+
+
+      let place_order=document.getElementById('place').addEventListener('click',placeOrder)
+
+
+    </script>
 {% endblock %}
 
 

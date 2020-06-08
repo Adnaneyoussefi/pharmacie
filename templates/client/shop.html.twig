@@ -20,7 +20,7 @@
              <img src="{{asset('images/'~prod.image)}}" alt="Image" class="cart-item" style="max-height:150px">
             <h3 class="text-dark" id="{{prod.id}}">{{prod.nom}}</a></h3>
 		 	<a href=" {{path('details', {'id':prod.id})}}"> Details </a> 
-            <p class="price" data-price="{{prod.prixtva}}" data-prop="{{prod.proprietaire.id}}" data-max='{{prod.quantite}}'>{{prod.prixtva}} DH ttc</p>
+            <p class="price" data-price="{{prod.prixtva}}" data-pr="{{prod.proprietaire.id}}" data-max='{{prod.quantite}}'>{{prod.prixtva}} DH ttc</p>
           </div>
 
 
@@ -85,7 +85,7 @@
 	  break;
 	  case 'P':
 	  prodPrice= data.children[i].dataset.price;
-    propProd=data.children[i].dataset.prop;
+    prodProp=data.children[i].dataset.pr;
     stck=data.children[i].max;
 	  break;
 	
