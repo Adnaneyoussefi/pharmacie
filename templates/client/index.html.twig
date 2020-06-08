@@ -140,10 +140,13 @@ button:hover, a:hover {
     <a class="social" href="#"><i class="fa fa-linkedin"></i></a>  
     <a class="social" href="#"><i class="fa fa-facebook"></i></a> 
   </div></center>
-  <p><button class="click">Profile</button></p>
+  <p> <a href="{{ path('profile')}}"> <button class="click">Profile</button></a></p>
 </div>
 {% endfor %}
 </div>
+<br><br>
+<center><a href="{{path('toutpharmacies')}}"> afficher tous </a></center>
+
 
     <div class="site-section">
       <div class="container">
