@@ -90,7 +90,7 @@ class CategorieController extends AbstractController
      */
     public function delete(Request $request, Categorie $categorie): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$categorie->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$categorie->getId(), $request->request->get('_token')) && $categorie->getProduits()->count() == 0) {
             foreach($categorie->getProduits() as $produit) {
                 $produit->setCategorie(null);
             }
@@ -100,6 +100,9 @@ class CategorieController extends AbstractController
             $this->addFlash('success', 'Vous avez supprimer la catégorie avec succées !');
 
 
+        }
+        else {
+            $this->addFlash('alert', 'La catégorie est utilisable par un proprietaire');
         }
 
         return $this->redirectToRoute('categorie_index');
