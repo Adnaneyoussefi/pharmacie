@@ -112,12 +112,15 @@ class ProduitController extends AbstractController
     public function delete(Request $request, Produit $produit, UserInterface $user): Response
     {
         $repos = $this->getDoctrine()->getRepository(Produit::class)->findOneBy(['id' => $produit->getId()]);
-        if ($this->isCsrfTokenValid('delete'.$produit->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete'.$produit->getId(), $request->request->get('_token')) && $repos->getCommandes()->count() == 0) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($repos);
             $entityManager->remove($produit);
             $entityManager->flush();
             $this->addFlash('alert', 'Le produit a été supprimé');
+        }
+        else {
+            $this->addFlash('alert', 'Le produit est dans une commande');
         }
 
         return $this->redirectToRoute('stock_proprietaire');
