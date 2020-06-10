@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html>
    <head>
+       <script>
+         if(sessionStorage.getItem('redirect'))
+         {
+           window.location.href='/cart'
+           sessionStorage.clear('redirect')
+         }
+
+       </script>
         <meta charset="UTF-8">
         <title>{% block title %}Proprietaire{% endblock %}</title>
         <link href="https://fonts.googleapis.com/css?family=Rubik:400,700|Crimson+Text:400,400i" rel="stylesheet">
