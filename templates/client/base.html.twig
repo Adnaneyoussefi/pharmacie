@@ -60,7 +60,9 @@
                                 </ul>
                                 </li>
                                 <li><a href="{{ path('about') }}" class="hyper">About</a></li>
+                                {% if app.user%}
                                 <li><a href="{{ path('contact') }}" class="hyper">Contact</a></li>
+                                {% endif %}
                             </ul>
                             </nav>
                         </div>
