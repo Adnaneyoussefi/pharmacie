@@ -178,15 +178,22 @@ return $this->render('admin/list-pharmacie.html.twig', [
     /**
      * @Route("/reclamationpharmacie/", name="list_reclamation_pharmacie")
      */
-    public function listreclamationpharmacie(){
+    public function listreclamationpharmacie(PaginatorInterface $paginator, Request $request){
 
         $reclamation = $this->getDoctrine()->getRepository(Reclamation::class)->findreclmationsprop();
 
+
+        $page = $paginator->paginate (
+            $reclamation,
+            $request->query->getInt('page', 1),
+            5
+        );
        
     return $this->render('admin/list-reclamation-pharmacie.html.twig', [
     'controller_name' => 'AdminController',
     'pagetitle' => 'Liste des reclamation pharmacie',
-    'reclamation'=>$reclamation
+    'reclamation'=>$reclamation,
+    'page'=>$page
     ]);
 }
 
@@ -304,15 +311,20 @@ return $this->render('admin/list-pharmacie.html.twig', [
      /**
      * @Route("/reclamationclient/", name="list_reclamation_client")
      */
-    public function listreclamationclient(){
+    public function listreclamationclient(PaginatorInterface $paginator, Request $request){
 
         $reclamation = $this->getDoctrine()->getRepository(Reclamation::class)->findreclmationsclient();
 
-       
+        $page = $paginator->paginate (
+            $reclamation,
+            $request->query->getInt('page', 1),
+            5
+        );
     return $this->render('admin/list-reclamation-client.html.twig', [
     'controller_name' => 'AdminController',
     'pagetitle' => 'Liste des reclamations client',
-    'reclamation'=>$reclamation
+    'reclamation'=>$reclamation,
+    'page'=>$page
     ]);
 }
 
