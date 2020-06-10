@@ -7,7 +7,9 @@ use App\Form\UserType;
 use App\Entity\Produit;
 use App\Form\ProduitType;
 use App\Form\UserPropType;
+use App\Entity\Reclamation;
 use App\Entity\Proprietaire;
+use App\Form\ReclamationType;
 use App\Entity\DetailsCommande;
 use App\Form\PharmaChangeInfoType;
 use App\Form\PropChangePasswordType;
@@ -68,6 +70,35 @@ class ProprietaireController extends AbstractController
             'path'=>'home_proprietaire',
         ]);
     }
+
+     /**
+     * @Route("/contact", name="contact")
+     */
+
+     public function contact(Request $request){
+        
+        $reclamation = new Reclamation();
+        $user= $this->getUser();
+        $formcontact = $this->createForm(ReclamationType::class, $reclamation);
+        $formcontact->handleRequest($request);
+
+        if($formcontact->isSubmitted() && $formcontact->isValid()){
+        $reclamation->setEmmeteur('prop');
+        $reclamation->setUser($user);
+        $em = $this->getDoctrine()->getManager();
+
+        $em->persist($reclamation);
+        $em->flush();
+        $this->addFlash('success', 'Votre réclamation a été envoyé !');
+
+        return $this->redirectToRoute('contact');
+        }
+        return $this->render('proprietaire/contact.html.twig',[
+            'pagetitle'=>'contact',
+            'formcontact'=>$formcontact->createView()
+
+        ]);
+     }
 
      /**
      * @Route("/compte", name="compte_proprietaire")
