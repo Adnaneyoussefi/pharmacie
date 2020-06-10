@@ -120,7 +120,7 @@ class ClientController extends AbstractController
     }
 
     /**
-     * @Route("/contact", name="contact")
+     * @Route("/contact", name="contactclient")
      */
     public function contact(Request $request)
     {   
@@ -139,7 +139,7 @@ class ClientController extends AbstractController
         $em->flush();
         $this->addFlash('success', 'Votre réclamation a été envoyé !');
 
-        return $this->redirectToRoute('contact');
+        return $this->redirectToRoute('contactclient');
         }
         return $this->render('client/contact.html.twig',[
             'pagetitle'=>'Contact',

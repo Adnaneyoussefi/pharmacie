@@ -51,7 +51,7 @@
                           or app.request.get('_route') == 'produit_show') ? 'active' : '' }}"><a href="{{ path('stock_proprietaire') }}" class="hyper">Stock</a></li>
                           <li class="{{ (app.request.get('_route') == 'vente_proprietaire') ? 'active' : '' }}"><a href="{{ path('vente_proprietaire') }}" class="hyper">Vente</a></li>
                          {% if app.user %}
-                          <li><a href="{{path('contact')}}" class="hyper">Contact</a></li>
+                          <li class="{{ (app.request.get('_route') == 'contactprop') ? 'active' : '' }}"><a href="{{path('contactprop')}}" class="hyper">Contact</a></li>
                         {% endif %}
                         </ul>
                       </nav>
