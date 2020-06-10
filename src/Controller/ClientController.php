@@ -94,7 +94,7 @@ class ClientController extends AbstractController
         $page = $paginator->paginate(
             $produits,
             $request->query->getInt('page', 1),
-            1
+            6
         );
         return $this->render('client/shop.html.twig',[
             'pagetitle'=>'shop',
@@ -180,12 +180,11 @@ class ClientController extends AbstractController
     
     public function HandleSearch(Request $request,PaginatorInterface $paginator)
     {    $frm=$request->request->get('form');
-        //$maxPerPage=3;
         $produits=$this->getDoctrine()->getRepository(Produit::class)->search($frm['crit']);
         $page = $paginator->paginate(
             $produits,
             $request->query->getInt('page', 1),
-            1
+            6
         );
         return $this->render('client/shop.html.twig',[
             'pagetitle'=>'shop',
