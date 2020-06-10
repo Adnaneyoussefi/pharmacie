@@ -62,14 +62,14 @@
                             <ul class="site-menu js-clone-nav d-none d-lg-block" >
                                 <li class="{{ app.request.get('_route') == 'home' ? 'active' }}"><a href="{{ path('home') }}" class="hyper">Acceuil</a></li>
                                 <li class="{{ app.request.get('_route') == 'shop' ? 'active' }}"><a href="{{ path('shop') }}"class="hyper">Marquet</a></li>                            
-                                <li class="has-children">
+                                <li class="{{ app.request.get('_route') == 'cat' ? 'active' }} has-children">
                                 <a href="#" class="hyper">Catégorie</a>
                                 <ul class="dropdown" id='categories'>
                                 </ul>
                                 </li>
-                                <li><a href="{{ path('about') }}" class="hyper">About</a></li>
+                                <li class="{{ app.request.get('_route') == 'about' ? 'active' }}"><a href="{{ path('about') }}" class="hyper">About</a></li>
                                 {% if app.user%}
-                                <li><a href="{{ path('contactclient') }}" class="hyper">Contact</a></li>
+                                <li class="{{ app.request.get('_route') == 'contactclient' ? 'active' }}"><a href="{{ path('contactclient') }}" class="hyper">Contact</a></li>
                                 {% endif %}
                             </ul>
                             </nav>
