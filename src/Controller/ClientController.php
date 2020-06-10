@@ -73,8 +73,18 @@ class ClientController extends AbstractController
         $manager->flush();
       }
       dump($nb);
+      $doctrine = $this->getDoctrine();
+      $repository = $doctrine->getRepository(Produit::class);
+      $produits=$repository->getLastProduct();
+      $repository = $doctrine->getRepository(Categorie::class);
+      $categories=$repository->findAll();
+      $repository=$doctrine->getRepository(Proprietaire::class);
+      $pharmacie=$repository->getLastPharmacie();
         return $this->render('client/index.html.twig',[
-           'nb_visite'=>$nb
+           'nb_visite'=>$nb,
+           'produits'=>$produits,
+           'categories'=>$categories,
+            'pharmacie'=>$pharmacie
         ]);
     }
 
@@ -114,7 +124,7 @@ class ClientController extends AbstractController
     public function about()
     {
         return $this->render('client/about.html.twig',[
-            'pagetitle'=>'About us',
+            'pagetitle'=>'About us'
            
         ]);
     }
@@ -251,21 +261,6 @@ class ClientController extends AbstractController
      
 
       
-    }
-    /**
-     * @Route("/", name="home")
-     */
-    public function listtri()
-    {
-        $doctrine = $this->getDoctrine();
-        $repository = $doctrine->getRepository(Produit::class);
-        $produits=$repository->getLastProduct();
-        $repository = $doctrine->getRepository(Categorie::class);
-        $categories=$repository->findAll();
-        $repository=$doctrine->getRepository(Proprietaire::class);
-        $pharmacie=$repository->getLastPharmacie();
-
-        return $this->render('client/index.html.twig', ['produits'=>$produits,'categories'=>$categories, 'pharmacie'=>$pharmacie]);
     }
 
      /**
