@@ -119,4 +119,14 @@ class ProduitRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function getProductByCategorie($categorie)
+    {
+        return $this->createQueryBuilder("p")
+        ->leftjoin('p.categorie','u')
+        ->where('u.nom=:cat')
+        ->setParameter('cat',$categorie)
+        ->getQuery()
+        ->getResult();     
+
+    }
 }

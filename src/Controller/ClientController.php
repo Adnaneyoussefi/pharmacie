@@ -321,7 +321,19 @@ class ClientController extends AbstractController
     /**
      * @Route("/cat/{name}", name="cat")
      */
-    public function cat(){
+    public function cat(PaginatorInterface $paginator, Request $request,$name){
+        $result=$this->getDoctrine()->getRepository(Produit::class)->getProductByCategorie($name);
+        $page = $paginator->paginate(
+            $result,
+            $request->query->getInt('page', 1),
+            9
+        );
+        return $this->render('client/shop.html.twig',[
+            'pagetitle'=>'shop',
+            'products' => $result,
+            'page' => $page
+            ]);
+
        
     }
 }
