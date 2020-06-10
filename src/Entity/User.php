@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -81,6 +83,16 @@ class User implements UserInterface
      * @ORM\Column(type="boolean")
      */
     private $isActive;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Reclamation::class, mappedBy="user")
+     */
+    private $reclamation;
+
+    public function __construct()
+    {
+        $this->reclamation = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -255,6 +267,37 @@ class User implements UserInterface
     public function setIsActive(bool $isActive): self
     {
         $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|reclamation[]
+     */
+    public function getReclamation(): Collection
+    {
+        return $this->reclamation;
+    }
+
+    public function addReclamation(reclamation $reclamation): self
+    {
+        if (!$this->reclamation->contains($reclamation)) {
+            $this->reclamation[] = $reclamation;
+            $reclamation->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReclamation(reclamation $reclamation): self
+    {
+        if ($this->reclamation->contains($reclamation)) {
+            $this->reclamation->removeElement($reclamation);
+            // set the owning side to null (unless already changed)
+            if ($reclamation->getUser() === $this) {
+                $reclamation->setUser(null);
+            }
+        }
 
         return $this;
     }
