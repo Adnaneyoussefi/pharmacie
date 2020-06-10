@@ -205,7 +205,7 @@ class ClientController extends AbstractController
                 'Taza' => 'Taza',
                 'Khémisset' => 'Khémisset',
                 'Autre...' => 'Autre',
-            ],
+            ],'label'=>false
         ])
         ->add('Chercher', SubmitType::class, array(
             'attr'=>array(
