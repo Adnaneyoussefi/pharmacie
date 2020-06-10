@@ -4,7 +4,7 @@
 <br>
 <center><h2> Reclamations </h2></center>
 <br>
-{% for reclamation in reclamation %}
+{% for reclamation in page %}
 <div class="card">
   <div class="card-header">
     <h4>Titre du reclamation : {{reclamation.sujet}}</h4>
@@ -17,10 +17,12 @@
 
 
     </blockquote>
-  </div>
+  </div> 
+</div>
+<div class:"navigation">
+              {{ knp_pagination_render(page)}}
 </div>
 {% endfor %}
-<cite title="Source Title"></cite>
 
 
 
