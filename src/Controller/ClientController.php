@@ -108,7 +108,7 @@ class ClientController extends AbstractController
         $page = $paginator->paginate(
             $produits,
             $request->query->getInt('page', 1),
-            6
+            8
         );
         return $this->render('client/shop.html.twig',[
             'pagetitle'=>'shop',
