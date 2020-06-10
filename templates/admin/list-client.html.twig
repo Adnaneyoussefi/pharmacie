@@ -20,9 +20,9 @@
 </button>
         </div></center>
         {% endfor %}
-        <button type="button" class="btn btn-info">
+      <a href="{{path('list_reclamation_client')}}"> <button type="button" class="btn btn-info">
          Reclamations <span class="badge badge-light">{{totalreclamationsclient}}</span>
-        </button><br><br>
+        </button></a><br><br>
         <div class="alert alert-dark" role="alert">
             <center>   <a  class="alert-link"> {{ totalclients }}</a> clients inscrits </center>
         </div>
