@@ -249,4 +249,11 @@ class ClientController extends AbstractController
             'page' => $page
             ]);
     }
+    
+    /**
+     * @Route("/cat/{name}", name="cat")
+     */
+    public function cat(){
+       
+    }
 }
