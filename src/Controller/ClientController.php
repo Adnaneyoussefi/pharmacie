@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 
 class ClientController extends AbstractController
@@ -154,10 +155,36 @@ class ClientController extends AbstractController
     {
 
         // class="form-control my-0 py-1 amber-border" type="text" placeholder="Search" aria-label="Search"
-        $form=$this->createFormBuilder(null, array('label' => false))
+        $form=$this->createFormBuilder(null)
         ->add('crit',TextType::class, array('label' => false,'attr' => array(
-            'placeholder' => 'search for a product','style'=>'width:350px;margin:auto','class'=>"form-control my-0 py-1 amber-border",'aria-label'=>"Search"
+            'placeholder' => 'search for a product','style'=>'width:350px'
         )))
+        ->add('ville', ChoiceType::class,[
+            'choices'  => [
+                'toutes les villes'=>'all',
+                'Casablanca' => 'Casablanca',
+                'Fès' => 'Fès',
+                'Salé' => 'Salé',
+                'Tanger' => 'Tanger',
+                'Marrakech' => 'Marrakech',
+                'Meknès' => 'Meknès',
+                'Rabat' => 'Rabat',
+                'Oujda' => 'Oujda',
+                'Kénitra' => 'Kénitra',
+                'Agadir' => 'Agadir',
+                'Tétouan' => 'Tétouan',
+                'Témara' => 'Témara',
+                'Safi' => 'Safi',
+                'Mohammédia' => 'Mohammédia',
+                'Khouribga' => 'Khouribga',
+                'El Jadida' => 'El Jadida',
+                'Béni Mellal' => 'Béni Mellal',
+                'Nador' => 'Nador',
+                'Taza' => 'Taza',
+                'Khémisset' => 'Khémisset',
+                'Autre...' => 'Autre',
+            ],
+        ])
         ->getForm();
         return $this->render('client/SearchForm.html.twig',['form'=>$form->createView()]);
 
@@ -180,7 +207,10 @@ class ClientController extends AbstractController
     
     public function HandleSearch(Request $request,PaginatorInterface $paginator)
     {    $frm=$request->request->get('form');
-        $produits=$this->getDoctrine()->getRepository(Produit::class)->search($frm['crit']);
+        
+        
+        $produits=$this->getDoctrine()->getRepository(Produit::class)->search($frm['crit'],$frm['ville']);
+       
         $page = $paginator->paginate(
             $produits,
             $request->query->getInt('page', 1),

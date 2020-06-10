@@ -1,3 +1,18 @@
-{{ form_start(form, {'attr': {'id': 'search_form','action':path('HandleSearch') ,'placeholder':'searh a product'}}) }}
+<style>
+.form-group{
+ width:190px
+
+}
+
+
+</style>
+<div class='search'>
+{{ form_start(form, {'attr': {'id': 'search_form','action':path('HandleSearch') ,'placeholder':'searh a product','class':'search'}}) }}
+
     {{ form_widget(form) }}
+    <div>
+    <button type="submit" class="btn btn-primary btn-block" style='width:100px;'>chercher</button>
+    </div>
+  
 {{ form_end(form) }}
+</div>

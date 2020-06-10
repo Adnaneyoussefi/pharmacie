@@ -79,12 +79,22 @@ class ProduitRepository extends ServiceEntityRepository
         }
         return $query->getQuery()->getResult();    
     }
-     public function search($crit)
-     {
-        return $this->createQueryBuilder("p")->where('p.nom LIKE :crit')
+     public function search($crit,$ville)
+     {  if($ville=='all')
+        {return $this->createQueryBuilder("p")->where('p.nom LIKE :crit')
                                                 ->setParameter('crit',$crit.'%')
                                                 ->getQuery()
-                                                ->getResult();
+                                                ->getResult();}
+        else{
+
+            return $this->createQueryBuilder("p")
+            ->leftjoin('p.proprietaire','u')
+            ->where('u.ville=:ville and p.nom LIKE :crit')
+            ->setParameter('ville',$ville)
+            ->setParameter('crit',$crit.'%')
+            ->getQuery()
+            ->getResult();       
+        }                                        
 
 
      }
