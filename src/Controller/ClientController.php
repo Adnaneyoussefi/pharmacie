@@ -19,6 +19,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 
 class ClientController extends AbstractController
@@ -206,6 +207,11 @@ class ClientController extends AbstractController
                 'Autre...' => 'Autre',
             ],
         ])
+        ->add('Chercher', SubmitType::class, array(
+            'attr'=>array(
+                'class'=>'btn btn-primary bnt-block','style'=>'margin-left:5px'
+            )
+            ))
         ->getForm();
         return $this->render('client/SearchForm.html.twig',['form'=>$form->createView()]);
 
