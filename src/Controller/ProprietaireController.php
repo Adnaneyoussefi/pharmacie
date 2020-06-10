@@ -72,7 +72,7 @@ class ProprietaireController extends AbstractController
     }
 
      /**
-     * @Route("/contact", name="contact")
+     * @Route("/contact", name="contactprop")
      */
 
      public function contact(Request $request){
@@ -91,7 +91,7 @@ class ProprietaireController extends AbstractController
         $em->flush();
         $this->addFlash('success', 'Votre réclamation a été envoyé !');
 
-        return $this->redirectToRoute('contact');
+        return $this->redirectToRoute('contactprop');
         }
         return $this->render('proprietaire/contact.html.twig',[
             'pagetitle'=>'contact',
