@@ -7,6 +7,7 @@ use App\Entity\Visite;
 use App\Entity\Admin;
 use App\Entity\Client;
 use App\Entity\Proprietaire;
+use App\Entity\Reclamation;
 use App\Form\ChangePasswordType;
 use App\Repository\UserRepository;
 use App\Repository\ClientRepository;
@@ -144,6 +145,12 @@ class AdminController extends AbstractController
         ->setParameter('client', '["ROLE_PROP"]')
         ->getQuery()
         ->getSingleScalarResult();
+        $totalreclamationsprop = $this->getDoctrine()->getRepository(Reclamation::class)->createQueryBuilder('r')
+        ->select('count(r.id)')
+        ->where('r.emmeteur = :emmeteur')
+        ->setParameter('emmeteur', 'prop')
+        ->getQuery()
+        ->getSingleScalarResult();
         
         if($request->isMethod("POST"))
         {
@@ -162,7 +169,8 @@ return $this->render('admin/list-pharmacie.html.twig', [
     'path' => 'listpharmacie_admin',
     'user' => $user,
     'page' => $page,
-    'totalpharma' => $totalpharma
+    'totalpharma' => $totalpharma,
+    'totalreclamationsprop' => $totalreclamationsprop
 
 ]);
 
@@ -245,6 +253,12 @@ return $this->render('admin/list-pharmacie.html.twig', [
         ->setParameter('client', '["ROLE_USER"]')
         ->getQuery()
         ->getSingleScalarResult();
+        $totalreclamationsclient = $this->getDoctrine()->getRepository(Reclamation::class)->createQueryBuilder('r')
+        ->select('count(r.id)')
+        ->where('r.emmeteur = :emmeteur')
+        ->setParameter('emmeteur', 'client')
+        ->getQuery()
+        ->getSingleScalarResult();
 
         if($request->isMethod("POST"))
         {   
@@ -266,7 +280,8 @@ return $this->render('admin/list-pharmacie.html.twig', [
         'path' => 'listclient_admin',
         'user' => $user,
         'page' => $page,
-        'totalclients' => $totalclients
+        'totalclients' => $totalclients,
+        'totalreclamationsclient' => $totalreclamationsclient
         
     ]);
     
