@@ -6,8 +6,10 @@ use App\Entity\User;
 use App\Entity\Visite;
 use App\Entity\Produit;
 use App\Entity\Categorie;
+use App\Entity\Reclamation;
 use App\Entity\Proprietaire;
 use App\Form\UserClientType;
+use App\Form\ReclamationType;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -118,10 +120,29 @@ class ClientController extends AbstractController
     /**
      * @Route("/contact", name="contact")
      */
-    public function contact()
-    {
+    public function contact(Request $request)
+    {   
+  
+        $reclamation = new Reclamation();
+        $user= $this->getUser();
+        $formcontact = $this->createForm(ReclamationType::class, $reclamation);
+        $formcontact->handleRequest($request);
+
+        if($formcontact->isSubmitted() && $formcontact->isValid()){
+        $reclamation->setEmmeteur('client');
+        $reclamation->setUser($user);
+        $em = $this->getDoctrine()->getManager();
+
+        $em->persist($reclamation);
+        $em->flush();
+        $this->addFlash('success', 'Votre réclamation a été envoyé !');
+
+        return $this->redirectToRoute('contact');
+        }
         return $this->render('client/contact.html.twig',[
             'pagetitle'=>'Contact',
+            'formcontact'=>$formcontact->createView()
+
            
         ]);
     }
