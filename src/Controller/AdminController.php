@@ -175,6 +175,21 @@ return $this->render('admin/list-pharmacie.html.twig', [
 ]);
 
     }
+    /**
+     * @Route("/reclamationpharmacie/", name="list_reclamation_pharmacie")
+     */
+    public function listreclamationpharmacie(){
+
+        $reclamation = $this->getDoctrine()->getRepository(Reclamation::class)->findreclmationsprop();
+
+       
+    return $this->render('admin/list-reclamation-pharmacie.html.twig', [
+    'controller_name' => 'AdminController',
+    'pagetitle' => 'Liste des reclamation pharmacie',
+    'reclamation'=>$reclamation
+    ]);
+}
+
 
       /**
      * @Route("/listpharmacie/{id}", name="listpharmacie_admin_remove")
@@ -286,6 +301,20 @@ return $this->render('admin/list-pharmacie.html.twig', [
     ]);
     
     }
+     /**
+     * @Route("/reclamationclient/", name="list_reclamation_client")
+     */
+    public function listreclamationclient(){
+
+        $reclamation = $this->getDoctrine()->getRepository(Reclamation::class)->findreclmationsclient();
+
+       
+    return $this->render('admin/list-reclamation-client.html.twig', [
+    'controller_name' => 'AdminController',
+    'pagetitle' => 'Liste des reclamations client',
+    'reclamation'=>$reclamation
+    ]);
+}
 
      /**
      * @Route("/listclient/{id}", name="listclient_admin_remove")
