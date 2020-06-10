@@ -14,7 +14,7 @@
     
         <div class="row">
       {% if products %}
-        {% for prod in products %}
+        {% for prod in page %}
 
             <div class="col-sm-6 col-lg-4 text-center item mb-4" id="p-{{prod.proprietaire.id}}item-{{prod.id}}" >
              <img src="{{asset('images/'~prod.image)}}" alt="Image" class="cart-item" style="max-height:150px">
@@ -37,18 +37,9 @@
        
         <div class="row mt-5">
           <div class="col-md-12 text-center">
-            <div class="site-block-27">
-              <ul>
-        {% set currentPage= (current)?current:1 %}
-                <li><a href=" {{(currentPage>1 )?path('shop',{'page':currentPage-1}):'#'}} ">&lt;</a></li>
-               {% for i in 1..totalPages %}
-                   <li {{(i==currentPage)? 'class="active"':""}}><a href="{{path('shop',{'page':i})}}"> {{i}}</a></li>
-                 {% endfor %}
-
-                <li><a href=" {{(currentPage< totalPages)?path('shop',{'page':currentPage+1}):'#'}} ">&gt;</a></li>
-              </ul>
-             
-            </div>
+            <div class="navigation">
+              {{ knp_pagination_render(page)}}
+              </div>
           </div>
         </div>
       </div>

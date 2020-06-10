@@ -75,10 +75,10 @@ class ClientController extends AbstractController
     }
 
     /**
-     * @Route("/shop/{page}",defaults={"page"=1}, name="shop")
+     * @Route("/shop", name="shop")
      */
-    public function shop($page)
-        {   $totalPages=$this->getDoctrine()->getRepository(Produit::class)->totalPages();
+    public function shop(Request $request,PaginatorInterface $paginator)
+        {   /*$totalPages=$this->getDoctrine()->getRepository(Produit::class)->totalPages();
             $maxPerPage=6;
             $offset=$page*$maxPerPage;
             $products = $this->getDoctrine()
@@ -89,13 +89,21 @@ class ClientController extends AbstractController
             'products'=>$products,
             'totalPages'=>ceil($totalPages/$maxPerPage),
             'current'=>$page
-        ]);
+        ]);*/
+        $produits=$this->getDoctrine()->getRepository(Produit::class)->findAll();
+        $page = $paginator->paginate(
+            $produits,
+            $request->query->getInt('page', 1),
+            1
+        );
+        return $this->render('client/shop.html.twig',[
+            'pagetitle'=>'shop',
+            'products' => $produits,
+            'page' => $page
+            ]);
+    
     }
-    /*public function search()
-    {  
-
-    }*/
-
+   
     /**
      * @Route("/about", name="about")
      */
@@ -170,16 +178,20 @@ class ClientController extends AbstractController
      * @Route("/HandleSearch", name="HandleSearch")
      */
     
-    public function HandleSearch(Request $request)
-    {$frm=$request->request->get('form');
-        $maxPerPage=3;
-        $result=$this->getDoctrine()->getRepository(Produit::class)->search($frm['crit']);
+    public function HandleSearch(Request $request,PaginatorInterface $paginator)
+    {    $frm=$request->request->get('form');
+        //$maxPerPage=3;
+        $produits=$this->getDoctrine()->getRepository(Produit::class)->search($frm['crit']);
+        $page = $paginator->paginate(
+            $produits,
+            $request->query->getInt('page', 1),
+            1
+        );
         return $this->render('client/shop.html.twig',[
-            'pagetitle' => 'Store',
-            'products'=>$result,
-            'current'=>1,
-            'totalPages'=>1
-        ]);
+            'pagetitle'=>'shop',
+            'products' => $produits,
+            'page' => $page
+            ]);
      
 
       
