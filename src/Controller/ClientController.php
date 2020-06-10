@@ -31,6 +31,7 @@ class ClientController extends AbstractController
         $user = new User();
         $user->setRegistredAt(new \DateTime('now'));
         $user->setIsActive(true);
+        $user->setStatut('Activé');
         $form = $this->createForm(UserClientType::class, $user);
         $form->handleRequest($request);
 
