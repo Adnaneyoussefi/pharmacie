@@ -123,7 +123,7 @@ button:hover, a:hover {
               <img src="{{asset('images/'~produit.image)}}" alt="Image" style="max-height:250px">
               <h5>{{produit.nom}}</h5>
               <p class="price">{{produit.prixtva + produit.prixht}} DH</p>
-              <a class="btn btn-success" href=" {{path('details', {'id':produit.id})}}" role="button">Découvrir</a>
+              <a class="btn btn-outline-success rounded-0" href=" {{path('details', {'id':produit.id})}}" role="button">Découvrir</a>
             </div>
           </div>
         </div>
@@ -146,7 +146,7 @@ button:hover, a:hover {
     <a class="social" href="#"><i class="fa fa-linkedin"></i></a>  
     <a class="social" href="#"><i class="fa fa-facebook"></i></a> 
   </div></center>
-  <p> <a href="{{ path('profile')}}"> <button class="click">Profile</button></a></p>
+  <p> <a href="{{ path('profile', {'id':proprietaire.id})}}"> <button class="click">Profile</button></a></p>
 </div>
 {% endfor %}
 </div>
