@@ -15,12 +15,12 @@
             {% for prod in page %}
               <div class="col-lg-3 col-md-6 mt-3">
                 <div class="card">
-                  <div class="card-body text-center item mb-4" id="p-{{prod.proprietaire.id}}item-{{prod.id}}" >
+                  <div class="card-body text-center item mb-4" id="p-{{prod.id}}" >
                     <img src="{{asset('images/'~prod.image)}}" alt="Image" class="cart-item" style="max-height:150px">
                     <h3 class="text-dark" id="{{prod.id}}">{{prod.nom}}</a></h3>
                     <a href=" {{path('details', {'id':prod.id})}}" class="btn btn-outline-primary btn-sm"> Details </a> 
                     <p class="price" data-price="{{prod.prixtva}}" data-pr="{{prod.proprietaire.id}}" data-max='{{prod.quantite}}' style="font-weight:bold;color:#008CB6">{{prod.prixtva + prod.prixht}} DH ttc</p>
-                    <a href="#" class="btn btn-info btn-sm">Ajouter au panier</a>
+                    <a href="#" class="btn btn-info btn-sm" class='additem' id='b{{prod.id}}'>Ajouter au panier</a>
                   </div>
                 </div>
               </div>
@@ -57,8 +57,10 @@
 	//   console.log(JSON.parse(localStorage.getItem("my_cart_infos")).filter( x=>x.id==idd).map(y=>y.items)[0].reduce(function(acc,v){return {qt:acc.qt+v.qt}}).qt);
   var addtoCart=function(){
   let storage=localStorage.getItem("my_cart_infos");
-   let parent=this.parentElement.getAttribute("id");
-   let data=document.getElementById(parent);
+   //let parent=this.parentElement.getAttribute("id");
+   console.log(this.getAttribute('id').replace('b','p-'))
+   //return
+   let data=document.getElementById(this.getAttribute('id').replace('b','p-'));
    let prodName;
    let prodId;
    let prodPrice;
@@ -118,7 +120,8 @@
    {cart.childNodes[3].innerHTML++;}
   
   }
-  Array.from(document.getElementsByClassName("cart-item")).forEach( function(item){   item.addEventListener("click",addtoCart)     }  )
+  //Array.from(document.getElementsByClassName("cart-item")).forEach( function(item){   item.addEventListener("click",addtoCart)     }  )
+  Array.from(document.getElementsByClassName("btn btn-info btn-sm")).forEach( function(item){   item.addEventListener("click",addtoCart)     }  )
   //////////////// Add an item to the cart ////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////////
   

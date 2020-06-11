@@ -336,8 +336,9 @@ class ClientController extends AbstractController
      * @Route("/validateOrder", name="validateOrder")
      */
     public function validateOrder(Request $request){
-        $tmp=$request->getContent();
-        return $this->json(['hello'=>$tmp],200);
+        $tmp=json_decode($request->getContent());
+        $res=json_decode($tmp->infos);
+        return $this->json(['hello'=>$res[0]],200);
         
     }
 }
