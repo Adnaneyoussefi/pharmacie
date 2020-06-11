@@ -272,7 +272,7 @@ class ClientController extends AbstractController
         $doctrine = $this->getDoctrine();
         $repository = $doctrine->getRepository(Produit::class);
         $produits=$repository->findBy( ['id'=>$id]);
-        return $this->render('client/detailsprod.html.twig', ['produit'=>$produits[0]]);
+        return $this->render('client/detailsprod.html.twig', ['pagetitle'=>'details produit','produit'=>$produits[0]]);
     
     }
      /**

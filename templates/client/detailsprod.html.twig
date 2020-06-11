@@ -1,6 +1,6 @@
 {% extends 'client/base.html.twig' %}
 
-{% block title %}Bienvenue{% endblock %}
+{% block title %}{{pagetitle}}{% endblock %}
 
 {% block nav %}{% endblock %}
 
@@ -32,7 +32,7 @@
             <p>{{produit.description}}</p>
             en Stock : {{produit.quantite}} 
             <br/>
-            Pharmacie:<b> {{produit.proprietaire.nomPharmacie}} </b>
+            Pharmacie:<b>  <a href="{{ path('profile', {'id':produit.proprietaire.id})}}">{{produit.proprietaire.nomPharmacie}} </a></b>
             
 
             <p><strong class="text-primary h4">{{produit.prixtva}}</strong></p>
