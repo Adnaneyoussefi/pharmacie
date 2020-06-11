@@ -226,6 +226,7 @@ return $this->render('admin/list-pharmacie.html.twig', [
        dump($user);
        if($user->getIsActive() === false){
            $user->setIsActive(true);
+           $user->setStatut('Activé');
          $em->persist($user);
           $em->flush();
           $this->addFlash('success', 'Vous avez activé le compte avec succées !');
@@ -248,6 +249,7 @@ return $this->render('admin/list-pharmacie.html.twig', [
        dump($user);
        if($user->getIsActive()=== true){
            $user->setIsActive(false);
+           $user->setStatut('Desactivé');
          $em->persist($user);
           $em->flush();
           $this->addFlash('success', 'Vous avez desactiver le compte avec succées !');
@@ -357,6 +359,7 @@ return $this->render('admin/list-pharmacie.html.twig', [
        dump($user);
        if($user->getIsActive() === false){
            $user->setIsActive(true);
+           $user->setStatut('Activé');
          $em->persist($user);
           $em->flush();
           $this->addFlash('success', 'Vous avez activé le compte avec succées !');
@@ -378,6 +381,7 @@ return $this->render('admin/list-pharmacie.html.twig', [
        dump($user);
        if($user->getIsActive()=== true){
            $user->setIsActive(false);
+           $user->setStatut('Desactivé');
          $em->persist($user);
           $em->flush();
           $this->addFlash('success', 'Vous avez desactiver le compte avec succées !');
