@@ -288,12 +288,13 @@ class ClientController extends AbstractController
         
     }
     /**
-     * @Route("/profilepharma", name="profile")
+     * @Route("profilepharma/{id}", name="profile")
      */
-    public function profile() {
-
+    public function profile($id) {
+        $proprietaire = $this->getDoctrine()->getRepository(Proprietaire::class)->findBy(['id'=>$id]);
         return $this->render('client/detailspharmacie.html.twig',[
-            'pagetitle'=>'profile'
+            'pagetitle'=>'profile',
+            'proprietaire'=>$proprietaire[0],
             ]);
     }
 
