@@ -239,14 +239,8 @@
              c[x.id.split('_')[1]]=x.value
              return c
             })},{"details_commande":order_details}]
-
-            if(idd=='guest')
-      {
-          //sessionStorage.setItem('tempo',JSON.stringify(commande))
-        window.location.href="login"
-
-
-      }
+            //console.log(commande)
+            axios.post('{{path("validateOrder")}}',{infos:JSON.stringify(commande)}).then((response)=>{console.log(response.data)})
       
 
         }
