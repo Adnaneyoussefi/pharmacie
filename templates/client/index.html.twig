@@ -17,7 +17,7 @@ grid-auto-rows: auto;
  
 grid-gap: 1rem;
 }
-.card {
+.cards .card {
  
  width:100%;
 padding: .5rem;
@@ -78,7 +78,7 @@ button:hover, a:hover {
           <div class="col-md-6 col-lg-4 mb-4 mb-lg-0">
             <div class="banner-wrap bg-primary h-100">
               <a href="#" class="h-100">
-                <h5>Livreson <br> gratuite</h5>
+                <h5>Livraison <br> gratuite</h5>
                 <p>
                   Amet sit amet dolor
                   <strong>Lorem, ipsum dolor sit amet consectetur adipisicing.</strong>
@@ -114,16 +114,22 @@ button:hover, a:hover {
     </div>
 <center><h1> Les derniers produits ajoutés </h1></center>
 <br><br>
+<div class="container">
     <div class="row">
       {% for produit in produits %}
-          <div class="col-sm-6 col-lg-4 text-center item mb-4">
-            <img src="{{asset('images/'~produit.image)}}" alt="Image" style="max-height:250px">
-            <h3 class="text-dark"><a href="shop-single.html">{{produit.nom}}</a></h3>
-            <p class="price">{{produit.prixtva}} DH</p>
-            <a class="btn btn-success" href=" {{path('details', {'id':produit.id})}}" role="button">Découvrir</a>
+        <div class="col-sm-6 col-lg-4 mt-3">
+          <div class="card">
+            <div class="card-body text-center item mb-4">
+              <img src="{{asset('images/'~produit.image)}}" alt="Image" style="max-height:250px">
+              <h5>{{produit.nom}}</h5>
+              <p class="price">{{produit.prixtva + produit.prixht}} DH</p>
+              <a class="btn btn-success" href=" {{path('details', {'id':produit.id})}}" role="button">Découvrir</a>
+            </div>
           </div>
+        </div>
         {% endfor %}
-      </div>
+    </div>
+</div>
       <br><hr><br>
 <center><h1> Les dernieres pharmacies inscrites </h1></center>
 <br><br>

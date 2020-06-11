@@ -172,7 +172,7 @@ document.getElementById('addprod').addEventListener('click',(e)=>{
             let qtt=Math.min( (Number(document.getElementById('qt').value)|| 1) , Number('{{produit.quantite}}'));
             console.log(qtt)
             let storage=localStorage.getItem("my_cart_infos");
-            let storage_data={prod_name:'{{produit.nom}}',prop:'{{produit.proprietaire.id}}',price:'{{produit.prixtva}}',image:"{{asset('images/'~produit.image)}}",id:'{{produit.id}}',qt:qtt};
+            let storage_data={prod_name:'{{produit.nom}}',prop:'{{produit.proprietaire.id}}',price:'{{produit.prixtva}}',image:"{{asset('images/'~produit.image)}}",id:'{{produit.id}}',qt:qtt,stock:'{{produit.quantite}}'};
   
    let items_table=(!storage)?[]:JSON.parse(storage);
      console.log(idd);

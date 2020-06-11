@@ -38,6 +38,7 @@ class ProprietaireController extends AbstractController
         $user = new User();
         $user->setRegistredAt(new \DateTime('now'));
         $user->setIsActive(false);
+        $user->setStatut('Desactivé');
         $form = $this->createForm(UserPropType::class, $user);
         $form->handleRequest($request);
 

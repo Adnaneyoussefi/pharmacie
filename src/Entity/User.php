@@ -89,6 +89,11 @@ class User implements UserInterface
      */
     private $reclamation;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $statut;
+
     public function __construct()
     {
         $this->reclamation = new ArrayCollection();
@@ -298,6 +303,18 @@ class User implements UserInterface
                 $reclamation->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStatut(): ?string
+    {
+        return $this->statut;
+    }
+
+    public function setStatut(?string $statut): self
+    {
+        $this->statut = $statut;
 
         return $this;
     }

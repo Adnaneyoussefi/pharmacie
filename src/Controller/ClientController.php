@@ -31,6 +31,7 @@ class ClientController extends AbstractController
         $user = new User();
         $user->setRegistredAt(new \DateTime('now'));
         $user->setIsActive(true);
+        $user->setStatut('Activé');
         $form = $this->createForm(UserClientType::class, $user);
         $form->handleRequest($request);
 
@@ -108,7 +109,7 @@ class ClientController extends AbstractController
         $page = $paginator->paginate(
             $produits,
             $request->query->getInt('page', 1),
-            6
+            8
         );
         return $this->render('client/shop.html.twig',[
             'pagetitle'=>'shop',
@@ -188,7 +189,7 @@ class ClientController extends AbstractController
 
         // class="form-control my-0 py-1 amber-border" type="text" placeholder="Search" aria-label="Search"
         $form=$this->createFormBuilder(null)
-        ->add('crit',TextType::class, array('label' => false,'attr' => array(
+        ->add('crit',TextType::class, array('label' => false,'required'=>false,'attr' => array(
             'placeholder' => 'search for a product','style'=>'width:350px'
         )))
         ->add('ville', ChoiceType::class,[
@@ -330,5 +331,12 @@ class ClientController extends AbstractController
             ]);
 
        
+    }
+      /**
+     * @Route("/validateOrder", name="validateOrder")
+     */
+    public function validateOrder(Request $request){
+        //////
+        
     }
 }

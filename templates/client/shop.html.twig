@@ -10,18 +10,20 @@
       {{render(controller('App\\Controller\\ClientController::Search'))}}
       <div class="container">
         
-     
-    
         <div class="row">
-      {% if products %}
-        {% for prod in page %}
-
-            <div class="col-sm-6 col-lg-4 text-center item mb-4" id="p-{{prod.proprietaire.id}}item-{{prod.id}}" >
-             <img src="{{asset('images/'~prod.image)}}" alt="Image" class="cart-item" style="max-height:150px">
-            <h3 class="text-dark" id="{{prod.id}}">{{prod.nom}}</a></h3>
-		 	<a href=" {{path('details', {'id':prod.id})}}"> Details </a> 
-            <p class="price" data-price="{{prod.prixtva}}" data-pr="{{prod.proprietaire.id}}" data-max='{{prod.quantite}}'>{{prod.prixtva}} DH ttc</p>
-          </div>
+          {% if products %}
+            {% for prod in page %}
+              <div class="col-lg-3 col-md-6 mt-3">
+                <div class="card">
+                  <div class="card-body text-center item mb-4" id="p-{{prod.id}}" >
+                    <img src="{{asset('images/'~prod.image)}}" alt="Image" class="cart-item" style="max-height:150px">
+                    <h3 class="text-dark" id="{{prod.id}}">{{prod.nom}}</a></h3>
+                    <a href=" {{path('details', {'id':prod.id})}}" class="btn btn-outline-primary btn-sm"> Details </a> 
+                    <p class="price" data-price="{{prod.prixtva}}" data-pr="{{prod.proprietaire.id}}" data-max='{{prod.quantite}}' style="font-weight:bold;color:#008CB6">{{prod.prixtva + prod.prixht}} DH ttc</p>
+                    <a href="#" class="btn btn-info btn-sm" class='additem' id='b{{prod.id}}'>Ajouter au panier</a>
+                  </div>
+                </div>
+              </div>
 
 
          {% endfor %}
@@ -55,8 +57,10 @@
 	//   console.log(JSON.parse(localStorage.getItem("my_cart_infos")).filter( x=>x.id==idd).map(y=>y.items)[0].reduce(function(acc,v){return {qt:acc.qt+v.qt}}).qt);
   var addtoCart=function(){
   let storage=localStorage.getItem("my_cart_infos");
-   let parent=this.parentElement.getAttribute("id");
-   let data=document.getElementById(parent);
+   //let parent=this.parentElement.getAttribute("id");
+   console.log(this.getAttribute('id').replace('b','p-'))
+   //return
+   let data=document.getElementById(this.getAttribute('id').replace('b','p-'));
    let prodName;
    let prodId;
    let prodPrice;
@@ -77,14 +81,15 @@
 	  case 'P':
 	  prodPrice= data.children[i].dataset.price;
     prodProp=data.children[i].dataset.pr;
-    stck=data.children[i].max;
+    stck=data.children[i].dataset.max;
+    console.log(data.children[i].dataset)
 	  break;
 	
 	}
 	}
-   let storage_data={prod_name:prodName,prop:prodProp,price:prodPrice,image:prodImage,id:prodId,qt:1,stock:stck};
+   let storage_data={prod_name:prodName,prop:prodProp,price:prodPrice,image:prodImage,id:prodId,qt:1,stock:19};
    let items_table=(!storage)?[]:JSON.parse(storage);
-     console.log(idd);
+     console.log(stck);
    if( items_table.map(x=>x.id).indexOf(idd)==-1)
    {  
      
@@ -108,10 +113,15 @@
    
    //CartProdNumber();//update product numbers in the cart
    let cart=document.getElementById("my-cart");
-   cart.childNodes[3].innerHTML=cart.childNodes[3].innerHTML*1+incr;
+  // cart.childNodes[3].innerHTML=cart.childNodes[3].innerHTML*1+incr;
+  if(storage && JSON.parse(storage).filter( x=>x.id==idd).length )
+   {cart.childNodes[3].innerHTML=JSON.parse(storage).filter( x=>x.id==idd).map(y=>y.items)[0].reduce(function(acc,v){return {qt:acc.qt*1 +v.qt*1}}).qt*1 +1}
+   else
+   {cart.childNodes[3].innerHTML++;}
   
   }
-  Array.from(document.getElementsByClassName("cart-item")).forEach( function(item){   item.addEventListener("click",addtoCart)     }  )
+  //Array.from(document.getElementsByClassName("cart-item")).forEach( function(item){   item.addEventListener("click",addtoCart)     }  )
+  Array.from(document.getElementsByClassName("btn btn-info btn-sm")).forEach( function(item){   item.addEventListener("click",addtoCart)     }  )
   //////////////// Add an item to the cart ////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////////
   

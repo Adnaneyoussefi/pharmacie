@@ -228,16 +228,22 @@
     <script>
 
     function placeOrder()
-    { let client_infos=[document.getElementById('c_fname'),document.getElementById('c_lname'),document.getElementById('c_address'),document.getElementById('c_phone')]
+    {  
+        let client_infos=[document.getElementById('c_fname'),document.getElementById('c_lname'),document.getElementById('c_address'),document.getElementById('c_phone')]
         if(!client_infos.some(x=>''==x.value.replace(/ */g,''))){
           
-           if(!/^(0[5|6|7])[0-9]{8}$/.test()){ alert('invalid phone number');return;}
+           if(!/^(0[5|6|7])[0-9]{8}$/.test(client_infos[client_infos.length-1].value)){ alert('invalid phone number');return;}
            let order_details=JSON.parse('{{items|json_encode()|raw}}')
-           console.log( [ {"commande":client_infos.map(function(x){ 
+           let commande= {"commande":client_infos.map(function(x){ 
              let c={}
              c[x.id.split('_')[1]]=x.value
              return c
-            })},{"details_commndes":order_details}])
+            })}
+           let details_commande={'details':order_details}; 
+           // let commande=[client_infos.map(x=>x.value),order_details]
+              //console.log(commande)
+           // axios.post('{{path("validateOrder")}}',{infos:JSON.stringify(order_details)}).then((response)=>{console.log(response.data)})
+      
 
         }
         else{

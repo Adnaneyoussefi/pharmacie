@@ -20,9 +20,9 @@
 </button>
         </div></center>
         {% endfor %}
-        <button type="button" class="btn btn-info">
+      <a href="{{path('list_reclamation_client')}}"> <button type="button" class="btn btn-info">
          Reclamations <span class="badge badge-light">{{totalreclamationsclient}}</span>
-        </button><br><br>
+        </button></a><br><br>
         <div class="alert alert-dark" role="alert">
             <center>   <a  class="alert-link"> {{ totalclients }}</a> clients inscrits </center>
         </div>
@@ -51,6 +51,8 @@
                     <th class="product-telephone">tel</th>
 
                     <th class="product-remove">Actions</th>
+                    <th class="product-remove">Statut</th>
+
                   </tr>
                 </thead>
                 <tbody>
@@ -59,12 +61,12 @@
 
                   <tr>
                   
-                    <td class="product-name">
-                      <h2 class="h5 text-black">{{user.nom}}</h2>
+                    <td>
+                      {{user.nom}}
                     </td>
 
                     <td>
-                     <h2 class="h5 text-black"> {{user.prenom}}</h2>
+                     {{user.prenom}}
                     </td>
                     <td> {{user.email}}</td>  
              
@@ -78,7 +80,10 @@
                         <a href="{{ path('listclient_admin_activer',{'id':user.id})}}" class="icons8-coche" onclick="return confirm('Tu es sure de vouloir activer le compte ce client ?')"></a>
                         <a href="{{ path('listclient_admin_desactiver', {'id':user.id})}}" class="icons8-effacer" onclick="return confirm('Tu es sure de vouloir desactiver le code de ce client ?')"></a>
                     </td>
+                    <td>{{user.statut}} </td>  
+
                   </tr>
+
                
                   {% endfor %}                 
                    

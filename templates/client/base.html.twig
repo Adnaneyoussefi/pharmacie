@@ -22,8 +22,14 @@
         
         {% block stylesheets %}
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-
         {% endblock %}
+        <style>
+            .grid{
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                grid-gap: 50px;
+            }
+        </style>
     </head>
     <body>
     <div class="site-wrap">
@@ -54,14 +60,14 @@
                             <ul class="site-menu js-clone-nav d-none d-lg-block" >
                                 <li class="{{ app.request.get('_route') == 'home' ? 'active' }}"><a href="{{ path('home') }}" class="hyper">Acceuil</a></li>
                                 <li class="{{ app.request.get('_route') == 'shop' ? 'active' }}"><a href="{{ path('shop') }}"class="hyper">Marquet</a></li>                            
-                                <li class="has-children">
+                                <li class="{{ app.request.get('_route') == 'cat' ? 'active' }} has-children">
                                 <a href="#" class="hyper">Catégorie</a>
                                 <ul class="dropdown" id='categories'>
                                 </ul>
                                 </li>
-                                <li><a href="{{ path('about') }}" class="hyper">About</a></li>
+                                <li class="{{ app.request.get('_route') == 'about' ? 'active' }}"><a href="{{ path('about') }}" class="hyper">About</a></li>
                                 {% if app.user%}
-                                <li><a href="{{ path('contactclient') }}" class="hyper">Contact</a></li>
+                                <li class="{{ app.request.get('_route') == 'contactclient' ? 'active' }}"><a href="{{ path('contactclient') }}" class="hyper">Contact</a></li>
                                 {% endif %}
                             </ul>
                             </nav>
@@ -105,7 +111,7 @@
                                        {
                                          if(av_id.indexOf(ar[i].id)!==-1)
                                          {
-                                           ar[i].qt=ar[i].qt*1 + av[av_id.indexOf(ar[i].id)].qt*1;
+                                           ar[i].qt=Math.min(ar[i].qt*1 + av[av_id.indexOf(ar[i].id)].qt*1,ar[i].stock );
                                          }
 
                                        }

@@ -23,14 +23,21 @@
                       </div></center>
               {% endfor %}
 
-              
+                
                 {{ form_start(form2) }}
+                
+                <h5 class="text-black">Catégories</h5>
+                <div class="d-inline-block mr-5" style="float: left">
+                {{ form_row(form2.categories, { 'attr' : {'class' : "text-black"} }) }}
+                </div>
+
+                <div class="d-inline-block">
                 {{ form_row(form2.expire, { 'attr' : {'class' : "text-black"} }) }}
                 {{ form_row(form2.epuise, { 'attr' : {'class' : "text-black"} }) }}
-                <h5 class="text-black">Catégories</h5>
-                  {{ form_row(form2.categories, { 'attr' : {'class' : "text-black"} }) }}
-                  
-                  <button class="btn btn-primary btn-block btn-sm" type="submit">Appliquer</button>
+                </div>
+                
+                
+                <button class="btn btn-primary btn-block btn-sm" type="submit">Appliquer</button>
                 {{ form_end(form2) }}
                 <table class="table table-striped">
                     <thead>
