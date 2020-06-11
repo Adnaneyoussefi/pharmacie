@@ -337,6 +337,14 @@ class ClientController extends AbstractController
      */
     public function validateOrder(Request $request){
         //////
+        $resp=json_decode($request->getContent());
+        $commande=$resp->infos[0]->commande;
+        $details_commande=$resp->infos[1]->details;
+        dump($details_commande);
+        dump($details_commande);
+        die();
+
+
         
     }
 }

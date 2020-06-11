@@ -242,7 +242,7 @@
            let details_commande={'details':order_details}; 
            // let commande=[client_infos.map(x=>x.value),order_details]
               //console.log(commande)
-           // axios.post('{{path("validateOrder")}}',{infos:JSON.stringify(order_details)}).then((response)=>{console.log(response.data)})
+           axios.post('{{path("validateOrder")}}',{infos:[commande,details_commande]}).then((response)=>{console.log(0)})
       
 
         }
