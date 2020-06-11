@@ -47,6 +47,9 @@
                     <th class="product-telephone">Adresse</th>
                     <th class="product-telephone">Ville</th>
                     <th class="product-remove">Actions</th>
+                    <th class="product-remove">Statut</th>
+
+
                   </tr>
                 </thead>
                 <tbody>
@@ -54,14 +57,14 @@
                 {% for user in page %}
                   <tr>
                     
-                    <td class="product-name">
-                      <h2 class="h5 text-black"> {{user.proprietaire.nomPharmacie}}</h2>
+                    <td>
+                      {{user.proprietaire.nomPharmacie}}
                     </td>
-                    <td class="product-name">
-                      <h2 class="h5 text-black">{{user.nom}}</h2>
+                    <td>
+                      {{user.nom}}
                     </td>
-                    <td class="product-name">
-                      <h2 class="h5 text-black">{{user.prenom}}</h2>
+                    <td>
+                    {{user.prenom}}
                     </td>
                     <td>{{user.email}}</td>
                     
@@ -73,6 +76,8 @@
                         <a href="{{ path('listpharmacie_admin_activer',{'id':user.id})}}" class="icons8-coche" onclick="return confirm('Tu es sure de vouloir activer le compte de cette pharmacie ?')"></a>
                         <a href="{{ path('listpharmacie_admin_desactiver', {'id':user.id})}}" class="icons8-effacer" onclick="return confirm('Tu es sure de vouloir desactiver le compte de cette pharmacie ?')"></a>
                     </td>
+                    <td>{{user.statut}}</td>
+
                 </tr>
                 {% endfor %}
                 
