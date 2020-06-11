@@ -30,7 +30,18 @@ class DetailsCommandeRepository extends ServiceEntityRepository
             ->setParameter('prop', $user->getProprietaire());
         return $query->getQuery()->getResult();    
     }
+    public function GetNnVente(UserInterface $user)
+    {
+        $entityManager = $this->getEntityManager();
 
+        $query = $entityManager->createQuery(
+            'SELECT count(D.id)
+            FROM App\Entity\DetailsCommande D
+            INNER JOIN App\Entity\produit p
+            WHERE p.proprietaire = :prop'
+              )->setParameter('prop', $user->getProprietaire());
+        return $query->getSingleScalarResult();
+    }
     // /**
     //  * @return DetailsCommande[] Returns an array of DetailsCommande objects
     //  */
