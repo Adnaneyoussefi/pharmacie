@@ -19,6 +19,33 @@ class ReclamationRepository extends ServiceEntityRepository
         parent::__construct($registry, Reclamation::class);
     }
 
+    public function findreclmationsprop(): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT r
+            FROM App\Entity\Reclamation r
+            WHERE r.emmeteur = :prop'
+              )->setParameter('prop', 'prop');
+
+        // returns an array of Product objects
+        return $query->getResult();
+    }
+    public function findreclmationsclient(): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT r
+            FROM App\Entity\Reclamation r
+            WHERE r.emmeteur = :client'
+              )->setParameter('client', 'client');
+
+        // returns an array of Product objects
+        return $query->getResult();
+    }
+
     // /**
     //  * @return Reclamation[] Returns an array of Reclamation objects
     //  */

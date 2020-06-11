@@ -31,6 +31,7 @@ class ClientController extends AbstractController
         $user = new User();
         $user->setRegistredAt(new \DateTime('now'));
         $user->setIsActive(true);
+        $user->setStatut('Activé');
         $form = $this->createForm(UserClientType::class, $user);
         $form->handleRequest($request);
 
@@ -108,7 +109,7 @@ class ClientController extends AbstractController
         $page = $paginator->paginate(
             $produits,
             $request->query->getInt('page', 1),
-            6
+            8
         );
         return $this->render('client/shop.html.twig',[
             'pagetitle'=>'shop',

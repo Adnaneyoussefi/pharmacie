@@ -175,6 +175,28 @@ return $this->render('admin/list-pharmacie.html.twig', [
 ]);
 
     }
+    /**
+     * @Route("/reclamationpharmacie/", name="list_reclamation_pharmacie")
+     */
+    public function listreclamationpharmacie(PaginatorInterface $paginator, Request $request){
+
+        $reclamation = $this->getDoctrine()->getRepository(Reclamation::class)->findreclmationsprop();
+
+
+        $page = $paginator->paginate (
+            $reclamation,
+            $request->query->getInt('page', 1),
+            5
+        );
+       
+    return $this->render('admin/list-reclamation-pharmacie.html.twig', [
+    'controller_name' => 'AdminController',
+    'pagetitle' => 'Liste des reclamation pharmacie',
+    'reclamation'=>$reclamation,
+    'page'=>$page
+    ]);
+}
+
 
       /**
      * @Route("/listpharmacie/{id}", name="listpharmacie_admin_remove")
@@ -204,6 +226,7 @@ return $this->render('admin/list-pharmacie.html.twig', [
        dump($user);
        if($user->getIsActive() === false){
            $user->setIsActive(true);
+           $user->setStatut('Activé');
          $em->persist($user);
           $em->flush();
           $this->addFlash('success', 'Vous avez activé le compte avec succées !');
@@ -226,6 +249,7 @@ return $this->render('admin/list-pharmacie.html.twig', [
        dump($user);
        if($user->getIsActive()=== true){
            $user->setIsActive(false);
+           $user->setStatut('Desactivé');
          $em->persist($user);
           $em->flush();
           $this->addFlash('success', 'Vous avez desactiver le compte avec succées !');
@@ -286,6 +310,25 @@ return $this->render('admin/list-pharmacie.html.twig', [
     ]);
     
     }
+     /**
+     * @Route("/reclamationclient/", name="list_reclamation_client")
+     */
+    public function listreclamationclient(PaginatorInterface $paginator, Request $request){
+
+        $reclamation = $this->getDoctrine()->getRepository(Reclamation::class)->findreclmationsclient();
+
+        $page = $paginator->paginate (
+            $reclamation,
+            $request->query->getInt('page', 1),
+            5
+        );
+    return $this->render('admin/list-reclamation-client.html.twig', [
+    'controller_name' => 'AdminController',
+    'pagetitle' => 'Liste des reclamations client',
+    'reclamation'=>$reclamation,
+    'page'=>$page
+    ]);
+}
 
      /**
      * @Route("/listclient/{id}", name="listclient_admin_remove")
@@ -316,6 +359,7 @@ return $this->render('admin/list-pharmacie.html.twig', [
        dump($user);
        if($user->getIsActive() === false){
            $user->setIsActive(true);
+           $user->setStatut('Activé');
          $em->persist($user);
           $em->flush();
           $this->addFlash('success', 'Vous avez activé le compte avec succées !');
@@ -337,6 +381,7 @@ return $this->render('admin/list-pharmacie.html.twig', [
        dump($user);
        if($user->getIsActive()=== true){
            $user->setIsActive(false);
+           $user->setStatut('Desactivé');
          $em->persist($user);
           $em->flush();
           $this->addFlash('success', 'Vous avez desactiver le compte avec succées !');
