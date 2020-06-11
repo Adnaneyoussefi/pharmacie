@@ -64,14 +64,20 @@ class ProprietaireController extends AbstractController
     /**
      * @Route("/", name="home_proprietaire")
      */
-    public function home()
+    public function home(UserInterface $user)
     {
+        $produit = $this->getDoctrine()->getRepository(Produit::class)->GetNnProduit($user);
+        $vente= $this->getDoctrine()->getRepository(DetailsCommande::class)->GetNnVente($user);
+        dump($vente);
         return $this->render('proprietaire/acceuil.html.twig',[
             'pagetitle'=>'Home',
             'path'=>'home_proprietaire',
+            'produit'=>$produit,
+            'vente'=>$vente
+
         ]);
     }
-
+    
      /**
      * @Route("/contact", name="contactprop")
      */

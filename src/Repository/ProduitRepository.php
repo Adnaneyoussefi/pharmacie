@@ -129,4 +129,15 @@ class ProduitRepository extends ServiceEntityRepository
         ->getResult();     
 
     }
+    public function GetNnProduit(UserInterface $user)
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT count(p.id)
+            FROM App\Entity\Produit p
+            WHERE p.proprietaire = :prop'
+              )->setParameter('prop', $user->getProprietaire());
+        return $query->getSingleScalarResult();
+    }
 }

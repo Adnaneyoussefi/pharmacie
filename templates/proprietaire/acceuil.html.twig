@@ -3,28 +3,35 @@
 {% block body %}
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
        <div class="site-section">
             <div class="container">
             <div style="width :65%">
                   <canvas id="bar-chart" width="800" height="450"></canvas>       
             </div>
             </div>
-            <div style="width :25%;  position: absolute; left: 70%; line-height: 150%; top:200px;">
-                <div class="w3-light-grey">
-                      <p>Visite</p>
-                          <div class="w3-container w3-green w3-center" style="width:25%">25%</div>
-                        </div><br>
-                        <div class="w3-light-grey">
-                      <p>Vente</p>
-                          <div class="w3-container w3-red w3-center" style="width:50%">50%</div>
-                        </div><br>
-                        <div class="w3-light-grey">
-                      <p>Vente</p>
-                          <div class="w3-container w3-blue" style="width:75%">75%</div>
-                        </div><br>
-               </div>
+            <div style="width :100%;  position: absolute; left: 70%; line-height: 150%; top:200px;">
+           
+                      <div class="row">
+                        <div class="col-md-3">
+                          <div class="card-counter primary">
+                            <i class="fa fa-cubes"></i>
+                            <span class="count-numbers">{{produit}}</span>
+                            <span class="count-name">Produit</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-3">
+                          <div class="card-counter info">
+                            <i class="fa  fa-gift"></i>
+                            <span class="count-numbers">{{vente}}</span>
+                            <span class="count-name">Commande</span>
+                          </div>
+                        </div>
+                      </div>
+                      
             </div>
-                  </div>
           <script>
           new Chart(document.getElementById("bar-chart"), {
               type: 'bar',
