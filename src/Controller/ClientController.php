@@ -131,6 +131,14 @@ class ClientController extends AbstractController
            
         ]);
     }
+    /**
+     * @Route("/thankyou", name="thankyou")
+     */
+    public function thankyou()
+    {
+        return $this->render('client/thankyou.html.twig');
+    }
+
 
     /**
      * @Route("/contact", name="contactclient")
@@ -375,9 +383,10 @@ class ClientController extends AbstractController
         $manager = $this->getDoctrine()->getManager();
         $manager->persist($newcommande);
         $manager->flush();
+        return $this->json(1);
 
 
-        die();
+       // die();
 
 
         

@@ -47,10 +47,6 @@
     
               <div class="form-group row mb-5">
                 <div class="col-md-6">
-                  <label for="c_email_address" class="text-black">Email Address <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_email_address" name="c_email_address">
-                </div>
-                <div class="col-md-6">
                   <label for="c_phone" class="text-black">Phone <span class="text-danger">*</span></label>
                   <input type="text" class="form-control" id="c_phone" name="c_phone" placeholder="Phone Number">
                 </div>
@@ -112,11 +108,7 @@
                    
     
                     <div class="form-group row mb-5">
-                      <div class="col-md-6">
-                        <label for="c_diff_email_address" class="text-black">Email Address <span
-                            class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="c_diff_email_address" name="c_diff_email_address">
-                      </div>
+                    
                       <div class="col-md-6">
                         <label for="c_diff_phone" class="text-black">Phone <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="c_diff_phone" name="c_diff_phone"
@@ -243,7 +235,7 @@
            let details_commande={'details':order_details}; 
            // let commande=[client_infos.map(x=>x.value),order_details]
               //console.log(commande)
-           axios.post('{{path("validateOrder")}}',{infos:[commande,details_commande]}).then((response)=>{console.log(0)})
+           axios.post('{{path("validateOrder")}}',{infos:[commande,details_commande]}).then((response)=>{ if(response.data==1) window.location.href='/thankyou' })
       
 
         }
