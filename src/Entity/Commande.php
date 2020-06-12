@@ -39,7 +39,7 @@ class Commande
     private $code_postal;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      */
     private $date_livraison;
 
