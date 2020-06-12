@@ -87,6 +87,11 @@ class Produit
      */
     private $proprietaire;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $created_at;
+
     public function __construct()
     {
         $this->commandes = new ArrayCollection();
@@ -258,6 +263,18 @@ class Produit
     public function setProprietaire(?Proprietaire $proprietaire): self
     {
         $this->proprietaire = $proprietaire;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $created_at): self
+    {
+        $this->created_at = $created_at;
 
         return $this;
     }
