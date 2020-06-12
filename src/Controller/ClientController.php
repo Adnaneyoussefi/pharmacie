@@ -8,9 +8,10 @@ use App\Entity\Produit;
 use App\Entity\Categorie;
 use App\Entity\Reclamation;
 use App\Entity\Proprietaire;
+use App\Entity\Commande;
+use App\Entity\DetailsCommande;
 use App\Form\UserClientType;
 use App\Form\ReclamationType;
-use App\Entity\DetailsCommande;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -344,11 +345,36 @@ class ClientController extends AbstractController
      */
     public function validateOrder(Request $request){
         //////
+        $client=$this->getUser();
         $resp=json_decode($request->getContent());
         $commande=$resp->infos[0]->commande;
         $details_commande=$resp->infos[1]->details;
-        dump($details_commande);
-        dump($commande);
+        $newcommande=new commande();
+        for($i=0;$i<count($details_commande)-1;$i++)
+        {  $details=new DetailsCommande();
+            $details->setQuantite($details_commande[$i]->qt);
+            $details->setDateCommande(new \DateTime('now'));
+            $details->setProduit( $this->getDoctrine()->getManager()->getRepository(Produit::class)->findOneBy(['id' =>$details_commande[$i]->prod_id ]));
+            $newcommande->addProduit($details);
+        
+        }
+        $newcommande->setVille('oujda');
+        $newcommande->setPayment('livraison');
+        $newcommande->setCodePostal('75000');
+        $newcommande->setAdresseLivraison($commande[2]->address);
+        $newcommande->setClient($client->getClient());
+        $newcommande->setDate(new \DateTime('now'));
+        /*$prod=new DetailsCommande();
+        $prod->setProduit( $this->getDoctrine()->getManager()->getRepository(Produit::class)->findOneBy(['id' =>'1']));
+        $prod->setQuantite(5);
+        $prod->setDateCommande(new \DateTime('now'));
+        $newcommande->addProduit($prod);
+        dump($newcommande->getProduits());*/
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($newcommande);
+        $manager->flush();
+
+
         die();
 
 

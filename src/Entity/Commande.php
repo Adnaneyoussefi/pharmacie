@@ -54,7 +54,7 @@ class Commande
     private $client;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\DetailsCommande", mappedBy="commande")
+     * @ORM\OneToMany(targetEntity="App\Entity\DetailsCommande", mappedBy="commande" , cascade={"persist", "remove"})
      */
     private $produits;
 
