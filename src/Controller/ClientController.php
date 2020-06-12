@@ -232,7 +232,12 @@ class ClientController extends AbstractController
      */
     
     public function HandleCheckout(Request $request)
-    {$frm=$request->request->get('form');
+    {   //date commande
+        $DateCommande = new DetailsCommande();
+        $DateCommande->setDateCommande(new \DateTime('now'));
+        //------------------------//
+        
+        $frm=$request->request->get('form');
       //json_decode($frm['items']);
       //die();
       return $this->render('client/chekout.html.twig',['items'=>json_decode($frm['items'])]); 
