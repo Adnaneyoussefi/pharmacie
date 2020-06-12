@@ -114,6 +114,20 @@ class AdminController extends AbstractController
         //nombre des pharmacies/clients par ville
        $client_Oriental = $this->getDoctrine()->getRepository(Client::class)->findOrientale();
        $prop_Oriental = $this->getDoctrine()->getRepository(Proprietaire::class)->findOrientaleProp();
+       //RECLAMATIONS
+       $totalreclamationsprop = $this->getDoctrine()->getRepository(Reclamation::class)->createQueryBuilder('r')
+        ->select('count(r.id)')
+        ->where('r.emmeteur = :emmeteur')
+        ->setParameter('emmeteur', 'prop')
+        ->getQuery()
+        ->getSingleScalarResult();
+        $totalreclamationsclient = $this->getDoctrine()->getRepository(Reclamation::class)->createQueryBuilder('r')
+        ->select('count(r.id)')
+        ->where('r.emmeteur = :emmeteur')
+        ->setParameter('emmeteur', 'client')
+        ->getQuery()
+        ->getSingleScalarResult();
+
         return $this->render('admin/home.html.twig', [
             'controller_name' => 'AdminController',
             'pagetitle'=>'',
@@ -126,6 +140,7 @@ class AdminController extends AbstractController
             'orientalP'=>$prop_Oriental,
             'orientalC'=>$client_Oriental,
             'orientaltotal'=>$client_Oriental+$prop_Oriental,
+            'reclamation'=>$totalreclamationsclient+$totalreclamationsprop
         ]);
    
     }
