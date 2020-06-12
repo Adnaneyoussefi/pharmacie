@@ -364,6 +364,8 @@ class ClientController extends AbstractController
         $newcommande->setAdresseLivraison($commande[2]->address);
         $newcommande->setClient($client->getClient());
         $newcommande->setDate(new \DateTime('now'));
+        $newcommande->setNom($commande[1]->lname);
+        $newcommande->setPrenom($commande[0]->fname);
         /*$prod=new DetailsCommande();
         $prod->setProduit( $this->getDoctrine()->getManager()->getRepository(Produit::class)->findOneBy(['id' =>'1']));
         $prod->setQuantite(5);
