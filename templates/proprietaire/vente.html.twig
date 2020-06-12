@@ -5,18 +5,16 @@
 
         {{ form_start(form2) }}    
             {{ form_row(form2.categories.setRendered()) }}
-
-            <div class="d-inline-block">
-                {{ form_row(form2.expire.setRendered()) }}
-                {{ form_row(form2.epuise.setRendered()) }}
-                {{ form_row(form2.min, { 'attr' : {'class' : "text-black"} }) }}
-                {{ form_row(form2.max, { 'attr' : {'class' : "text-black"} }) }}
-            </div>
+            {{ form_row(form2.expire.setRendered()) }}
+            {{ form_row(form2.epuise.setRendered()) }}
+            {{ form_row(form2.min, { 'attr' : {'class' : "text-black"} }) }}
+            {{ form_row(form2.max, { 'attr' : {'class' : "text-black"} }) }}
                            
             <button class="btn btn-primary btn-block btn-sm" type="submit">Appliquer</button>
         {{ form_end(form2) }}
 
-        {{ knp_pagination_sortable(page, 'Prix', 'v.quantitee')}}
+<i class="fa fa-sort-desc" aria-hidden="true">{{ knp_pagination_sortable(page, 'Quantité', 'quantite')}}</i>
+        
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -29,7 +27,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for ventes in page|reverse %}
+                {% for ventes in page %}
                 <tr>
                     <td>
                         <img src={{ asset('images/' ~ ventes.produit.image) }} alt="Image" style="width: 120px;">
