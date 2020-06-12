@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Entity\Produit;
+use App\Data\SearchData;
+use App\Form\SearchForm;
 use App\Form\ProduitType;
 use App\Form\UserPropType;
 use App\Entity\Reclamation;
@@ -198,17 +200,21 @@ class ProprietaireController extends AbstractController
      */
     public function vente(PaginatorInterface $paginator, UserInterface $user, Request $request)
     {
-        $ventes = $this->getDoctrine()->getRepository(DetailsCommande::class)->findVentes($user);
+        $data = new SearchData();
+        $form2 = $this->createForm(SearchForm::class, $data);
+        $form2->handleRequest($request);
+        
+        $ventes = $this->getDoctrine()->getRepository(DetailsCommande::class)->findVentes($data, $user);
         $page = $paginator->paginate(
             $ventes,
             $request->query->getInt('page', 1),
             1
         );
         return $this->render('proprietaire/vente.html.twig',[
-            'ventes' => $ventes,
             'page'=> $page,
             'pagetitle'=>'Vente',
             'path'=>'home_proprietaire',
+            'form2' => $form2->createView(),
         ]);
     }
 }

@@ -220,7 +220,7 @@ class ClientController extends AbstractController
         ])
         ->add('Chercher', SubmitType::class, array(
             'attr'=>array(
-                'class'=>'btn btn-primary bnt-block','style'=>'margin-left:5px'
+                'class'=>'btn btn-primary','style'=>'margin-left:5px'
             )
             ))
         ->getForm();
@@ -252,7 +252,7 @@ class ClientController extends AbstractController
         $page = $paginator->paginate(
             $produits,
             $request->query->getInt('page', 1),
-            6
+            8
         );
         return $this->render('client/shop.html.twig',[
             'pagetitle'=>'shop',

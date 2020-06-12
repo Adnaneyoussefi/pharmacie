@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Data\SearchData;
 use App\Entity\DetailsCommande;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -20,7 +21,7 @@ class DetailsCommandeRepository extends ServiceEntityRepository
         parent::__construct($registry, DetailsCommande::class);
     }
 
-    public function findVentes(UserInterface $user)
+    public function findVentes(SearchData $search, UserInterface $user)
     {
         $query = $this
             ->createQueryBuilder('d')
@@ -28,6 +29,18 @@ class DetailsCommandeRepository extends ServiceEntityRepository
             ->join('d.produit', 'p')
             ->where('p.proprietaire = :prop')
             ->setParameter('prop', $user->getProprietaire());
+        if(!empty($search->min))
+        {
+            $query = $query
+                ->andWhere('(p.prix_tva + p.prix_ht) * d.quantite >= :min')
+                ->setParameter('min', $search->min);
+        }
+        if(!empty($search->max))
+        {
+            $query = $query
+                ->andWhere('(p.prix_tva + p.prix_ht) * d.quantite <= :max')
+                ->setParameter('max', $search->max);
+        }    
         return $query->getQuery()->getResult();    
     }
     public function GetNnVente(UserInterface $user)

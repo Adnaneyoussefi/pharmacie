@@ -12,6 +12,16 @@ class SearchData
     public $categories = [];
 
     /**
+     * @var null|integer
+     */
+    public $min;
+
+    /**
+     * @var null|integer
+     */
+    public $max;
+
+    /**
      * @var boolean
      */
     public $expire = false;
