@@ -66,14 +66,36 @@ class ProprietaireController extends AbstractController
      */
     public function home(UserInterface $user)
     {
+        $w=[];
         $produit = $this->getDoctrine()->getRepository(Produit::class)->GetNnProduit($user);
         $vente= $this->getDoctrine()->getRepository(DetailsCommande::class)->GetNnVente($user);
-        dump($vente);
+        //commande par date
+      for($j=1; $j<=12; $j++){
+        $us= $this->getDoctrine()->getRepository(DetailsCommande::class)->createQueryBuilder('D')
+        ->select('count(D.id)')
+        ->join('D.produit','p')
+        ->where('p.proprietaire = :prop')
+        ->andwhere('MONTH(D.date_commande) = :date')
+        ->setParameter('prop', $user->getProprietaire())
+        ->setParameter('date',$j)
+        ->getQuery()
+        ->getResult();
+        array_push($w,$us);
+                        }
+        foreach($w as $z=>$zvalue){
+            foreach($zvalue as $s=>$svalue){
+                foreach($svalue as $k=>$kvalue){  
+                    $p[]=$kvalue; 
+                }
+            }
+        }
+        dump($p);
         return $this->render('proprietaire/acceuil.html.twig',[
             'pagetitle'=>'Home',
             'path'=>'home_proprietaire',
             'produit'=>$produit,
-            'vente'=>$vente
+            'vente'=>$vente,
+            'p'=>$p
 
         ]);
     }
