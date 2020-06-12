@@ -230,7 +230,7 @@ class ProprietaireController extends AbstractController
         $page = $paginator->paginate(
             $ventes,
             $request->query->getInt('page', 1),
-            1
+            3
         );
         return $this->render('proprietaire/vente.html.twig',[
             'page'=> $page,

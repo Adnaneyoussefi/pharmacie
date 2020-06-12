@@ -41,16 +41,19 @@
                 
                 <button class="btn btn-primary btn-block btn-sm" type="submit">Appliquer</button>
                 {{ form_end(form2) }}
+
+
+                {{ knp_pagination_sortable(page, 'Date d\'enregistrement', 'created_at')}}
                 <table class="table table-striped">
                     <thead>
                       <tr>
                         <th>Image</th>
-                        <th>Nom</th>
-                        <th>Description</th>
-                        <th>PRIX_HT</th>
-                        <th>PRIX_TVA</th>
-                        <th>Quantité</th>
-                        <th>Date d'expiration</th>
+                        <th>{{ knp_pagination_sortable(page, 'Nom', 'nom')}}</th>
+                        <th>{{ knp_pagination_sortable(page, 'Description', 'description')}}</th>
+                        <th>{{ knp_pagination_sortable(page, 'PRIX_HT', 'prix_ht')}}</th>
+                        <th>{{ knp_pagination_sortable(page, 'PRIX_TVA', 'prix_tva')}}</th>
+                        <th>{{ knp_pagination_sortable(page, 'Quantité', 'quantite')}}</th>
+                        <th>{{ knp_pagination_sortable(page, 'Date d\'expiration', 'DateExpiration')}}</th>
                         <th>Action</th>
                       </tr>
                     </thead>
