@@ -182,7 +182,7 @@
        <center> <h3> Les produits qui correspond a cette pharmacie </h3></center>
       <div class="container">
          <div class="row">
-            {% for produits in produits %}
+            {% for produits in page %}
               <div class="col-lg-3 col-md-6 mt-3">
                 <div class="card">
                   <div class="card-body text-center item mb-4" id="p-{{produits.id}}" >
@@ -197,7 +197,10 @@
 
 
          {% endfor %}
-         </div> 
+         </div> <br>
+         <div class:"navigation">
+              {{ knp_pagination_render(page)}}
+              </div>
          </div>
 
 
