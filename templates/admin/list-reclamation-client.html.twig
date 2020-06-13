@@ -1,6 +1,13 @@
 {% extends 'admin/base.html.twig' %}
 
 {% block body %}
+<style>
+.icons8-poubelle{
+  position:absolute;
+  top:15px;
+  right:50px;
+}
+</style>
 <br>
 <center><h2> Reclamations </h2></center>
 <br>
@@ -8,6 +15,7 @@
 <div class="card">
   <div class="card-header">
     <h4>Titre du reclamation : {{reclamation.sujet}}</h4>
+<a href="{{ path('list_reclamation_client_remove',{'id':reclamation.id})}}" class="icons8-poubelle" onclick="return confirm('Tu es sure de vouloir supprimer cette reclamation ?')"></a>
   </div>
   <div class="card-body">
     <blockquote class="blockquote mb-0">
