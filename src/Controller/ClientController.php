@@ -305,7 +305,7 @@ class ClientController extends AbstractController
     /**
      * @Route("profilepharma/{id}", name="profile")
      */
-    public function profile($id) {
+    public function profile($id, Request $request, PaginatorInterface $paginator) {
         $proprietaire = $this->getDoctrine()->getRepository(Proprietaire::class)->findBy(['id'=>$id]);
         $produits= $this->getDoctrine()->getRepository(Produit::class)->createQueryBuilder('p')
         ->select('p')
@@ -314,10 +314,16 @@ class ClientController extends AbstractController
         ->getQuery()
         ->getResult();
         dump($produits);
+        $page = $paginator->paginate(
+            $produits,
+            $request->query->getInt('page', 1),
+            12
+        );
         return $this->render('client/detailspharmacie.html.twig',[
             'pagetitle'=>'profile',
             'proprietaire'=>$proprietaire[0],
-            'produits' =>$produits,          
+            'produits' =>$produits, 
+            'page'=>$page         
             ]);
     }
 
