@@ -366,7 +366,7 @@ class ClientController extends AbstractController
             $newcommande->addProduit($details);
         
         }
-        $newcommande->setVille('oujda');
+        $newcommande->setVille($commande[3]->ville);
         $newcommande->setPayment('livraison');
         $newcommande->setCodePostal('75000');
         $newcommande->setAdresseLivraison($commande[2]->address);

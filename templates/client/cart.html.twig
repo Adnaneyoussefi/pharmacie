@@ -135,6 +135,11 @@ function SubmitOrder()
         window.location.href="login"
         return
       }
+      if(![...document.getElementsByClassName('items_')].length)
+      {  alert('cart is empty');
+        return;
+
+      }
   let items=[...document.getElementsByClassName('items_')]
   if(!items.length) {console.log(0);return}
   let data=items.map((item)=>{return {prop:item.id.split('-')[1],prod_name:item.querySelector('.product_name').innerText,prod_id:item.id.split('-')[0],price:item.querySelector('.price').innerHTML,qt:item.querySelector('#tot').innerHTML/item.querySelector('.price').innerHTML}})

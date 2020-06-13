@@ -37,11 +37,11 @@
                   <label for="c_address" class="text-black">Address <span class="text-danger">*</span></label>
                   <input type="text" class="form-control" id="c_address" name="c_address" placeholder="Street address">
                 </div>
+                
               </div>
+
     
-              <div class="form-group">
-                <input type="text" class="form-control" placeholder="Apartment, suite, unit etc. (optional)">
-              </div>
+             
     
           
     
@@ -50,24 +50,13 @@
                   <label for="c_phone" class="text-black">Phone <span class="text-danger">*</span></label>
                   <input type="text" class="form-control" id="c_phone" name="c_phone" placeholder="Phone Number">
                 </div>
+                <div class="col-md-6">
+                  <label for="c_diff_address" class="text-black">Ville <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="c_ville" name="c_ville"
+                    placeholder="ville">
               </div>
     
-              <div class="form-group">
-                <label for="c_create_account" class="text-black" data-toggle="collapse" href="#create_an_account"
-                  role="button" aria-expanded="false" aria-controls="create_an_account"><input type="checkbox" value="1"
-                    id="c_create_account"> Create an account?</label>
-                <div class="collapse" id="create_an_account">
-                  <div class="py-2">
-                    <p class="mb-3">Create an account by entering the information below. If you are a returning customer
-                      please login at the top of the page.</p>
-                    <div class="form-group">
-                      <label for="c_account_password" class="text-black">Account Password</label>
-                      <input type="email" class="form-control" id="c_account_password" name="c_account_password"
-                        placeholder="">
-                    </div>
-                  </div>
-                </div>
-              </div>
+            
     
     
               <div class="form-group">
@@ -98,12 +87,13 @@
                         <label for="c_diff_address" class="text-black">Address <span class="text-danger">*</span></label>
                         <input type="text" class="form-control" id="c_diff_address" name="c_diff_address"
                           placeholder="Street address">
+                          
+                      </div>
+                      
                       </div>
                     </div>
     
-                    <div class="form-group">
-                      <input type="text" class="form-control" placeholder="Apartment, suite, unit etc. (optional)">
-                    </div>
+                   
     
                    
     
@@ -221,7 +211,7 @@
 
     function placeOrder()
     {  
-        let client_infos=[document.getElementById('c_fname'),document.getElementById('c_lname'),document.getElementById('c_address'),document.getElementById('c_phone')]
+        let client_infos=[document.getElementById('c_fname'),document.getElementById('c_lname'),document.getElementById('c_address'),document.getElementById('c_ville'),document.getElementById('c_phone')]
         if(!client_infos.some(x=>''==x.value.replace(/ */g,''))){
           
            if(!/^(0[5|6|7])[0-9]{8}$/.test(client_infos[client_infos.length-1].value)){ alert('invalid phone number');return;}
@@ -235,7 +225,12 @@
            let details_commande={'details':order_details}; 
            // let commande=[client_infos.map(x=>x.value),order_details]
               //console.log(commande)
-           axios.post('{{path("validateOrder")}}',{infos:[commande,details_commande]}).then((response)=>{ if(response.data==1) window.location.href='/thankyou' })
+           axios.post('{{path("validateOrder")}}',{infos:[commande,details_commande]}).then((response)=>{ if(response.data==1){
+             let storage=JSON.parse(localStorage.getItem("my_cart_infos"));
+            let index=storage.map(x=>x.id).indexOf(idd);
+            storage.splice(index,1);
+            localStorage.setItem("my_cart_infos",JSON.stringify(storage));
+             window.location.href='/thankyou' }})
       
 
         }
