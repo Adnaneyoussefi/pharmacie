@@ -123,13 +123,16 @@ button:hover, a:hover {
               <img src="{{asset('images/'~produit.image)}}" alt="Image" style="max-height:250px">
               <h5>{{produit.nom}}</h5>
               <p class="price">{{produit.prixtva + produit.prixht}} DH</p>
-              <a class="btn btn-outline-success rounded-0" href=" {{path('details', {'id':produit.id})}}" role="button">Découvrir</a>
+              <a class="btn btn-success" href=" {{path('details', {'id':produit.id})}}" role="button">Découvrir</a>
             </div>
           </div>
         </div>
         {% endfor %}
     </div>
 </div>
+<br><br>
+<center><a href="{{path('shop')}}" type="button" class="btn btn-success "> afficher tous </a></center>
+
       <br><hr><br>
 <center><h1> Les dernieres pharmacies inscrites </h1></center>
 <br><br>
@@ -151,7 +154,7 @@ button:hover, a:hover {
 {% endfor %}
 </div>
 <br><br>
-<center><a href="{{path('toutpharmacies')}}"> afficher tous </a></center>
+<center><a href="{{path('toutpharmacies')}}" type="button" class="btn btn-dark"> afficher tous </a></center>
 
 
     <div class="site-section">
