@@ -112,6 +112,7 @@ button:hover, a:hover {
         </div>
       </div>
     </div>
+    {% if produits %}
 <center><h1> Les derniers produits ajoutés </h1></center>
 <br><br>
 <div class="container">
@@ -134,6 +135,9 @@ button:hover, a:hover {
 <center><a href="{{path('shop')}}" type="button" class="btn btn-success "> afficher tous </a></center>
 
       <br><hr><br>
+{% else %}
+{% endif %}
+{% if pharmacie %}
 <center><h1> Les dernieres pharmacies inscrites </h1></center>
 <br><br>
 <div class="cards">
@@ -155,8 +159,8 @@ button:hover, a:hover {
 </div>
 <br><br>
 <center><a href="{{path('toutpharmacies')}}" type="button" class="btn btn-dark"> afficher tous </a></center>
-
-
+ {% else %}
+{% endif %}
     <div class="site-section">
       <div class="container">
         <div class="row">
