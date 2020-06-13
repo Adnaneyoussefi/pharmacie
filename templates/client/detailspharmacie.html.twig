@@ -179,6 +179,7 @@
                 </div>
             </form>           
         </div>
+        {% if produits %}
        <center> <h3> Les produits qui correspond a cette pharmacie </h3></center>
       <div class="container">
          <div class="row">
@@ -197,6 +198,10 @@
 
 
          {% endfor %}
+
+         {% else %}
+                <center> <h3> Cette pharmacie n'a aucun produit  </h3></center>
+        {% endif %}
          </div> <br>
          <div class:"navigation">
               {{ knp_pagination_render(page)}}
