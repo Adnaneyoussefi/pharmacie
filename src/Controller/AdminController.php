@@ -212,6 +212,22 @@ return $this->render('admin/list-pharmacie.html.twig', [
     ]);
 }
 
+       /**
+     * @Route("/reclamationpharmacie/{id}", name="list_reclamation_pharmacie_remove")
+     */
+
+    public function deletreclamationpharmacie($id) {
+
+        $em = $this->getDoctrine()->getManager(); 
+        $reclamation = $em->getRepository(Reclamation::class)->findOneBy(['id' => $id]);
+       dump($reclamation);
+         $em->remove($reclamation);
+          $em->flush();
+          $this->addFlash('success', 'Vous avez supprimer la reclamation!');
+    
+         return $this->redirectToRoute('list_reclamation_pharmacie');
+    }
+
 
       /**
      * @Route("/listpharmacie/{id}", name="listpharmacie_admin_remove")
@@ -343,6 +359,20 @@ return $this->render('admin/list-pharmacie.html.twig', [
     'reclamation'=>$reclamation,
     'page'=>$page
     ]);
+}
+     /**
+     * @Route("/reclamationclient/{id}", name="list_reclamation_client_remove")
+     */
+
+public function deletreclamationclient($id) {
+
+    $em = $this->getDoctrine()->getManager(); 
+    $reclamation = $em->getRepository(Reclamation::class)->findOneBy(['id' => $id]);
+   dump($reclamation);
+     $em->remove($reclamation);
+      $em->flush();
+      $this->addFlash('success', 'Vous avez supprimer la reclamation!');
+     return $this->redirectToRoute('list_reclamation_client');
 }
 
      /**
