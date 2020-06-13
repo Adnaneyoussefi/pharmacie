@@ -79,8 +79,39 @@ class ProduitRepository extends ServiceEntityRepository
         }
         return $query->getQuery()->getResult();    
     }
-     public function search($crit,$ville)
-     {  if($ville=='all')
+
+    public function search($crit,$ville,$min,$max)
+    {
+        $query = $this
+            ->createQueryBuilder('p')
+            ->leftjoin('p.proprietaire','u')
+            ->where('p.date_expiration > CURRENT_DATE()');
+        if(!empty($crit))
+        {
+            $query = $query
+                ->andWhere('p.nom LIKE :crit')
+                ->setParameter('crit',$crit.'%');
+        }
+        if(!empty($ville))
+        {
+            $query = $query
+            ->andWhere('u.ville=:ville')
+            ->setParameter('ville',$ville);
+        }
+        if(!empty($min))
+        {
+            $query = $query
+            ->andWhere('p.prix_tva + p.prix_ht >= :min')
+            ->setParameter('min', $min);
+        }
+        if(!empty($max))
+        {
+            $query = $query
+            ->andWhere('p.prix_tva + p.prix_ht <= :max')
+            ->setParameter('max', $max);
+        }
+        return $query->getQuery()->getResult();
+        /*if($ville=='all')
         {return $this->createQueryBuilder("p")->where('p.nom LIKE :crit')
                                                 ->setParameter('crit',$crit.'%')
                                                 ->getQuery()
@@ -94,9 +125,7 @@ class ProduitRepository extends ServiceEntityRepository
             ->setParameter('crit',$crit.'%')
             ->getQuery()
             ->getResult();       
-        }                                        
-
-
+        }        */                                
      }
      public function getLastProduct(){
      $entityManager = $this->getEntityManager();

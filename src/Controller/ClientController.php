@@ -5,19 +5,20 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Entity\Visite;
 use App\Entity\Produit;
+use App\Entity\Commande;
 use App\Entity\Categorie;
 use App\Entity\Reclamation;
 use App\Entity\Proprietaire;
-use App\Entity\Commande;
-use App\Entity\DetailsCommande;
 use App\Form\UserClientType;
 use App\Form\ReclamationType;
+use App\Entity\DetailsCommande;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -199,12 +200,13 @@ class ClientController extends AbstractController
 
         // class="form-control my-0 py-1 amber-border" type="text" placeholder="Search" aria-label="Search"
         $form=$this->createFormBuilder(null)
+        ->setAction($this->generateUrl('HandleSearch'))
         ->add('crit',TextType::class, array('label' => false,'required'=>false,'attr' => array(
             'placeholder' => 'search for a product','style'=>'width:350px'
         )))
         ->add('ville', ChoiceType::class,[
             'choices'  => [
-                'toutes les villes'=>'all',
+                'toutes les villes'=> false,
                 'Casablanca' => 'Casablanca',
                 'Fès' => 'Fès',
                 'Salé' => 'Salé',
@@ -228,9 +230,23 @@ class ClientController extends AbstractController
                 'Autre...' => 'Autre',
             ],'label'=>false
         ])
+        ->add('min', NumberType::class, [
+            'label' => false,
+            'required' => false,
+            'attr' => [
+                'placeholder' => 'Min'
+            ]
+        ])
+        ->add('max', NumberType::class, [
+            'label' => false,
+            'required' => false,
+            'attr' => [
+                'placeholder' => 'Max'
+            ]
+        ])
         ->add('Chercher', SubmitType::class, array(
             'attr'=>array(
-                'class'=>'btn btn-primary','style'=>'margin-left:5px'
+                'class'=>'btn btn-primary mt-2'
             )
             ))
         ->getForm();
@@ -262,7 +278,7 @@ class ClientController extends AbstractController
     {    $frm=$request->request->get('form');
         
         
-        $produits=$this->getDoctrine()->getRepository(Produit::class)->search($frm['crit'],$frm['ville']);
+        $produits=$this->getDoctrine()->getRepository(Produit::class)->search($frm['crit'], $frm['ville'], $frm['min'], $frm['max']);
        
         $page = $paginator->paginate(
             $produits,
