@@ -344,6 +344,20 @@ return $this->render('admin/list-pharmacie.html.twig', [
     'page'=>$page
     ]);
 }
+     /**
+     * @Route("/reclamationclient/{id}", name="list_reclamation_client_remove")
+     */
+
+public function deletreclamationclient($id) {
+
+    $em = $this->getDoctrine()->getManager(); 
+    $reclamation = $em->getRepository(Reclamation::class)->findOneBy(['id' => $id]);
+   dump($reclamation);
+     $em->remove($reclamation);
+      $em->flush();
+
+     return $this->redirectToRoute('list_reclamation_client');
+}
 
      /**
      * @Route("/listclient/{id}", name="listclient_admin_remove")
