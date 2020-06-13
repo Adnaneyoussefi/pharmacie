@@ -200,4 +200,84 @@
          </div> 
          </div>
 
+
+
+
+<script>
+  console.log(idd);
+	   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//   console.log(JSON.parse(localStorage.getItem("my_cart_infos")).filter( x=>x.id==idd).map(y=>y.items)[0].reduce(function(acc,v){return {qt:acc.qt+v.qt}}).qt);
+  var addtoCart=function(){
+  let storage=localStorage.getItem("my_cart_infos");
+   //let parent=this.parentElement.getAttribute("id");
+   console.log(this.getAttribute('id').replace('b','p-'))
+   //return
+   let data=document.getElementById(this.getAttribute('id').replace('b','p-'));
+   let prodName;
+   let prodId;
+   let prodPrice;
+   let prodImage;
+   let prodProp;
+   let stck;
+   let incr=1;
+    for (let i = 0; i < data.children.length; i++) {
+    switch (data.children[i].tagName)
+	{
+	  case 'H3':
+	  prodName=data.children[i].innerHTML;
+	  prodId=data.children[i].id;
+	  break;
+	  case 'IMG':
+	  prodImage= data.children[i].src;
+	  break;
+	  case 'P':
+	  prodPrice= data.children[i].dataset.price;
+    prodProp=data.children[i].dataset.pr;
+    stck=data.children[i].dataset.max;
+    console.log(data.children[i].dataset)
+	  break;
+	
+	}
+	}
+   let storage_data={prod_name:prodName,prop:prodProp,price:prodPrice,image:prodImage,id:prodId,qt:1,stock:stck};
+   let items_table=(!storage)?[]:JSON.parse(storage);
+     console.log(stck);
+   if( items_table.map(x=>x.id).indexOf(idd)==-1)
+   {  
+     
+	  items_table.push({id:idd,items:[storage_data]});
+   
+   }
+   else{
+     let index=items_table.map(x=>x.id).indexOf(idd);
+	 if( items_table[index].items.map(x=>x.id).indexOf(prodId)==-1 )
+     items_table[index].items.push(storage_data);
+	 else {
+     if(items_table[index].items[items_table[index].items.map(x=>x.id).indexOf(prodId)].qt<stck-1)
+     
+     {items_table[index].items[items_table[index].items.map(x=>x.id).indexOf(prodId)].qt++;incr--;}
+   }
+ 
+   }
+
+   localStorage.setItem("my_cart_infos", JSON.stringify(items_table));
+   alert(" product  has been added to your cart!!");
+   
+   //CartProdNumber();//update product numbers in the cart
+   let cart=document.getElementById("my-cart");
+  // cart.childNodes[3].innerHTML=cart.childNodes[3].innerHTML*1+incr;
+  if(storage && JSON.parse(storage).filter( x=>x.id==idd).length )
+   {cart.childNodes[3].innerHTML=JSON.parse(storage).filter( x=>x.id==idd).map(y=>y.items)[0].reduce(function(acc,v){return {qt:acc.qt*1 +v.qt*1}}).qt*1 +1}
+   else
+   {cart.childNodes[3].innerHTML++;}
+  
+  }
+  //Array.from(document.getElementsByClassName("cart-item")).forEach( function(item){   item.addEventListener("click",addtoCart)     }  )
+  Array.from(document.getElementsByClassName("btn btn-info btn-sm")).forEach( function(item){   item.addEventListener("click",addtoCart)     }  )
+  //////////////// Add an item to the cart ////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////////
+  
+  </script>
+
 {% endblock %}
