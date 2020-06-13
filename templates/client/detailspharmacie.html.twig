@@ -179,5 +179,25 @@
                 </div>
             </form>           
         </div>
+       <center> <h3> Les produits qui correspond a cette pharmacie </h3></center>
+      <div class="container">
+         <div class="row">
+            {% for produits in produits %}
+              <div class="col-lg-3 col-md-6 mt-3">
+                <div class="card">
+                  <div class="card-body text-center item mb-4" id="p-{{produits.id}}" >
+                    <img src="{{asset('images/'~produits.image)}}" alt="Image" class="cart-item" style="max-height:150px">
+                    <h3 class="text-dark" id="{{produits.id}}">{{produits.nom}}</a></h3>
+                    <a href=" {{path('details', {'id':produits.id})}}" class="btn btn-outline-primary btn-sm"> Details </a> 
+                    <p class="price" data-price="{{produits.prixtva}}" data-pr="{{produits.proprietaire.id}}" data-max='{{produits.quantite}}' style="font-weight:bold;color:#008CB6">{{produits.prixtva + produits.prixht}} DH ttc</p>
+                    <a href="#" class="btn btn-info btn-sm" class='additem' id='b{{produits.id}}'>Ajouter au panier</a>
+                  </div>
+                </div>
+              </div>
+
+
+         {% endfor %}
+         </div> 
+         </div>
 
 {% endblock %}
