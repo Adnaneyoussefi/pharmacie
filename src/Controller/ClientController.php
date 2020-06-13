@@ -307,9 +307,17 @@ class ClientController extends AbstractController
      */
     public function profile($id) {
         $proprietaire = $this->getDoctrine()->getRepository(Proprietaire::class)->findBy(['id'=>$id]);
+        $produits= $this->getDoctrine()->getRepository(Produit::class)->createQueryBuilder('p')
+        ->select('p')
+        ->where('p.proprietaire = :prop')
+        ->setParameter('prop', $id)
+        ->getQuery()
+        ->getResult();
+        dump($produits);
         return $this->render('client/detailspharmacie.html.twig',[
             'pagetitle'=>'profile',
             'proprietaire'=>$proprietaire[0],
+            'produits' =>$produits,          
             ]);
     }
 
