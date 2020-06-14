@@ -45,14 +45,14 @@ class SearchForm extends AbstractType
                 'label' => false,
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'Prix min'
+                    'placeholder' => 'Min'
                 ]
             ])
             ->add('max', NumberType::class, [
                 'label' => false,
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'Prix max'
+                    'placeholder' => 'Max'
                 ]
             ])
             ->add('expire', CheckboxType::class, [

@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\UserType;
 use App\Entity\Produit;
 use App\Data\SearchData;
+use App\Entity\Commande;
 use App\Form\SearchForm;
 use App\Form\ProduitType;
 use App\Form\UserPropType;
@@ -226,15 +227,38 @@ class ProprietaireController extends AbstractController
         $form2 = $this->createForm(SearchForm::class, $data);
         $form2->handleRequest($request);
         
-        $ventes = $this->getDoctrine()->getRepository(DetailsCommande::class)->findVentes($data, $user);
+        $commandes = $this->getDoctrine()->getRepository(Commande::class)->findVentes($data, $user);
         $page = $paginator->paginate(
-            $ventes,
+            $commandes,
             $request->query->getInt('page', 1),
-            3
+            6
         );
         return $this->render('proprietaire/vente.html.twig',[
             'page'=> $page,
             'pagetitle'=>'Vente',
+            'path'=>'home_proprietaire',
+            'form2' => $form2->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/commande", name="commande_proprietaire")
+     */
+    public function commande(PaginatorInterface $paginator, UserInterface $user, Request $request)
+    {
+        $data = new SearchData();
+        $form2 = $this->createForm(SearchForm::class, $data);
+        $form2->handleRequest($request);
+        
+        $commandes = $this->getDoctrine()->getRepository(Commande::class)->findVentes($data, $user);
+        $page = $paginator->paginate(
+            $commandes,
+            $request->query->getInt('page', 1),
+            6
+        );
+        return $this->render('proprietaire/commande.html.twig',[
+            'page'=> $page,
+            'pagetitle'=>'Commande',
             'path'=>'home_proprietaire',
             'form2' => $form2->createView(),
         ]);

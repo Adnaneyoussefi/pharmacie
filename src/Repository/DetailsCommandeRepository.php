@@ -21,28 +21,6 @@ class DetailsCommandeRepository extends ServiceEntityRepository
         parent::__construct($registry, DetailsCommande::class);
     }
 
-    public function findVentes(SearchData $search, UserInterface $user)
-    {
-        $query = $this
-            ->createQueryBuilder('d')
-            ->select('p','d')
-            ->join('d.produit', 'p')
-            ->where('p.proprietaire = :prop')
-            ->setParameter('prop', $user->getProprietaire());
-        if(!empty($search->min))
-        {
-            $query = $query
-                ->andWhere('(p.prix_tva + p.prix_ht) * d.quantite >= :min')
-                ->setParameter('min', $search->min);
-        }
-        if(!empty($search->max))
-        {
-            $query = $query
-                ->andWhere('(p.prix_tva + p.prix_ht) * d.quantite <= :max')
-                ->setParameter('max', $search->max);
-        }    
-        return $query->getQuery()->getResult();    
-    }
     public function GetNnVente(UserInterface $user)
     {
         $entityManager = $this->getEntityManager();

@@ -2,9 +2,11 @@
 
 namespace App\Repository;
 
+use App\Data\SearchData;
 use App\Entity\Commande;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Commande|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,6 +19,31 @@ class CommandeRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Commande::class);
+    }
+
+    public function findVentes(SearchData $search, UserInterface $user)
+    {
+        $query = $this
+            ->createQueryBuilder('c')
+            ->select('d','c')
+            ->join('c.produits', 'd')
+            ->join('d.produit', 'p')
+            ->where('p.proprietaire = :prop')
+            ->orderBy('c.date', 'DESC')
+            ->setParameter('prop', $user->getProprietaire());
+        if(!empty($search->min))
+        {
+            $query = $query
+                ->andWhere('(p.prix_tva + p.prix_ht) * d.quantite >= :min')
+                ->setParameter('min', $search->min);
+        }
+        if(!empty($search->max))
+        {
+            $query = $query
+                ->andWhere('(p.prix_tva + p.prix_ht) * d.quantite <= :max')
+                ->setParameter('max', $search->max);
+        }    
+        return $query->getQuery()->getResult();    
     }
 
     // /**
