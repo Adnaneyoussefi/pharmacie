@@ -1,4 +1,8 @@
 /* Base */
+.site-navbar .site-navigation .site-menu .connexion > a {
+  position: relative;
+  padding-right: 20px; 
+}
 /* CSS d'icone desactiver */
 .icons8-effacer { 
   display: inline-block;
