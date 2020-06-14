@@ -15,30 +15,41 @@
 
         <i class="fa my-3" style="font-weight:bold">{{ knp_pagination_sortable(page, 'Quantité', 'produit.prix_tva')}}</i>
         
-        <table class="table">
+        <table class="table table-bordered">
             <thead>
+                <tr>
+                    <td>Description</td>
+                    <td>Prix</td>
+                    <td>Prix total</td>
+                </tr>  
+            </thead>  
+            <tbody>   
             {% for commande in page %}
                 <tr class="table-active">
-                    <td><strong>Email client :</strong>{{ commande.client.user.email }}
+                    <td colspan="3"><strong>Email client :</strong>{{ commande.client.user.email }}
                      <strong>Nom complet: </strong>{{ commande.client.user.nom }} {{ commande.client.user.prenom }}</td>
                 </tr>
                 <tr>
-                    <td><strong>No commande: {{ commande.id }}</strong> <span style="color:#999">{{ commande.date | date('d/m/Y') }}</span></td>
+                    <td colspan="3"><strong>No commande: {{ commande.id }}</strong> <span style="color:#999">{{ commande.date | date('d/m/Y') }}</span></td>
                 </tr>
-            </thead>
+            </tbody>    
             <tbody>   
             {% for d in commande.produits %}     
                 <tr>
                     <td>
                         <img src={{ asset('images/' ~ d.produit.image) }} alt="Image" style="width: 120px;">
+                        <div class="d-inline-block">
+                        <div>{{ d.produit.nom }}</div>
+                        <span style="color:#999">QTE</span> {{ d.quantite }}
+                        </div>
                     </td>
-                    <td>{{ d.produit.nom }}</td>
-                    <td><span style="color:#999">QTE</span> {{ d.quantite }}</td>
+                                        
                     <td><strong>{{ (d.produit.prixtva + d.produit.prixht) * d.quantite }} Dhs</strong></td>
-                    <td>
-                        <a href="#" class="btn btn-outline-primary btn-sm d-block mb-2" style="width: 100px">Livrer</a>
-                        <a href="#" class="btn btn-outline-info btn-sm d-block" style="width: 100px">Terminer</a>
+                    {% if loop.first %}
+                    <td rowspan={{page|length}}>
+                        
                     </td>
+                    {% endif %}
                 </tr>
             {% endfor %}
             {% endfor %}

@@ -2,47 +2,35 @@
 {% block body %}
 <div class="site-section">
     <div class="container">
-
-        {{ form_start(form2, { 'attr' : {'class' : "form-inline"} }) }}    
-            {{ form_row(form2.categories.setRendered()) }}
-            {{ form_row(form2.expire.setRendered()) }}
-            {{ form_row(form2.epuise.setRendered()) }}
-            Prix: {{ form_widget(form2.min, { 'attr' : {'class' : "text-black mx-3"} }) }}
-            {{ form_widget(form2.max, { 'attr' : {'class' : "text-black"} }) }}
-                           
-            <button class="btn btn-primary btn-block btn-sm mt-2" type="submit">Appliquer</button>
-        {{ form_end(form2) }}
-
-        <i class="fa my-3" style="font-weight:bold">{{ knp_pagination_sortable(page, 'Quantité', 'produit.prix_tva')}}</i>
         
         <table class="table">
+        {% for commande in page %}
             <thead>
-            {% for commande in page %}
                 <tr class="table-active">
-                    <td><strong>Email client :</strong>{{ commande.client.user.email }}
+                    <td colspan="5"><strong>Email client :</strong>{{ commande.client.user.email }}
                      <strong>Nom complet: </strong>{{ commande.client.user.nom }} {{ commande.client.user.prenom }}</td>
                 </tr>
                 <tr>
-                    <td><strong>No commande: {{ commande.id }}</strong> <span style="color:#999">{{ commande.date | date('d/m/Y') }}</span></td>
+                    <td colspan="5"><strong>No commande: {{ commande.id }}</strong> <span class="text-muted">{{ commande.date | date('d/m/Y') }}</span></td>
                 </tr>
             </thead>
+            {% for d in commande.produits %}
             <tbody>   
-            {% for d in commande.produits %}     
                 <tr>
                     <td>
                         <img src={{ asset('images/' ~ d.produit.image) }} alt="Image" style="width: 120px;">
                     </td>
                     <td>{{ d.produit.nom }}</td>
-                    <td><span style="color:#999">QTE</span> {{ d.quantite }}</td>
+                    <td><span class="text-muted">QTE</span> {{ d.quantite }}</td>
                     <td><strong>{{ (d.produit.prixtva + d.produit.prixht) * d.quantite }} Dhs</strong></td>
                     <td>
                         <a href="#" class="btn btn-outline-primary btn-sm d-block mb-2" style="width: 100px">Livrer</a>
                         <a href="#" class="btn btn-outline-info btn-sm d-block" style="width: 100px">Terminer</a>
                     </td>
                 </tr>
-            {% endfor %}
-            {% endfor %}
             </tbody>
+            {% endfor %}
+        {% endfor %}
         </table>
         <div class:"navigation">
             {{ knp_pagination_render(page)}}
