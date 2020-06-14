@@ -1,13 +1,14 @@
 
 <div class='search d-flex justify-content-center'>
-{{ form_start(form, {'attr': {'id': 'search_form', 'placeholder':'searh a product','class':'form-inline','style': 'display:inline;margin:0px auto'}}) }}
+{{ form_start(form, {'attr': {'id': 'search_form', 'placeholder':'chercher un produit','class':'form-inline','style': 'display:inline;margin:0px auto'}}) }}
     {{ form_widget(form.crit) }}
     {{ form_widget(form.ville) }}
     <div class="d-block">
     Prix: {{ form_widget(form.min, { 'attr' : {'class' : "my-2"} }) }}  
-    {{ form_widget(form.max) }}    
+    {{ form_widget(form.max) }}  
+    {{ form_widget(form.Chercher,{'attr':{'style':'margin-bottom:9px'}}) }}  
     </div>
-    {{ form_row(form.Chercher) }} 
+    
   
 {{ form_end(form) }}
 </div>
