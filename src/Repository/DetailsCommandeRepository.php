@@ -33,6 +33,19 @@ class DetailsCommandeRepository extends ServiceEntityRepository
               )->setParameter('prop', $user->getProprietaire());
         return $query->getSingleScalarResult();
     }
+
+    public function findPrixTotal(UserInterface $user)
+    {
+        $query = $this
+            ->createQueryBuilder('d')
+            ->join('d.produit', 'p')
+            ->leftjoin('d.commande', 'c')
+            ->where('p.proprietaire = :prop')
+            ->groupBy('d.commande')
+            ->setParameter('prop', $user->getProprietaire())
+            ->select('SUM((p.prix_tva + p.prix_ht) * d.quantite) as x','c','d');
+        return $query->getQuery()->getScalarResult();
+    }
     // /**
     //  * @return DetailsCommande[] Returns an array of DetailsCommande objects
     //  */

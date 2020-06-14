@@ -228,6 +228,9 @@ class ProprietaireController extends AbstractController
         $form2->handleRequest($request);
         
         $commandes = $this->getDoctrine()->getRepository(Commande::class)->findVentes($data, $user);
+        
+        $prixTotal = $this->getDoctrine()->getRepository(DetailsCommande::class)->findPrixTotal($user);
+
         $page = $paginator->paginate(
             $commandes,
             $request->query->getInt('page', 1),
@@ -238,6 +241,7 @@ class ProprietaireController extends AbstractController
             'pagetitle'=>'Vente',
             'path'=>'home_proprietaire',
             'form2' => $form2->createView(),
+            'prixTotal' => $prixTotal
         ]);
     }
 
@@ -251,6 +255,7 @@ class ProprietaireController extends AbstractController
         $form2->handleRequest($request);
         
         $commandes = $this->getDoctrine()->getRepository(Commande::class)->findVentes($data, $user);
+
         $page = $paginator->paginate(
             $commandes,
             $request->query->getInt('page', 1),
@@ -261,6 +266,7 @@ class ProprietaireController extends AbstractController
             'pagetitle'=>'Commande',
             'path'=>'home_proprietaire',
             'form2' => $form2->createView(),
+            
         ]);
     }
 }
