@@ -388,12 +388,6 @@ class ClientController extends AbstractController
         $newcommande->setDate(new \DateTime('now'));
         $newcommande->setNom($commande[1]->lname);
         $newcommande->setPrenom($commande[0]->fname);
-        /*$prod=new DetailsCommande();
-        $prod->setProduit( $this->getDoctrine()->getManager()->getRepository(Produit::class)->findOneBy(['id' =>'1']));
-        $prod->setQuantite(5);
-        $prod->setDateCommande(new \DateTime('now'));
-        $newcommande->addProduit($prod);
-        dump($newcommande->getProduits());*/
         $manager = $this->getDoctrine()->getManager();
         $manager->persist($newcommande);
         $manager->flush();
