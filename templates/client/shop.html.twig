@@ -19,7 +19,7 @@
                     <img src="{{asset('images/'~prod.image)}}" alt="Image" class="cart-item" style="max-height:150px">
                     <h3 class="text-dark" id="{{prod.id}}">{{prod.nom}}</a></h3>
                     <a href=" {{path('details', {'id':prod.id})}}" class="btn btn-outline-primary btn-sm"> Details </a> 
-                    <p class="price" data-price="{{prod.prixtva}}" data-pr="{{prod.proprietaire.id}}" data-max='{{prod.quantite}}' style="font-weight:bold;color:#008CB6">{{prod.prixtva + prod.prixht}} DH ttc</p>
+                    <p class="price" data-price="{{prod.prixtva}}" data-pr="{{prod.proprietaire.id}}" data-max='{{prod.quantite}}' style="font-weight:bold;color:#008CB6">{{prod.prixtva}} DH ttc</p>
                     <a href="#" class="btn btn-info btn-sm" class='additem' id='b{{prod.id}}'>Ajouter au panier</a>
                   </div>
                 </div>

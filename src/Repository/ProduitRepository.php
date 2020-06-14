@@ -101,13 +101,13 @@ class ProduitRepository extends ServiceEntityRepository
         if(!empty($min))
         {
             $query = $query
-            ->andWhere('p.prix_tva + p.prix_ht >= :min')
+            ->andWhere('p.prix_tva >= :min')
             ->setParameter('min', $min);
         }
         if(!empty($max))
         {
             $query = $query
-            ->andWhere('p.prix_tva + p.prix_ht <= :max')
+            ->andWhere('p.prix_tva<= :max')
             ->setParameter('max', $max);
         }
         return $query->getQuery()->getResult();
@@ -170,3 +170,4 @@ class ProduitRepository extends ServiceEntityRepository
         return $query->getSingleScalarResult();
     }
 }
+
