@@ -1,15 +1,13 @@
-<style>
-.form-inline{
-    margin-left:400px;
-}
-</style>
 
-
-<div class='search'>
-{{ form_start(form, {'attr': {'id': 'search_form','action':path('HandleSearch') ,'placeholder':'searh a product','class':'form-inline','style': 'display:inline;margin:0px auto'}}) }}
-
-    {{ form_widget(form,{'attr': {'class': 'form-inline'}}) }}
-    
+<div class='search d-flex justify-content-center'>
+{{ form_start(form, {'attr': {'id': 'search_form', 'placeholder':'searh a product','class':'form-inline','style': 'display:inline;margin:0px auto'}}) }}
+    {{ form_widget(form.crit) }}
+    {{ form_widget(form.ville) }}
+    <div class="d-block">
+    Prix: {{ form_widget(form.min, { 'attr' : {'class' : "my-2"} }) }}  
+    {{ form_widget(form.max) }}    
+    </div>
+    {{ form_row(form.Chercher) }} 
   
 {{ form_end(form) }}
 </div>

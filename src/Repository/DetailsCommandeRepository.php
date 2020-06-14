@@ -50,7 +50,7 @@ class DetailsCommandeRepository extends ServiceEntityRepository
         $query = $entityManager->createQuery(
             'SELECT count(D.id)
             FROM App\Entity\DetailsCommande D
-            INNER JOIN App\Entity\produit p
+            INNER JOIN D.produit p
             WHERE p.proprietaire = :prop'
               )->setParameter('prop', $user->getProprietaire());
         return $query->getSingleScalarResult();
