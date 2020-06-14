@@ -131,9 +131,18 @@
                             
                             
                             </script>
-                              <b> {{app.user.nom}} </b> <a href="{{ path('app_logout') }}"> Déconnexion </a>
-                            {% endif %}
+                            
                         </div>
+                          <nav class="site-navigation text-right text-md-center" role="navigation">
+                              <ul class="site-menu js-clone-nav d-none d-lg-block">
+                              <li class="has-children">
+                            <a>{{app.user.nom}}</a>
+                            <ul class="dropdown">
+                            <li><a href="#">Compote</a></li>
+                            <li><a href="{{ path('app_logout') }}">Deconnexion</a></li>
+                            </ul>
+                            </li>
+                            {% endif %}
                     </div>
                 </div>
             </div>
