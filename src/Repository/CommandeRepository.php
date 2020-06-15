@@ -59,7 +59,20 @@ class CommandeRepository extends ServiceEntityRepository
             ->orderBy('c.date', 'DESC')
             ->setParameter('prop', $user->getProprietaire())
             ->setParameter('livr', 'oui');
-            return $query->getQuery()->getResult();    
+            if(!empty($search->min))
+        {
+            $query = $query
+                ->andWhere('(p.prix_tva + p.prix_ht) * d.quantite >= :min')
+                ->setParameter('min', $search->min);
+        }
+        if(!empty($search->max))
+        {
+            $query = $query
+                ->andWhere('(p.prix_tva + p.prix_ht) * d.quantite <= :max')
+                ->setParameter('max', $search->max);
+        }
+            return $query->getQuery()->getResult();  
+              
     }
 
 
