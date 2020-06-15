@@ -22,7 +22,7 @@ class CommandeRepository extends ServiceEntityRepository
         parent::__construct($registry, Commande::class);
     }
 
-    public function findCommande(SearchData $search, UserInterface $user)
+    public function findCommande(UserInterface $user)
     {
         $query = $this
             ->createQueryBuilder('c')
@@ -30,21 +30,9 @@ class CommandeRepository extends ServiceEntityRepository
             ->join('c.produits', 'd')
             ->join('d.produit', 'p')
             ->where('p.proprietaire = :prop')
-            ->andwhere('c.livraison is NULL ')
+            ->andwhere('d.livraison is NULL ')
             ->orderBy('c.date', 'DESC')
             ->setParameter('prop', $user->getProprietaire());
-        if(!empty($search->min))
-        {
-            $query = $query
-                ->andWhere('(p.prix_tva + p.prix_ht) * d.quantite >= :min')
-                ->setParameter('min', $search->min);
-        }
-        if(!empty($search->max))
-        {
-            $query = $query
-                ->andWhere('(p.prix_tva + p.prix_ht) * d.quantite <= :max')
-                ->setParameter('max', $search->max);
-        }    
         return $query->getQuery()->getResult();    
     }
 
@@ -68,7 +56,7 @@ class CommandeRepository extends ServiceEntityRepository
             ->join('c.produits', 'd')
             ->join('d.produit', 'p')
             ->where('p.proprietaire = :prop')
-            ->andWhere('c.livraison = :livr')
+            ->andWhere('d.livraison = :livr')
             ->orderBy('c.date', 'DESC')
             ->setParameter('prop', $user->getProprietaire())
             ->setParameter('livr', 'oui');

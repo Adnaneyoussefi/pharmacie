@@ -250,11 +250,7 @@ class ProprietaireController extends AbstractController
      */
     public function commande(PaginatorInterface $paginator, UserInterface $user, Request $request)
     {
-        $data = new SearchData();
-        $form2 = $this->createForm(SearchForm::class, $data);
-        $form2->handleRequest($request);
-        
-        $commandes = $this->getDoctrine()->getRepository(Commande::class)->findCommande($data, $user);
+        $commandes = $this->getDoctrine()->getRepository(Commande::class)->findCommande($user);
 
         $page = $paginator->paginate(
             $commandes,
@@ -264,9 +260,7 @@ class ProprietaireController extends AbstractController
         return $this->render('proprietaire/commande.html.twig',[
             'page'=> $page,
             'pagetitle'=>'Commande',
-            'path'=>'home_proprietaire',
-            'form2' => $form2->createView(),
-            
+            'path'=>'home_proprietaire',            
         ]);
     }
      /**
@@ -274,7 +268,7 @@ class ProprietaireController extends AbstractController
      */
     public function commandelivré($id){
         $em = $this->getDoctrine()->getManager();
-        $commande = $em->getRepository(Commande::class)->findOneBy(['id' => $id]);
+        $commande = $em->getRepository(DetailsCommande::class)->findOneBy(['id' => $id]);
         if($commande){
         $commande->setLivraison('oui');
         $em->persist($commande);

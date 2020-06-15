@@ -36,6 +36,11 @@ class DetailsCommande
      */
     private $date_commande;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $livraison;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -85,6 +90,18 @@ class DetailsCommande
     public function setDateCommande(\DateTimeInterface $date_commande): self
     {
         $this->date_commande = $date_commande;
+
+        return $this;
+    }
+
+    public function getLivraison(): ?string
+    {
+        return $this->livraison;
+    }
+
+    public function setLivraison(?string $livraison): self
+    {
+        $this->livraison = $livraison;
 
         return $this;
     }
