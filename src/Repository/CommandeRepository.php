@@ -65,13 +65,13 @@ class CommandeRepository extends ServiceEntityRepository
             if(!empty($search->min))
         {
             $query = $query
-                ->andWhere('(p.prix_tva + p.prix_ht) * d.quantite >= :min')
+                ->andWhere('(p.prix_tva) * d.quantite >= :min')
                 ->setParameter('min', $search->min);
         }
         if(!empty($search->max))
         {
             $query = $query
-                ->andWhere('(p.prix_tva + p.prix_ht) * d.quantite <= :max')
+                ->andWhere('(p.prix_tva) * d.quantite <= :max')
                 ->setParameter('max', $search->max);
         }
             return $query->getQuery()->getResult();  

@@ -411,10 +411,11 @@ class ClientController extends AbstractController
         $details_commande=$resp->infos[1]->details;
         $newcommande=new commande();
         for($i=0;$i<count($details_commande)-1;$i++)
-        {  $details=new DetailsCommande();
-            $details->setQuantite($details_commande[$i]->qt);
+        {   $details=new DetailsCommande();
             $details->setDateCommande(new \DateTime('now'));
-            $details->setProduit( $this->getDoctrine()->getManager()->getRepository(Produit::class)->findOneBy(['id' =>$details_commande[$i]->prod_id ]));
+            $product=$this->getDoctrine()->getManager()->getRepository(Produit::class)->findOneBy(['id' =>$details_commande[$i]->prod_id ]);
+            $details->setQuantite(min($details_commande[$i]->qt,$product->getQuantite()));
+            $details->setProduit($product);
             $newcommande->addProduit($details);
         
         }
@@ -536,7 +537,8 @@ class ClientController extends AbstractController
             'page'=> $page,
             'pagetitle'=>'Commande',
             'path'=>'home_proprietaire',   
-            'prixTotal' => $prixTotal         
+            'prixTotal' => $prixTotal,
+            'total'=>count($commandes)         
         ]);
     }
 }

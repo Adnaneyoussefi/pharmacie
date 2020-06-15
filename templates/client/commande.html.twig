@@ -14,9 +14,11 @@
                 </tr>  
             </thead>  
             <tbody>   
+            {% set i = 1 %}
             {% for commande in page %}
                 <tr>
-                    <td colspan="4"><strong>No commande: {{ commande.id }}</strong> <span style="color:#999">{{ commande.date | date('d/m/Y') }}</span></td>
+                    <td colspan="4"><strong>No commande: {{ i }}</strong> <span style="color:#999">{{ commande.date | date('d/m/Y') }}</span></td>
+                    {% set i = i + 1 %}
                 </tr>
             </tbody>    
             <tbody>   
@@ -25,8 +27,9 @@
                     <td>
                         <img src={{ asset('images/' ~ d.produit.image) }} alt="Image" style="width: 120px;">
                         <div class="d-inline-block">
-                        <div>{{ d.produit.nom }}</div>
-                        <span style="color:#999">QTE</span> {{ d.quantite }}
+                        <div> <strong>{{ d.produit.nom }}</strong></div>
+                        <div><span style="color:#999">QTE</span> {{ d.quantite }}</div>
+                        <span style="color:#999">Adresse Livraison : </span> {{ commande.AdresseLivraison}}
                         <div>Parapharmacie: {{ d.produit.proprietaire.nompharmacie }}</div>
                         </div>
                     </td>
