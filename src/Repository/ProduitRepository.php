@@ -60,6 +60,7 @@ class ProduitRepository extends ServiceEntityRepository
         $query = $this
             ->createQueryBuilder('p')
             ->where('p.proprietaire = :prop')
+            ->orderBy('p.created_at', 'DESC')
             ->setParameter('prop', $user->getProprietaire());
         if(!empty($search->categories))
         {

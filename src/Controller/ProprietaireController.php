@@ -264,7 +264,8 @@ class ProprietaireController extends AbstractController
             'path'=>'home_proprietaire',            
         ]);
     }
-     /**
+
+    /**
      * @Route("/commande/{id}", name="commande_proprietaire_livré")
      */
     public function commandelivré($id){
@@ -274,25 +275,61 @@ class ProprietaireController extends AbstractController
         $commande->setLivraison('oui');
         $em->persist($commande);
         $em->flush();
-        $this->addFlash('success', 'Votre commande a été Transféré au statut Livré !');
+        $this->addFlash('success', 'Votre produit a été Transféré au statut Livré !');
         return $this->redirectToRoute('commande_proprietaire');
 
     }}
+
+    /**
+     * @Route("/commande/{id}/encours", name="commande_proprietaire_encours")
+     */
+    public function envoyercommande($id){
+        $em = $this->getDoctrine()->getManager();
+        $commande = $em->getRepository(DetailsCommande::class)->findOneBy(['id' => $id]);
+        if($commande){
+        $commande->setLivraison('encours');
+        $em->persist($commande);
+        $em->flush();
+        $this->addFlash('success', 'Votre produit a été Transféré au statut En Cours !');
+        return $this->redirectToRoute('commande_proprietaire');
+
+    }}
+
+    /**
+     * @Route("/commande/{id}/annuler", name="commande_proprietaire_annuler")
+     */
+    public function annulercommande($id){
+        $em = $this->getDoctrine()->getManager();
+        $commande = $em->getRepository(DetailsCommande::class)->findOneBy(['id' => $id]);
+        if($commande){
+        $commande->setLivraison(null);
+        $em->persist($commande);
+        $em->flush();
+        $this->addFlash('success', 'Le produit n\'est pas envoyé !');
+        return $this->redirectToRoute('commande_proprietaire');
+
+    }}
+
     /**
      * @Route("/commande/{id}/remove", name="commande_proprietaire_supp")
      */
-
-
     public function deletecommande($id) {
 
         $em = $this->getDoctrine()->getManager(); 
-        $commande = $em->getRepository(Commande::class)->findOneBy(['id' => $id]);
-         $em->remove($commande);
-          $em->flush();
-          $this->addFlash('success', 'Votre commande a été annulé!');
+        $commande = $em->getRepository(DetailsCommande::class)->findOneBy(['id' => $id]);
+        
+        if($commande->getCommande()->getProduits()->count() == 1)
+        {
+        $em->remove($commande);
+        $em->remove($commande->getCommande());
+        }
+        else{
+            $em->remove($commande);
+        }
+        $em->flush();
+        $this->addFlash('success', 'Votre commande a été annulé!');
 
- 
-         return $this->redirectToRoute('commande_proprietaire');
+        return $this->redirectToRoute('commande_proprietaire');
     }
 
 }

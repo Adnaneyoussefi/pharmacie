@@ -19,16 +19,17 @@
                     <td>Description</td>
                     <td>Prix</td>
                     <td>Prix total</td>
+                    <td>Action</td>
                 </tr>  
             </thead>  
             <tbody>   
             {% for commande in page %}
                 <tr class="table-active">
-                    <td colspan="3"><strong>Email client :</strong>{{ commande.client.user.email }}
+                    <td colspan="4"><strong>Email client :</strong>{{ commande.client.user.email }}
                      <strong>Nom complet: </strong>{{ commande.client.user.nom }} {{ commande.client.user.prenom }}</td>
                 </tr>
                 <tr>
-                    <td colspan="3"><strong>No commande: {{ commande.id }}</strong> <span style="color:#999">{{ commande.date | date('d/m/Y') }}</span></td>
+                    <td colspan="4"><strong>No commande: {{ commande.id }}</strong> <span style="color:#999">{{ commande.date | date('d/m/Y') }}</span></td>
                 </tr>
             </tbody>    
             <tbody>   
@@ -52,6 +53,9 @@
                         {% endfor %}
                     </td>
                     {% endif %}
+                    <td>
+                        <a href="{{ path('commande_proprietaire_annuler',{'id':d.id})}}" class="btn btn-outline-warning btn-sm d-block mb-2" style="width: 100px">Annuler</a>
+                    </td>
                 </tr>
             {% endfor %}
             {% endfor %}
