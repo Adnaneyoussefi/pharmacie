@@ -68,10 +68,7 @@ class Commande
      */
     private $prenom;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $livraison;
+    
 
     public function __construct()
     {
@@ -218,18 +215,6 @@ class Commande
     public function setPrenom(string $prenom): self
     {
         $this->prenom = $prenom;
-
-        return $this;
-    }
-
-    public function getLivraison(): ?string
-    {
-        return $this->livraison;
-    }
-
-    public function setLivraison(?string $livraison): self
-    {
-        $this->livraison = $livraison;
 
         return $this;
     }

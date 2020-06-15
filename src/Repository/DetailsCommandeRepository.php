@@ -42,9 +42,11 @@ class DetailsCommandeRepository extends ServiceEntityRepository
             ->join('d.produit', 'p')
             ->leftjoin('d.commande', 'c')
             ->where('p.proprietaire = :prop')
+            ->andWhere('d.livraison = :livr')
             ->groupBy('d.commande')
             ->setParameter('prop', $user->getProprietaire())
-            ->select('SUM((p.prix_tva + p.prix_ht) * d.quantite) as x','c','d');
+            ->select('SUM((p.prix_tva + p.prix_ht) * d.quantite) as x','c','d')
+            ->setParameter('livr', 'oui');
         return $query->getQuery()->getScalarResult();
     }
 
