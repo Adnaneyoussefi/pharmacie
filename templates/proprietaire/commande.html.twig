@@ -2,7 +2,13 @@
 {% block body %}
 <div class="site-section">
     <div class="container">
-        
+        {% for message in app.flashes('success') %}
+    <center><div class="alert alert-success alert-dismissible fade show" role="success">
+        {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+        </div></center>
+        {% endfor %}
         <table class="table table-bordered">
         {% for commande in page %}
             <thead>
@@ -24,7 +30,7 @@
                     <td><span class="text-muted">QTE</span> {{ d.quantite }}</td>
                     <td><strong>{{ (d.produit.prixtva + d.produit.prixht) * d.quantite }} Dhs</strong></td>
                     <td>
-                        <a href="#" class="btn btn-outline-primary btn-sm d-block mb-2" style="width: 100px">Livrer</a>
+                        <a href="{{ path('commande_proprietaire_livré',{'id':commande.id})}}" class="btn btn-outline-primary btn-sm d-block mb-2" style="width: 100px">Livrer</a>
                         <a href="#" class="btn btn-outline-info btn-sm d-block" style="width: 100px">Terminer</a>
                     </td>
                 </tr>
