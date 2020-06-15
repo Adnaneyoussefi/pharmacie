@@ -254,7 +254,7 @@ class ProprietaireController extends AbstractController
         $form2 = $this->createForm(SearchForm::class, $data);
         $form2->handleRequest($request);
         
-        $commandes = $this->getDoctrine()->getRepository(Commande::class)->findVentes($data, $user);
+        $commandes = $this->getDoctrine()->getRepository(Commande::class)->findCommande($data, $user);
 
         $page = $paginator->paginate(
             $commandes,

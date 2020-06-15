@@ -21,7 +21,7 @@ class CommandeRepository extends ServiceEntityRepository
         parent::__construct($registry, Commande::class);
     }
 
-    public function findVentes(SearchData $search, UserInterface $user)
+    public function findCommande(SearchData $search, UserInterface $user)
     {
         $query = $this
             ->createQueryBuilder('c')
@@ -45,6 +45,22 @@ class CommandeRepository extends ServiceEntityRepository
         }    
         return $query->getQuery()->getResult();    
     }
+
+    public function findVentes(SearchData $search, UserInterface $user)
+    {
+        $query = $this
+            ->createQueryBuilder('c')
+            ->select('d','c')
+            ->join('c.produits', 'd')
+            ->join('d.produit', 'p')
+            ->where('p.proprietaire = :prop')
+            ->andWhere('c.livraison = :livr')
+            ->orderBy('c.date', 'DESC')
+            ->setParameter('prop', $user->getProprietaire())
+            ->setParameter('livr', 'oui');
+            return $query->getQuery()->getResult();    
+    }
+
 
     // /**
     //  * @return Commande[] Returns an array of Commande objects
