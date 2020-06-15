@@ -1,34 +1,22 @@
-{% extends 'proprietaire/base.html.twig' %}
+{% extends 'client/base.html.twig' %}
+{% block title %}Mes commandes{% endblock %}
 {% block body %}
 <div class="site-section">
     <div class="container">
 
-        {{ form_start(form2, { 'attr' : {'class' : "form-inline"} }) }}    
-            {{ form_row(form2.categories.setRendered()) }}
-            {{ form_row(form2.expire.setRendered()) }}
-            {{ form_row(form2.epuise.setRendered()) }}
-            Prix: {{ form_widget(form2.min, { 'attr' : {'class' : "text-black mx-3"} }) }}
-            {{ form_widget(form2.max, { 'attr' : {'class' : "text-black"} }) }}
-                           
-            <button class="btn btn-primary btn-block btn-sm mt-2" type="submit">Appliquer</button>
-        {{ form_end(form2) }}
-        
         <table class="table table-bordered">
             <thead>
-                <tr>
-                    <td>Description</td>
-                    <td>Prix</td>
-                    <td>Prix total</td>
+                <tr class="table-active">
+                    <td class="text-muted">Description</td>
+                    <td class="text-muted">Prix Unitaire</td>
+                    <td class="text-muted">Status</td>
+                    <td class="text-muted">Prix total</td>
                 </tr>  
             </thead>  
             <tbody>   
             {% for commande in page %}
-                <tr class="table-active">
-                    <td colspan="3"><strong>Email client :</strong>{{ commande.client.user.email }}
-                     <strong>Nom complet: </strong>{{ commande.client.user.nom }} {{ commande.client.user.prenom }}</td>
-                </tr>
                 <tr>
-                    <td colspan="3"><strong>No commande: {{ commande.id }}</strong> <span style="color:#999">{{ commande.date | date('d/m/Y') }}</span></td>
+                    <td colspan="4"><strong>No commande: {{ commande.id }}</strong> <span style="color:#999">{{ commande.date | date('d/m/Y') }}</span></td>
                 </tr>
             </tbody>    
             <tbody>   
@@ -39,10 +27,16 @@
                         <div class="d-inline-block">
                         <div>{{ d.produit.nom }}</div>
                         <span style="color:#999">QTE</span> {{ d.quantite }}
+                        <div>Parapharmacie: {{ d.produit.proprietaire.nompharmacie }}</div>
                         </div>
                     </td>
                                         
                     <td><strong>{{ (d.produit.prixtva + d.produit.prixht) * d.quantite }} Dhs</strong></td>
+                    {% if loop.first %}
+                    <td rowspan={{commande.produits|length}}>
+                        
+                    </td>
+                    {% endif %}
                     {% if loop.first %}
                     <td rowspan={{commande.produits|length}}>
                         {% for nbr in prixTotal %}

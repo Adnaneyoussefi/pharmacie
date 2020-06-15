@@ -12,6 +12,9 @@ use App\Entity\Proprietaire;
 use App\Form\UserClientType;
 use App\Form\ReclamationType;
 use App\Entity\DetailsCommande;
+use Symfony\Component\Form\FormError;
+use App\Form\ClientChangePasswordType;
+use App\Form\ClientChangeInfoPersoType;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,9 +26,6 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use App\Form\ClientChangeInfoPersoType;
-use App\Form\ClientChangePasswordType;
-use Symfony\Component\Form\FormError;
 
 
 
@@ -515,6 +515,28 @@ class ClientController extends AbstractController
             'active_tab1' => $active_tab1,
             'active_tab2' => $active_tab2,
             //'prenom'=>$repos->getPrenom()
+        ]);
+    }
+
+    /**
+     * @Route("/commande", name="client_commande")
+     */
+    public function commande(PaginatorInterface $paginator, Request $request)
+    {
+        $commandes = $this->getDoctrine()->getRepository(Commande::class)->findCmdClient($this->getuser());
+
+        $prixTotal = $this->getDoctrine()->getRepository(DetailsCommande::class)->findPrixTotalClient($this->getuser());
+        
+        $page = $paginator->paginate(
+            $commandes,
+            $request->query->getInt('page', 1),
+            3
+        );
+        return $this->render('client/commande.html.twig',[
+            'page'=> $page,
+            'pagetitle'=>'Commande',
+            'path'=>'home_proprietaire',   
+            'prixTotal' => $prixTotal         
         ]);
     }
 }

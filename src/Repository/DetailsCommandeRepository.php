@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Data\SearchData;
 use App\Entity\DetailsCommande;
 use Doctrine\Persistence\ManagerRegistry;
@@ -43,6 +44,19 @@ class DetailsCommandeRepository extends ServiceEntityRepository
             ->where('p.proprietaire = :prop')
             ->groupBy('d.commande')
             ->setParameter('prop', $user->getProprietaire())
+            ->select('SUM((p.prix_tva + p.prix_ht) * d.quantite) as x','c','d');
+        return $query->getQuery()->getScalarResult();
+    }
+
+    public function findPrixTotalClient(User $user)
+    {
+        $query = $this
+            ->createQueryBuilder('d')
+            ->join('d.produit', 'p')
+            ->join('d.commande', 'c')
+            ->where('c.client = :client')
+            ->groupBy('d.commande')
+            ->setParameter('client', $user->getClient())
             ->select('SUM((p.prix_tva + p.prix_ht) * d.quantite) as x','c','d');
         return $query->getQuery()->getScalarResult();
     }

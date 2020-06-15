@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Data\SearchData;
 use App\Entity\Commande;
 use Doctrine\Persistence\ManagerRegistry;
@@ -43,6 +44,18 @@ class CommandeRepository extends ServiceEntityRepository
                 ->andWhere('(p.prix_tva + p.prix_ht) * d.quantite <= :max')
                 ->setParameter('max', $search->max);
         }    
+        return $query->getQuery()->getResult();    
+    }
+
+    public function findCmdClient(User $user)
+    {
+        $query = $this
+            ->createQueryBuilder('c')
+            ->join('c.produits', 'd')
+            ->join('d.produit', 'p')
+            ->where('c.client = :client')
+            ->orderBy('c.date', 'DESC')
+            ->setParameter('client', $user->getClient());
         return $query->getQuery()->getResult();    
     }
 
