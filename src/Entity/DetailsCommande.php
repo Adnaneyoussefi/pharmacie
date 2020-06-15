@@ -32,11 +32,6 @@ class DetailsCommande
     private $quantite;
 
     /**
-     * @ORM\Column(type="date")
-     */
-    private $date_commande;
-
-    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $livraison;
@@ -78,18 +73,6 @@ class DetailsCommande
     public function setQuantite(?int $quantite): self
     {
         $this->quantite = $quantite;
-
-        return $this;
-    }
-
-    public function getDateCommande(): ?\DateTimeInterface
-    {
-        return $this->date_commande;
-    }
-
-    public function setDateCommande(\DateTimeInterface $date_commande): self
-    {
-        $this->date_commande = $date_commande;
 
         return $this;
     }
