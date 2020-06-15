@@ -10,16 +10,26 @@
         </div></center>
         {% endfor %}
         <table class="table table-bordered">
-        {% for commande in page %}
             <thead>
+                <tr>
+                    <td>Image</td>
+                    <td>Nom</td>
+                    <td>Quantité</td>
+                    <td>Prix</td>
+                    <td>Action</td>
+                    <td>Status</td>
+                </tr>  
+            </thead>
+        {% for commande in page %}
+            <tbody>
                 <tr class="table-active">
-                    <td colspan="5"><strong>Email client :</strong>{{ commande.client.user.email }}
+                    <td colspan="6"><strong>Email client :</strong>{{ commande.client.user.email }}
                      <strong>Nom complet: </strong>{{ commande.client.user.nom }} {{ commande.client.user.prenom }}</td>
                 </tr>
                 <tr>
-                    <td colspan="5"><strong>No commande: {{ commande.id }}</strong> <span class="text-muted">{{ commande.date | date('d/m/Y') }}</span></td>
+                    <td colspan="6"><strong>No commande: {{ commande.id }}</strong> <span class="text-muted">{{ commande.date | date('d/m/Y') }}</span></td>
                 </tr>
-            </thead>
+            </tbody>
             {% for d in commande.produits %}
             <tbody>   
                 <tr>
@@ -31,8 +41,16 @@
                     <td><strong>{{ (d.produit.prixtva + d.produit.prixht) * d.quantite }} Dhs</strong></td>
                     <td>
                         <a href="{{ path('commande_proprietaire_livré',{'id':d.id})}}" class="btn btn-outline-primary btn-sm d-block mb-2" style="width: 100px">Livrer</a>
-                        <a href="#" class="btn btn-outline-info btn-sm d-block mb-2" style="width: 100px">En cours</a>
-                        <a href="{{ path('commande_proprietaire_supp',{'id':commande.id})}}" class="btn btn-outline-info btn-sm d-block" style="width: 100px">Annuler</a>
+                        <a href="{{ path('commande_proprietaire_encours',{'id':d.id})}}" class="btn btn-outline-info btn-sm d-block mb-2" style="width: 100px">En cours</a>
+                        <a href="{{ path('commande_proprietaire_annuler',{'id':d.id})}}" class="btn btn-outline-warning btn-sm d-block mb-2" style="width: 100px">Annuler</a>
+                        <a href="{{ path('commande_proprietaire_supp',{'id':d.id})}}" class="btn btn-outline-danger btn-sm d-block" style="width: 100px">Supprimer</a>
+                    </td>
+                    <td>
+                        {% if d.livraison == "encours" %}
+                            En cours
+                        {% else %} 
+                            N'est pas envoyé  
+                        {% endif %}    
                     </td>
                 </tr>
             </tbody>

@@ -32,11 +32,15 @@
                     </td>
                                         
                     <td><strong>{{ (d.produit.prixtva + d.produit.prixht) * d.quantite }} Dhs</strong></td>
-                    {% if loop.first %}
-                    <td rowspan={{commande.produits|length}}>
-                        
+                    <td>
+                        {% if d.livraison == "encours" %}
+                            En cours
+                        {% elseif d.livraison == "oui" %} 
+                            Livré 
+                        {% else %}  
+                            N'est pas livré  
+                        {% endif %} 
                     </td>
-                    {% endif %}
                     {% if loop.first %}
                     <td rowspan={{commande.produits|length}}>
                         {% for nbr in prixTotal %}
