@@ -18,18 +18,61 @@ class ProprietaireRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Proprietaire::class);
     }
-    public function findOrientaleProp()
-    {
-        $entityManager = $this->getEntityManager();
+            public function OrientaleProp()
+            {
+                $entityManager = $this->getEntityManager();
 
-        $query = $entityManager->createQuery(
-            'SELECT count(p.id)
-            FROM App\Entity\Proprietaire p
-            WHERE p.ville = :oujda
-            or p.ville=:nador '
-              )->setParameter('oujda', 'oujda')->setParameter('nador', 'nador');
-        return $query->getSingleScalarResult();
-    }
+                $query = $entityManager->createQuery(
+                    'SELECT count(p.id)
+                    FROM App\Entity\Proprietaire p
+                    WHERE p.region=:region '
+                    )->setParameter('region', 'oriental');
+                return $query->getSingleScalarResult();
+            }
+            public function TangertetouanAlhoceimaProp()
+            {
+                $entityManager = $this->getEntityManager();
+
+                $query = $entityManager->createQuery(
+                    'SELECT count(p.id)
+                    FROM App\Entity\Proprietaire p
+                    WHERE p.region=:region '
+                    )->setParameter('region', 'Tanger-Tétouan-Al Hoceïma');
+                return $query->getSingleScalarResult();
+            }
+            public function FesMeknesProp()
+            {
+                $entityManager = $this->getEntityManager();
+
+                $query = $entityManager->createQuery(
+                    'SELECT count(p.id)
+                    FROM App\Entity\Proprietaire p
+                    WHERE p.region=:region '
+                    )->setParameter('region', 'Fès-Meknès');
+                return $query->getSingleScalarResult();
+            }
+            public function CasablancaSettatProp()
+            {
+                $entityManager = $this->getEntityManager();
+
+                $query = $entityManager->createQuery(
+                    'SELECT count(p.id)
+                    FROM App\Entity\Proprietaire p
+                    WHERE p.region=:region '
+                    )->setParameter('region', 'Casablanca-Settat');
+                return $query->getSingleScalarResult();
+            }
+            public function RabatSaleKenitraProp()
+            {
+                $entityManager = $this->getEntityManager();
+
+                $query = $entityManager->createQuery(
+                    'SELECT count(p.id)
+                    FROM App\Entity\Proprietaire p
+                    WHERE p.region=:region '
+                    )->setParameter('region', 'Rabat-Salé-Kénitra');
+                return $query->getSingleScalarResult();
+            }
 
     public function getLastPharmacie(){
         $entityManager = $this->getEntityManager();
