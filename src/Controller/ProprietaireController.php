@@ -19,6 +19,7 @@ use App\Form\PropChangePasswordType;
 use App\Form\PropChangeInfoPersoType;
 use Symfony\Component\Form\FormError;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bridge\PhpUnit\TextUI\Command;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -283,5 +284,21 @@ class ProprietaireController extends AbstractController
         return $this->redirectToRoute('commande_proprietaire');
 
     }}
+    /**
+     * @Route("/commande/{id}/remove", name="commande_proprietaire_supp")
+     */
+
+
+    public function deletecommande($id) {
+
+        $em = $this->getDoctrine()->getManager(); 
+        $commande = $em->getRepository(Commande::class)->findOneBy(['id' => $id]);
+         $em->remove($commande);
+          $em->flush();
+          $this->addFlash('success', 'Votre commande a été annulé!');
+
+ 
+         return $this->redirectToRoute('commande_proprietaire');
+    }
 
 }
