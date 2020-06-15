@@ -269,4 +269,19 @@ class ProprietaireController extends AbstractController
             
         ]);
     }
+     /**
+     * @Route("/commande/{id}", name="commande_proprietaire_livré")
+     */
+    public function commandelivré($id){
+        $em = $this->getDoctrine()->getManager();
+        $commande = $em->getRepository(Commande::class)->findOneBy(['id' => $id]);
+
+        $commande->setLivraison('oui');
+        $em->persist($commande);
+        $em->flush();
+        $this->addFlash('success', 'Votre commande a été Transféré au statut Livré !');
+        return $this->redirectToRoute('commande_proprietaire');
+
+    }
+
 }
