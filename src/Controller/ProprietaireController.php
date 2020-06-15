@@ -275,13 +275,13 @@ class ProprietaireController extends AbstractController
     public function commandelivré($id){
         $em = $this->getDoctrine()->getManager();
         $commande = $em->getRepository(Commande::class)->findOneBy(['id' => $id]);
-
+        if($commande->getLivraison() === null){
         $commande->setLivraison('oui');
         $em->persist($commande);
         $em->flush();
         $this->addFlash('success', 'Votre commande a été Transféré au statut Livré !');
         return $this->redirectToRoute('commande_proprietaire');
 
-    }
+    }}
 
 }
