@@ -275,7 +275,7 @@ class ProprietaireController extends AbstractController
     public function commandelivré($id){
         $em = $this->getDoctrine()->getManager();
         $commande = $em->getRepository(Commande::class)->findOneBy(['id' => $id]);
-        if($commande->getLivraison() === null){
+        if($commande){
         $commande->setLivraison('oui');
         $em->persist($commande);
         $em->flush();
