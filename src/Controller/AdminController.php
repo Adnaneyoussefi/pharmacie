@@ -111,9 +111,17 @@ class AdminController extends AbstractController
         //nombre de visite du page Client/index
         $nb_visite = $this->getDoctrine()->getManager(); 
       $nb = $nb_visite->getRepository(Visite::class)->findOneBy(['id' => '1']);
-        //nombre des pharmacies/clients par ville
-       $client_Oriental = $this->getDoctrine()->getRepository(Client::class)->findOrientale();
-       $prop_Oriental = $this->getDoctrine()->getRepository(Proprietaire::class)->findOrientaleProp();
+        //nombre des pharmacies/clients par region
+       $client_Oriental = $this->getDoctrine()->getRepository(Client::class)->OrientaleCli();
+       $prop_Oriental = $this->getDoctrine()->getRepository(Proprietaire::class)->OrientaleProp();
+       $TangerCli= $this->getDoctrine()->getRepository(Client::class)->TangertetouanAlhoceimaCli();
+       $TangerProp= $this->getDoctrine()->getRepository(Proprietaire::class)->TangertetouanAlhoceimaProp();
+       $FesMeknesCli = $this->getDoctrine()->getRepository(Client::class)->FesMeknesCli();
+       $FesMeknesProp = $this->getDoctrine()->getRepository(Proprietaire::class)->FesMeknesProp();
+       $CasablancaSettatCli = $this->getDoctrine()->getRepository(Client::class)->CasablancaSettatCli();
+       $CasablancaSettatProp = $this->getDoctrine()->getRepository(Proprietaire::class)->CasablancaSettatProp();
+       $RabatSaleKenitraCli = $this->getDoctrine()->getRepository(Client::class)->RabatSaleKenitraCli();
+       $RabatSaleKenitraProp = $this->getDoctrine()->getRepository(Proprietaire::class)->RabatSaleKenitraProp();
        //RECLAMATIONS
        $totalreclamationsprop = $this->getDoctrine()->getRepository(Reclamation::class)->createQueryBuilder('r')
         ->select('count(r.id)')
@@ -140,9 +148,20 @@ class AdminController extends AbstractController
             'orientalP'=>$prop_Oriental,
             'orientalC'=>$client_Oriental,
             'orientaltotal'=>$client_Oriental+$prop_Oriental,
-            'reclamation'=>$totalreclamationsclient+$totalreclamationsprop
+            'reclamation'=>$totalreclamationsclient+$totalreclamationsprop,
+            'TangerCli'=>$TangerCli,
+            'TangerProp'=>$TangerProp,
+            'tangerTotale'=>$TangerCli+$TangerProp,
+            'FesMeknesCli'=>$FesMeknesCli,
+            'FesMeknesProp'=>$FesMeknesProp,
+            'FesMeknesTotale'=>$FesMeknesProp+$FesMeknesCli,
+            'CasablancaSettatCli'=>$CasablancaSettatCli,
+            'CasablancaSettatProp'=>$CasablancaSettatProp,
+            'CasablancaSettatTotale'=>$CasablancaSettatCli+$CasablancaSettatProp,
+            'RabatSaleKenitraProp'=>$RabatSaleKenitraProp,
+            'RabatSaleKenitraCli'=>$RabatSaleKenitraCli,
+            'RabatSaleKenitraTotale'=>$RabatSaleKenitraProp+$RabatSaleKenitraCli,
         ]);
-   
     }
 
      /**
