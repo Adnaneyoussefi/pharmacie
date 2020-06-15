@@ -31,7 +31,8 @@
                     <td><strong>{{ (d.produit.prixtva + d.produit.prixht) * d.quantite }} Dhs</strong></td>
                     <td>
                         <a href="{{ path('commande_proprietaire_livré',{'id':d.id})}}" class="btn btn-outline-primary btn-sm d-block mb-2" style="width: 100px">Livrer</a>
-                        <a href="#" class="btn btn-outline-info btn-sm d-block" style="width: 100px">Terminer</a>
+                        <a href="#" class="btn btn-outline-info btn-sm d-block mb-2" style="width: 100px">En cours</a>
+                        <a href="{{ path('commande_proprietaire_supp',{'id':commande.id})}}" class="btn btn-outline-info btn-sm d-block" style="width: 100px">Annuler</a>
                     </td>
                 </tr>
             </tbody>
