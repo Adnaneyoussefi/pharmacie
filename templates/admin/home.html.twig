@@ -73,29 +73,29 @@
                           <td > 
                     <label style="background-color: #F08080" >Tanger-tetouan-Al hoceima</label>
                             </td>
-                            <td>0</td>
-                            <td>0</td>
+                            <td>{{TangerCli}}</td>
+                            <td>{{TangerProp}}</td>
                         </tr>
                         <tr>
                         <td>
                     <label style="background-color: #3cba9f" > Fes-Mekens</label>
                             </td>
-                            <td>0</td>
-                            <td>0</td>
+                            <td>{{FesMeknesCli}}</td>
+                            <td>{{FesMeknesProp}}</td>
                         </tr>
                         <tr>
                             <td>
                     <label style="background-color: #98FB98" > Rabat-sale-kenitra</label>
                             </td>
-                            <td>0</td>
-                            <td>0</td>
+                            <td>{{RabatSaleKenitraCli}}</td>
+                            <td>{{RabatSaleKenitraProp}}</td>
                         </tr>
                         <tr>
                             <td>
-                    <label style="background-color: #DDA0DD" > Marrakesh-safi</label>
+                    <label style="background-color: #DDA0DD" > Casablanca-Settat</label>
                     </td>
-                            <td>0</td>
-                            <td>0</td>
+                            <td>{{CasablancaSettatCli}}</td>
+                            <td>{{CasablancaSettatProp}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -138,10 +138,10 @@
           new Chart(document.getElementById("pie-chart"), {
     type: 'pie',
     data: {
-      labels: ["Oriental", "Tanger-tetouan-Al hoceima	", "Fes-Mekens", "Rabat-sale-kenitra", "Marrakesh-safi"],
+      labels: ["Oriental", "Tanger-tetouan-Al hoceima	", "Fes-Mekens", "Rabat-sale-kenitra", "Casablanca-Settat"],
       datasets: [{
         backgroundColor: ["#DAA520", "#F08080","#3cba9f","#98FB98","#DDA0DD"],
-        data: [{{orientaltotal}},5,7,7,4]
+        data: [{{orientaltotal}},{{tangerTotale}},{{FesMeknesTotale}},{{RabatSaleKenitraTotale}},{{CasablancaSettatTotale}}]
       }]
     },
     options: {
