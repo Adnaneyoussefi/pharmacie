@@ -538,7 +538,7 @@ class ClientController extends AbstractController
             'pagetitle'=>'Commande',
             'path'=>'home_proprietaire',   
             'prixTotal' => $prixTotal,
-            'total'=>count($commandes)         
+            'nbrCommandeOffset'=>$commandes[0]->getId() - 1         
         ]);
     }
 }

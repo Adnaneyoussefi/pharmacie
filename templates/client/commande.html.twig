@@ -14,11 +14,11 @@
                 </tr>  
             </thead>  
             <tbody>   
-            {% set i = 1 %}
+           
             {% for commande in page %}
                 <tr>
-                    <td colspan="4"><strong>No commande: {{ i }}</strong> <span style="color:#999">{{ commande.date | date('d/m/Y') }}</span></td>
-                    {% set i = i + 1 %}
+                    <td colspan="4"><strong>No commande: {{ commande.id - nbrCommandeOffset}}</strong> <span style="color:#999">{{ commande.date | date('d/m/Y') }}</span></td>
+                    
                 </tr>
             </tbody>    
             <tbody>   
