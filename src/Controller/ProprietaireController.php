@@ -254,7 +254,7 @@ class ProprietaireController extends AbstractController
         $form2 = $this->createForm(SearchForm::class, $data);
         $form2->handleRequest($request);
         
-        $commandes = $this->getDoctrine()->getRepository(Commande::class)->findVentes($data, $user);
+        $commandes = $this->getDoctrine()->getRepository(Commande::class)->findCommande($data, $user);
 
         $page = $paginator->paginate(
             $commandes,
@@ -269,4 +269,19 @@ class ProprietaireController extends AbstractController
             
         ]);
     }
+     /**
+     * @Route("/commande/{id}", name="commande_proprietaire_livré")
+     */
+    public function commandelivré($id){
+        $em = $this->getDoctrine()->getManager();
+        $commande = $em->getRepository(Commande::class)->findOneBy(['id' => $id]);
+        if($commande){
+        $commande->setLivraison('oui');
+        $em->persist($commande);
+        $em->flush();
+        $this->addFlash('success', 'Votre commande a été Transféré au statut Livré !');
+        return $this->redirectToRoute('commande_proprietaire');
+
+    }}
+
 }
