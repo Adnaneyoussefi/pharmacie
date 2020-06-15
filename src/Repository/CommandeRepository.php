@@ -29,6 +29,7 @@ class CommandeRepository extends ServiceEntityRepository
             ->join('c.produits', 'd')
             ->join('d.produit', 'p')
             ->where('p.proprietaire = :prop')
+            ->andwhere('c.livraison is NULL ')
             ->orderBy('c.date', 'DESC')
             ->setParameter('prop', $user->getProprietaire());
         if(!empty($search->min))
