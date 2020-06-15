@@ -264,8 +264,8 @@ class ClientController extends AbstractController
     
     public function HandleCheckout(Request $request)
     {   //date commande
-        $DateCommande = new DetailsCommande();
-        $DateCommande->setDateCommande(new \DateTime('now'));
+        //$DateCommande = new DetailsCommande();
+        //$DateCommande->setDateCommande(new \DateTime('now'));
         //------------------------//
         
         $frm=$request->request->get('form');
@@ -412,7 +412,7 @@ class ClientController extends AbstractController
         $newcommande=new commande();
         for($i=0;$i<count($details_commande)-1;$i++)
         {   $details=new DetailsCommande();
-            $details->setDateCommande(new \DateTime('now'));
+            //$details->setDateCommande(new \DateTime('now'));
             $product=$this->getDoctrine()->getManager()->getRepository(Produit::class)->findOneBy(['id' =>$details_commande[$i]->prod_id ]);
             $details->setQuantite(min($details_commande[$i]->qt,$product->getQuantite()));
             $details->setProduit($product);
@@ -525,6 +525,11 @@ class ClientController extends AbstractController
     public function commande(PaginatorInterface $paginator, Request $request)
     {
         $commandes = $this->getDoctrine()->getRepository(Commande::class)->findCmdClient($this->getuser());
+        $i=1;
+        foreach($commandes as $k=>$commande)
+        {
+            $commandes[$k]->nb=$i++;
+        }
 
         $prixTotal = $this->getDoctrine()->getRepository(DetailsCommande::class)->findPrixTotalClient($this->getuser());
         
@@ -537,8 +542,7 @@ class ClientController extends AbstractController
             'page'=> $page,
             'pagetitle'=>'Commande',
             'path'=>'home_proprietaire',   
-            'prixTotal' => $prixTotal,
-            'nbrCommandeOffset'=>$commandes[0]->getId() - 1         
+            'prixTotal' => $prixTotal,      
         ]);
     }
 }

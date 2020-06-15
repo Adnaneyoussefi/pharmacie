@@ -1,6 +1,7 @@
 {% extends 'client/base.html.twig' %}
 {% block title %}Mes commandes{% endblock %}
 {% block body %}
+{% set i=1 %}
 <div class="site-section">
     <div class="container">
 
@@ -14,11 +15,9 @@
                 </tr>  
             </thead>  
             <tbody>   
-            {% set i=0 %}
             {% for commande in page %}
-                <tr>
-                    <td colspan="4"><strong>No commande: {{ i }}</strong> <span style="color:#999">{{ commande.date | date('d/m/Y') }}</span></td>
-                    {% set i= i + 1 %}
+                <tr> 
+                    <td colspan="4"><strong>No commande: {{commande.nb}}</strong> <span style="color:#999">{{ commande.date | date('d/m/Y') }}</span></td>
                     
                 </tr>
             </tbody>    
