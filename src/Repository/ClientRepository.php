@@ -18,18 +18,61 @@ class ClientRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Client::class);
     }
-    public function findOrientale()
+    public function OrientaleCli()
     {
         $entityManager = $this->getEntityManager();
 
         $query = $entityManager->createQuery(
             'SELECT count(c.id)
             FROM App\Entity\Client c
-            WHERE c.ville = :ville1
-            or c.ville=:ville2 '
-              )->setParameter('ville1', 'oujda')->setParameter('ville2', 'nador');
+            WHERE c.region = :region'
+              )->setParameter('region', 'Oriental');
         return $query->getSingleScalarResult();
     }
+    public function TangertetouanAlhoceimaCli()
+            {
+                $entityManager = $this->getEntityManager();
+
+                $query = $entityManager->createQuery(
+                    'SELECT count(c.id)
+                    FROM App\Entity\Client c
+                    WHERE c.region = :region'
+                    )->setParameter('region', 'Tanger-Tétouan-Al Hoceïma');
+                return $query->getSingleScalarResult();
+            }
+            public function FesMeknesCli()
+            {
+                $entityManager = $this->getEntityManager();
+
+                $query = $entityManager->createQuery(
+                    'SELECT count(c.id)
+                    FROM App\Entity\Client c
+                    WHERE c.region = :region'
+                    )->setParameter('region', 'Fès-Meknès');
+                return $query->getSingleScalarResult();
+            }
+            public function CasablancaSettatCli()
+            {
+                $entityManager = $this->getEntityManager();
+
+                $query = $entityManager->createQuery(
+                    'SELECT count(c.id)
+                    FROM App\Entity\Client c
+                    WHERE c.region = :region'
+                    )->setParameter('region', 'Casablanca-Settat');
+                return $query->getSingleScalarResult();
+            }
+            public function RabatSaleKenitraCli()
+            {
+                $entityManager = $this->getEntityManager();
+
+                $query = $entityManager->createQuery(
+                    'SELECT count(c.id)
+                    FROM App\Entity\Client c
+                    WHERE c.region = :region'
+                    )->setParameter('region', 'Rabat-Salé-Kénitra');
+                return $query->getSingleScalarResult();
+            }
 
     // /**
     //  * @return Client[] Returns an array of Client objects
