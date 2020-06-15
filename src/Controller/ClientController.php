@@ -485,11 +485,16 @@ class ClientController extends AbstractController
         }
        
         if($formInfoPerso->isSubmitted() && $formInfoPerso->isValid()){
+            $newTel= $request->request->get('client_change_info_perso')['telephone']; 
+            if(!preg_match("/(0[5|6|7])[0-9]{8}/",$newTel) || strlen(strval($newTel))!=10)
+            {    
+              $formInfoPerso->get('telephone')->addError(new FormError('Numero invalid'));
+             }
+             else{
             $newnom = $request->request->get('client_change_info_perso')['nom'];
             $newprenom = $request->request->get('client_change_info_perso')['prenom'];
             $newVille= $request->request->get('client_change_info_perso')['ville'];
             $newRegion= $request->request->get('client_change_info_perso')['region'];
-            $newTel= $request->request->get('client_change_info_perso')['telephone']; 
             $client->setNom($newnom);
             $client->setPrenom($newprenom);
             $client=$client->getClient();
@@ -498,7 +503,8 @@ class ClientController extends AbstractController
             $client->setVille($newVille);
             $em->flush();
             $this->addFlash('success', 'Vos infos sont bien modifiés!');
-            return $this->redirectToRoute('ClientAccount');      
+            return $this->redirectToRoute('ClientAccount'); 
+             }     
         }
     
         return $this->render('client/Compte.html.twig',[
