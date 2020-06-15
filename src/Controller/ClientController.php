@@ -23,6 +23,11 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use App\Form\ClientChangeInfoPersoType;
+use App\Form\ClientChangePasswordType;
+use Symfony\Component\Form\FormError;
+
+
 
 
 class ClientController extends AbstractController
@@ -306,6 +311,23 @@ class ClientController extends AbstractController
         return $this->render('client/detailsprod.html.twig', ['pagetitle'=>'details produit','produit'=>$produits[0]]);
     
     }
+    
+   
+     /**
+     * @Route("/infosprod/{id}", name="infosprod")
+     */
+    public function infosprod($id)
+    {
+        /*$doctrine = $this->getDoctrine();
+        $repository = $doctrine->getRepository(Produit::class);
+        $produit=$repository->findBy( ['id'=>$id])[0];
+        $data=array('nom'=>$produit->getNom(),'image'=>$produit->getImage(),'prix'=>$produit->getPrixTva(),'prop_id'=>$produit->getProprietaire()->getId(),'stock'=>$produit->getQuantite());
+        *
+        
+        return $this->json($data,200);*/
+        //return $this->render('client/detailsprod.html.twig', ['pagetitle'=>'details produit','produit'=>$produits[0]]);
+    
+    }
      /**
      * @Route("/categories", name="categories")
      */
@@ -415,4 +437,79 @@ class ClientController extends AbstractController
 
         
     }
+      /**
+     * @Route("/ClientAccount", name="ClientAccount")
+     */
+    public function compte(Request $request,UserPasswordEncoderInterface $passwordEncoder)
+    {       
+        $em = $this->getDoctrine()->getManager();
+        $client = $this->getUser();
+       
+        $formInfoPerso = $this->createForm(ClientChangeInfoPersoType::class);
+        $formInfoPerso->handleRequest($request);
+        $formPassword = $this->createForm(ClientChangePasswordType::class);
+        $formPassword->handleRequest($request);
+        $active_tab1 = "active show";
+        $active_tab2 = "";
+        if($formPassword->isSubmitted() && $formPassword->isValid()){
+             $oldpassword = $request->request->get('client_change_password')['oldpassword'];
+            $newpassword = $request->request->get('client_change_password')['confirmpassword']['first'];
+            
+
+            $active_tab = $_POST['active_tab'];
+            $active_tab1 = ($active_tab ==="tab_1") ? "active show" : "";
+            $active_tab2 = ($active_tab ==="tab_2") ? "active show" : "";
+            $active_tab3 = ($active_tab ==="tab_3") ? "active show" : "";
+            // Si l'ancien mot de passe est bon
+            if($passwordEncoder->isPasswordValid($client, $oldpassword)){
+                if(!$passwordEncoder->isPasswordValid($client, $newpassword)){
+                  
+                $newEncodedPassword = $passwordEncoder->encodePassword($client, $newpassword);
+                $client->setPassword($newEncodedPassword);
+                $em->flush();
+                $this->addFlash('success', 'Votre mot de passe a bien été changé !');
+                }
+                else{
+                    $formPassword->get('confirmpassword')['first']->addError(new FormError('Nouveau mot de passe me peux pas etre le meme que l`ancien'));
+                }
+            }
+            else {
+                $formPassword->get('oldpassword')->addError(new FormError('Ancien mot de passe incorrect'));
+            }
+        }
+        elseif ($formPassword->isSubmitted()) {
+            $active_tab = $_POST['active_tab'];
+            $active_tab1 = ($active_tab ==="tab_1") ? "active show" : "";
+            $active_tab2 = ($active_tab ==="tab_2") ? "active show" : "";
+            $active_tab3 = ($active_tab ==="tab_3") ? "active show" : "";
+        }
+       
+        if($formInfoPerso->isSubmitted() && $formInfoPerso->isValid()){
+            $newnom = $request->request->get('client_change_info_perso')['nom'];
+            $newprenom = $request->request->get('client_change_info_perso')['prenom'];
+            $newVille= $request->request->get('client_change_info_perso')['ville'];
+            $newRegion= $request->request->get('client_change_info_perso')['region'];
+            $newTel= $request->request->get('client_change_info_perso')['telephone']; 
+            $client->setNom($newnom);
+            $client->setPrenom($newprenom);
+            $client=$client->getClient();
+            $client->setTel($newTel);
+            $client->setRegion($newRegion);
+            $client->setVille($newVille);
+            $em->flush();
+            $this->addFlash('success', 'Vos infos sont bien modifiés!');
+            return $this->redirectToRoute('ClientAccount');      
+        }
+    
+        return $this->render('client/Compte.html.twig',[
+            'pagetitle'=>'Compte',
+            'path'=>'ClientAccount',
+            'formPassword'=>$formPassword->createView(),
+            'formInfoPerso'=>$formInfoPerso->createView(),
+            'active_tab1' => $active_tab1,
+            'active_tab2' => $active_tab2,
+            //'prenom'=>$repos->getPrenom()
+        ]);
+    }
 }
+
