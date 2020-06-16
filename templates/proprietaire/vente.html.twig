@@ -54,7 +54,7 @@
                     </td>
                     {% endif %}
                     <td>
-                        <a href="{{ path('commande_proprietaire_annuler',{'id':d.id})}}" class="btn btn-outline-warning btn-sm d-block mb-2" style="width: 100px">Annuler</a>
+                        <a href="{{ path('commande_proprietaire_annuler',{'id':d.id})}}" class="btn btn-outline-warning btn-sm d-block mb-2" style="width: 100px" onclick="return confirm('Tu es sure de vouloir annuler le statut livré ?')">Annuler</a>
                     </td>
                 </tr>
             {% endfor %}

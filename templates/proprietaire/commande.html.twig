@@ -40,10 +40,10 @@
                     <td><span class="text-muted">QTE</span> {{ d.quantite }}</td>
                     <td><strong>{{ (d.produit.prixtva + d.produit.prixht) * d.quantite }} Dhs</strong></td>
                     <td>
-                        <a href="{{ path('commande_proprietaire_livré',{'id':d.id})}}" class="btn btn-outline-primary btn-sm d-block mb-2" style="width: 100px">Livrer</a>
-                        <a href="{{ path('commande_proprietaire_encours',{'id':d.id})}}" class="btn btn-outline-info btn-sm d-block mb-2" style="width: 100px">En cours</a>
-                        <a href="{{ path('commande_proprietaire_annuler',{'id':d.id})}}" class="btn btn-outline-warning btn-sm d-block mb-2" style="width: 100px">Annuler</a>
-                        <a href="{{ path('commande_proprietaire_supp',{'id':d.id})}}" class="btn btn-outline-danger btn-sm d-block" style="width: 100px">Supprimer</a>
+                        <a href="{{ path('commande_proprietaire_livré',{'id':d.id})}}" class="btn btn-outline-primary btn-sm d-block mb-2" style="width: 100px" onclick="return confirm('Tu es sure que cette commande est livré ?')">Livrer</a>
+                        <a href="{{ path('commande_proprietaire_encours',{'id':d.id})}}" class="btn btn-outline-info btn-sm d-block mb-2" style="width: 100px" onclick="return confirm('Tu es sure que cette commande est en cours de livraison ?')">En cours</a>
+                        <a href="{{ path('commande_proprietaire_annuler',{'id':d.id})}}" class="btn btn-outline-warning btn-sm d-block mb-2" style="width: 100px" onclick="return confirm('Tu es sure de vouloir annuler cette livraison ?')">Annuler</a>
+                        <a href="{{ path('commande_proprietaire_supp',{'id':d.id})}}" class="btn btn-outline-danger btn-sm d-block" style="width: 100px" onclick="return confirm('Tu es sure de vouloir supprimer cette ?')">Supprimer</a>
                     </td>
                     <td>
                         {% if d.livraison == "encours" %}
