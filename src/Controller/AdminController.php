@@ -49,6 +49,16 @@ class AdminController extends AbstractController
     }
 
      /**
+     * @Route("/logout", name="admin_logout")
+     */
+    public function logout()
+    {
+        session_destroy();
+        return $this->redirectToRoute('login_admin');
+
+
+    }
+     /**
      * @Route("/home", name="home_admin")
      */
 
