@@ -29,8 +29,8 @@
      
           <div class="col-md-6">
             <h2 class="text-black">{{produit.nom}}</h2>
-            <p>{{produit.description}}</p>
-            en Stock : {{produit.quantite}} 
+            <p>Description : {{produit.description}}</p>
+             en Stock :{{produit.quantite}}
             <br/>
             Pharmacie:<b>  <a href="{{ path('profile', {'id':produit.proprietaire.id})}}">{{produit.proprietaire.nomPharmacie}} </a></b>
             

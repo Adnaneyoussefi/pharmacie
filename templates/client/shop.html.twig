@@ -58,7 +58,7 @@
   var addtoCart=function(){
   let storage=localStorage.getItem("my_cart_infos");
    //let parent=this.parentElement.getAttribute("id");
-   console.log(this.getAttribute('id').replace('b','p-'))
+   //console.log(this.getAttribute('id').replace('b','p-'))
    //return
    let data=document.getElementById(this.getAttribute('id').replace('b','p-'));
    let prodName;
@@ -68,6 +68,13 @@
    let prodProp;
    let stck;
    let incr=1;
+   /*let path='{{path("infosprod",{"id":"X"})}}'.replace('X',this.getAttribute('id').replace('b',''));
+
+   axios.get(path).then((reponse)=>{console.log(reponse.data);
+                 
+   })
+   */
+
     for (let i = 0; i < data.children.length; i++) {
     switch (data.children[i].tagName)
 	{
@@ -85,7 +92,7 @@
     console.log(data.children[i].dataset)
 	  break;
 	
-	}
+  }
 	}
    let storage_data={prod_name:prodName,prop:prodProp,price:prodPrice,image:prodImage,id:prodId,qt:1,stock:stck};
    let items_table=(!storage)?[]:JSON.parse(storage);

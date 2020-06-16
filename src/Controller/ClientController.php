@@ -405,15 +405,19 @@ class ClientController extends AbstractController
      */
     public function validateOrder(Request $request){
         //////
+        $response=array();
         $client=$this->getUser();
         $resp=json_decode($request->getContent());
         $commande=$resp->infos[0]->commande;
         $details_commande=$resp->infos[1]->details;
         $newcommande=new commande();
         for($i=0;$i<count($details_commande)-1;$i++)
-        {   $details=new DetailsCommande();
+        {   $product=$this->getDoctrine()->getManager()->getRepository(Produit::class)->findOneBy(['id' =>$details_commande[$i]->prod_id ]);
+            if($product->getQuantite()==0){
+                $response[]=$product->getNom();
+                continue;}
+            $details=new DetailsCommande();
             //$details->setDateCommande(new \DateTime('now'));
-            $product=$this->getDoctrine()->getManager()->getRepository(Produit::class)->findOneBy(['id' =>$details_commande[$i]->prod_id ]);
             $details->setQuantite(min($details_commande[$i]->qt,$product->getQuantite()));
             $details->setProduit($product);
             $newcommande->addProduit($details);
