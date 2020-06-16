@@ -246,6 +246,20 @@ class ProprietaireController extends AbstractController
             'prixTotal' => $prixTotal
         ]);
     }
+      /**
+     * @Route("/vente/{id}/annuler", name="vente_proprietaire_annuler")
+     */
+    public function annulervente($id){
+        $em = $this->getDoctrine()->getManager();
+        $commande = $em->getRepository(DetailsCommande::class)->findOneBy(['id' => $id]);
+        if($commande){
+        $commande->setLivraison(null);
+        $em->persist($commande);
+        $em->flush();
+        $this->addFlash('success', 'La commande n\'est pas envoyée !');
+        return $this->redirectToRoute('vente_proprietaire');
+
+    }}
 
     /**
      * @Route("/commande", name="commande_proprietaire")
