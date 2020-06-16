@@ -276,7 +276,7 @@ class ProprietaireController extends AbstractController
         $commande->setLivraison('oui');
         $em->persist($commande);
         $em->flush();
-        $this->addFlash('success', 'Votre produit a été Transféré au statut Livré !');
+        $this->addFlash('success', 'La commande a été Transféré au statut Livré !');
         return $this->redirectToRoute('commande_proprietaire');
 
     }}
@@ -291,7 +291,7 @@ class ProprietaireController extends AbstractController
         $commande->setLivraison('encours');
         $em->persist($commande);
         $em->flush();
-        $this->addFlash('success', 'Votre produit a été Transféré au statut En Cours !');
+        $this->addFlash('success', 'La commande a été Transféré au statut En Cours !');
         return $this->redirectToRoute('commande_proprietaire');
 
     }}
@@ -306,7 +306,7 @@ class ProprietaireController extends AbstractController
         $commande->setLivraison(null);
         $em->persist($commande);
         $em->flush();
-        $this->addFlash('success', 'Le produit n\'est pas envoyé !');
+        $this->addFlash('success', 'La commande n\'est pas envoyée !');
         return $this->redirectToRoute('commande_proprietaire');
 
     }}
@@ -328,7 +328,7 @@ class ProprietaireController extends AbstractController
             $em->remove($commande);
         }
         $em->flush();
-        $this->addFlash('success', 'Votre commande a été annulé!');
+        $this->addFlash('success', 'La commande a été annulée!');
 
         return $this->redirectToRoute('commande_proprietaire');
     }
