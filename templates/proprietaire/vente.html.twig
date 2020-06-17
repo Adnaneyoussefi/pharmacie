@@ -22,25 +22,23 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
+                    <td>Numero</td>
                     <td>Description</td>
                     <td>Prix</td>
                     <td>Prix total</td>
+                    <td>Nom Client</td>
+                    <td>Email Client</td>
+                    <td>Date</td>
                     <td>Action</td>
                 </tr>  
             </thead>  
-            <tbody>   
+               
             {% for commande in page %}
-                <tr class="table-active">
-                    <td colspan="4"><strong>Email client :</strong>{{ commande.client.user.email }}
-                     <strong>Nom complet: </strong>{{ commande.client.user.nom }} {{ commande.client.user.prenom }}</td>
-                </tr>
-                <tr>
-                    <td colspan="4"><strong>No commande: {{ commande.id }}</strong> <span style="color:#999">{{ commande.date | date('d/m/Y') }}</span></td>
-                </tr>
-            </tbody>    
+                    
             <tbody>   
             {% for d in commande.produits %}     
                 <tr>
+                <td>{{ commande.id }}</td>
                     <td>
                         <img src={{ asset('images/' ~ d.produit.image) }} alt="Image" style="width: 120px;">
                         <div class="d-inline-block">
@@ -59,6 +57,9 @@
                         {% endfor %}
                     </td>
                     {% endif %}
+                    <td>{{ commande.client.user.nom }} {{ commande.client.user.prenom }}</td>
+                    <td>{{ commande.client.user.email }}</td>
+                    <td>{{ commande.date | date('d/m/Y') }}</td>
                     <td>
                         <a href="{{ path('vente_proprietaire_annuler',{'id':d.id})}}" class="btn btn-outline-warning btn-sm d-block mb-2" style="width: 100px" onclick="return confirm('Tu es sure de vouloir annuler le statut livré ?')">Annuler</a>
                     </td>
