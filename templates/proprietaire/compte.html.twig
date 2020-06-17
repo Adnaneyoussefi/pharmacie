@@ -10,7 +10,7 @@
               <a class="nav-link {{ active_tab2 }}" data-toggle="tab" href="#pwd">Changer le mot de passe</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link {{ active_tab3 }}" data-toggle="tab" href="#pharmacie">Information de pharmacie</a>
+              <a class="nav-link {{ active_tab3 }}" data-toggle="tab" href="#pharmacie">Information de Parapharmacie</a>
               </li>
           </ul>
           <div id="myTabContent" class="tab-content">
@@ -59,7 +59,7 @@
             {% endif %}  
               
               {{ form_start(formInfoPharma)}}
-              {{ form_row(formInfoPharma.nom_pharmacie, {'label' : 'Nom de pharmacie', 'attr' : {'value' : app.user.proprietaire.nomPharmacie}}) }}
+              {{ form_row(formInfoPharma.nom_pharmacie, {'label' : 'Nom de Parapharmacie', 'attr' : {'value' : app.user.proprietaire.nomPharmacie}}) }}
               {{ form_row(formInfoPharma.adresse_pharmacie, {'label' : 'Adresse', 'attr' : {'value' : app.user.proprietaire.adresse}}) }}
               {{ form_row(formInfoPharma.ville, {'label' : 'Ville', 'attr' : {'value' : app.user.proprietaire.ville}}) }}
               {{ form_row(formInfoPharma.tel, {'label' : 'Tel', 'attr' : {'value' : app.user.proprietaire.tel}}) }}
