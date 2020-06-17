@@ -219,21 +219,28 @@
     </div>
         {% block javascripts %}
         <script>
-          axios.get('{{path("categories")}}').then(function(response){
+          axios.get('{{path("categories",{"limit":true})}}').then(function(response){
             let categories=document.getElementById('categories')
-            for( i in response.data)
+            let url="{{path('cat', {'name':'X'})}}"
+            for( i in response.data.c)
             {
             let li=document.createElement('li');
             let href=document.createElement('a');
-                  let categorie_name=response.data[i]
-                  let url="{{path('cat', {'name':'X'})}}"
+                  let categorie_name=response.data.c[i]
                   href.href=url.replace('X',categorie_name)
                   href.innerHTML=categorie_name
                   li.append(href)
                   categories.append(li)
 
             }
-            
+            if(response.data.haveMore)
+            {let li=document.createElement('li');
+            let showAll=document.createElement('a');
+            showAll.href='{{path("categories",{"limit":0})}}';
+            showAll.innerHTML='Afficher tout';
+            li.append(showAll)
+            categories.append(li)
+            }
             //console.log(response.data)
             })
         </script>
