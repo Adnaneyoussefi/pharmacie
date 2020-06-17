@@ -32,7 +32,7 @@
             <p>Description : {{produit.description}}</p>
              en Stock :{{produit.quantite}}
             <br/>
-            Pharmacie:<b>  <a href="{{ path('profile', {'id':produit.proprietaire.id})}}">{{produit.proprietaire.nomPharmacie}} </a></b>
+            ParaPharmacie:<b>  <a href="{{ path('profile', {'id':produit.proprietaire.id})}}">{{produit.proprietaire.nomPharmacie}} </a></b>
             
 
             <p><strong class="text-primary h4">{{produit.prixtva}}</strong></p>
