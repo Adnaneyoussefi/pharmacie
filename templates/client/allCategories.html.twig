@@ -1,0 +1,21 @@
+{% extends 'client/base.html.twig' %}
+
+{% block title %}...{% endblock %}
+
+{% block nav %}{% endblock %}
+{% block body %}
+ <div class="site-section">
+      <div class="container">
+        
+ {% for categorie in categories %}
+ 
+        
+           <a href="{{path("cat",{"name":categorie.nom})}}">{{categorie.nom}}</a> &nbsp;
+        
+     
+ {% endfor %}
+ </div>
+    </div>
+
+
+{% endblock %}

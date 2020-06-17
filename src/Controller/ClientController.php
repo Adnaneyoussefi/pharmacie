@@ -329,15 +329,21 @@ class ClientController extends AbstractController
     
     }
      /**
-     * @Route("/categories", name="categories")
+     * @Route("/categories/{limit}", name="categories")
      */
     
-    public function categories()
-    {
+    public function categories($limit)
+    {   //change max results in dropdown here
+        $maxResult=4;
         $doctrine = $this->getDoctrine();
         $repository = $doctrine->getRepository(Categorie::class);
-        $cat=$repository->findAll();
-         return $this->json(array_map(function($x){return $x->getNom();}, $cat),200);
+        $totalCategories=$repository->totalCategories();
+        $cat=$repository->getLimitedCategories(($limit)?$maxResult:false);
+        $t=($totalCategories == count($cat))?false:true;
+         if($limit)
+         return $this->json(['c'=>array_map(function($x){return $x->getNom();}, $cat),'haveMore'=>$t],200);
+        else 
+         return $this->render('client/allCategories.html.twig',['categories'=>$cat]); 
         
     }
     /**

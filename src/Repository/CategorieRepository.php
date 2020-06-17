@@ -18,6 +18,24 @@ class CategorieRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Categorie::class);
     }
+    public function getLimitedCategories($limit)
+    {  if($limit)
+        return $this->getEntityManager()
+        ->createQuery('SELECT p FROM App\Entity\Categorie p')
+        ->setMaxResults($limit)
+        ->getResult();
+       else
+       return
+       $this->getEntityManager()
+        ->createQuery('SELECT p FROM App\Entity\Categorie p')
+        ->getResult();
+
+    }
+    public function totalCategories()
+    {
+        return $this->createQueryBuilder("c")->select('count(c.id)')->getQuery()->getSingleScalarResult();
+    }
+
 
     // /**
     //  * @return Categorie[] Returns an array of Categorie objects
