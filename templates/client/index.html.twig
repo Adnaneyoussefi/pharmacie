@@ -138,13 +138,13 @@ button:hover, a:hover {
 {% else %}
 {% endif %}
 {% if pharmacie %}
-<center><h1> Les dernieres pharmacies inscrites </h1></center>
+<center><h1> Les derniéres Parapharmacies inscrites </h1></center>
 <br><br>
 <div class="cards">
 {% for proprietaire in pharmacie %}
       <div class="card">
   <img src="/w3images/team2.jpg" alt="" style="width:100%">
-  <center><h3>Pharmacie<br> {{proprietaire.nomPharmacie}}</h3></center>
+  <center><h3>Parapharmacie<br> {{proprietaire.nomPharmacie}}</h3></center>
   <center><p class="title">{{proprietaire.adresse}}</p></center>
  <center> <p>{{proprietaire.ville}}</p></center>
  <center> <div style="margin: 24px 0;">
