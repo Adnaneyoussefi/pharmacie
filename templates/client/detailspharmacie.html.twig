@@ -111,7 +111,7 @@
                     <div class="col-md-6">
                         <div class="profile-head">
                                     <h5>
-                                         Pharmacie {{proprietaire.nomPharmacie}}
+                                         ParaPharmacie {{proprietaire.nomPharmacie}}
                                     </h5>
                                     <h6>
                                         PROPRIETAIRE : {{proprietaire.user.nom}} {{proprietaire.user.prenom}}
@@ -180,7 +180,7 @@
             </form>           
         </div>
         {% if produits %}
-       <center> <h3> Les produits qui correspond a cette pharmacie </h3></center>
+       <center> <h3> Les produits qui correspond a cette Parapharmacie </h3></center>
       <div class="container">
          <div class="row">
             {% for produits in page %}
@@ -200,7 +200,7 @@
          {% endfor %}
 
          {% else %}
-                <center> <h3> Cette pharmacie n'a aucun produit  </h3></center>
+                <center> <h3> Cette Parapharmacie n'a aucun produit  </h3></center>
         {% endif %}
          </div> <br>
          <div class:"navigation">
