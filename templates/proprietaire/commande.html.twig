@@ -12,33 +12,32 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
+                    <td>Numero</td>
                     <td>Image</td>
                     <td>Nom</td>
                     <td>Quantité</td>
                     <td>Prix</td>
+                    <td>Nom Client</td>
+                    <td>Email Client</td>
+                    <td>Date</td>
                     <td>Action</td>
                     <td>Status</td>
                 </tr>  
             </thead>
         {% for commande in page %}
-            <tbody>
-                <tr class="table-active">
-                    <td colspan="6"><strong>Email client :</strong>{{ commande.client.user.email }}
-                     <strong>Nom complet: </strong>{{ commande.client.user.nom }} {{ commande.client.user.prenom }}</td>
-                </tr>
-                <tr>
-                    <td colspan="6"><strong>No commande: {{ commande.id }}</strong> <span class="text-muted">{{ commande.date | date('d/m/Y') }}</span></td>
-                </tr>
-            </tbody>
             {% for d in commande.produits %}
             <tbody>   
                 <tr>
+                <td>{{ commande.id }}</td>
                     <td>
                         <img src={{ asset('images/' ~ d.produit.image) }} alt="Image" style="width: 120px;">
                     </td>
                     <td>{{ d.produit.nom }}</td>
                     <td><span class="text-muted">QTE</span> {{ d.quantite }}</td>
                     <td><strong>{{ (d.produit.prixtva + d.produit.prixht) * d.quantite }} Dhs</strong></td>
+                    <td>{{ commande.client.user.nom }} {{ commande.client.user.prenom }}</td>
+                    <td>{{ commande.client.user.email }}</td>
+                    <td>{{ commande.date | date('d/m/Y') }}</td>
                     <td>
                         <a href="{{ path('commande_proprietaire_livré',{'id':d.id})}}" class="btn btn-outline-primary btn-sm d-block mb-2" style="width: 100px" onclick="return confirm('Tu es sure que cette commande est livré ?')">Livrer</a>
                         <a href="{{ path('commande_proprietaire_encours',{'id':d.id})}}" class="btn btn-outline-info btn-sm d-block mb-2" style="width: 100px" onclick="return confirm('Tu es sure que cette commande est en cours de livraison ?')">En cours</a>
