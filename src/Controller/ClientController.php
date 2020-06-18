@@ -280,12 +280,10 @@ class ClientController extends AbstractController
      */
     
     public function HandleSearch(Request $request,PaginatorInterface $paginator)
-    {    $frm=$request->request->get('form');
-        
-        
-        $produits=$this->getDoctrine()->getRepository(Produit::class)->search($frm['crit'], $frm['ville'], $frm['min'], $frm['max']);
-       
-        $page = $paginator->paginate(
+    {    $frm=$request->request->get('form');  
+         $produits=$this->getDoctrine()->getRepository(Produit::class)->search($frm['crit'], $frm['ville'], $frm['min'], $frm['max']);
+         //$_SESSION['products']=$produits;
+         $page = $paginator->paginate(
             $produits,
             $request->query->getInt('page', 1),
             8
@@ -343,7 +341,18 @@ class ClientController extends AbstractController
          if($limit)
          return $this->json(['c'=>array_map(function($x){return $x->getNom();}, $cat),'haveMore'=>$t],200);
         else 
-         return $this->render('client/allCategories.html.twig',['categories'=>$cat]); 
+         return $this->redirect('allCategories'); 
+        
+    }
+      /**
+     * @Route("/Allcategories", name="Allcategories")
+     */
+    
+    public function Allcategories()
+    { 
+        $repository = $this->getDoctrine()->getRepository(Categorie::class);
+        $categories=$repository->findAll();
+        return $this->render('client/allCategories.html.twig',['categories'=>$categories,'pagetitle'=>'Les categories']); 
         
     }
     /**
@@ -396,7 +405,7 @@ class ClientController extends AbstractController
         $page = $paginator->paginate(
             $result,
             $request->query->getInt('page', 1),
-            9
+            8
         );
         return $this->render('client/shop.html.twig',[
             'pagetitle'=>'shop',
