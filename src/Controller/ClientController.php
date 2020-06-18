@@ -142,7 +142,7 @@ class ClientController extends AbstractController
      */
     public function thankyou()
     {
-        return $this->render('client/thankyou.html.twig');
+        return $this->render('client/thankyou.html.twig',['pagetitle'=>'Merci!']);
     }
 
 
