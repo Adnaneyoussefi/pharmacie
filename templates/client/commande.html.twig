@@ -9,6 +9,7 @@
             <thead>
                 <tr class="table-active">
                     <td class="text-muted">Description</td>
+                    <td class="text-muted">Adresse Livraison</td>
                     <td class="text-muted">Prix Unitaire</td>
                     <td class="text-muted">Status</td>
                     <td class="text-muted">Prix total</td>
@@ -17,7 +18,7 @@
             <tbody>   
             {% for commande in page %}
                 <tr> 
-                    <td colspan="4"><strong>No commande: {{commande.nb}}</strong> <span style="color:#999">{{ commande.date | date('d/m/Y') }}</span></td>
+                    <td colspan="5"><strong>No commande: {{commande.nb}}</strong> <span style="color:#999">{{ commande.date | date('d/m/Y') }}</span></td>
                     
                 </tr>
             </tbody>    
@@ -29,10 +30,19 @@
                         <div class="d-inline-block">
                         <div> <strong>{{ d.produit.nom }}</strong></div>
                         <div><span style="color:#999">QTE</span> {{ d.quantite }}</div>
-                        <span style="color:#999">Adresse Livraison : </span> {{ commande.AdresseLivraison}}
                         <div>Parapharmacie: {{ d.produit.proprietaire.nompharmacie }}</div>
                         </div>
                     </td>
+
+                    {% if loop.first %}
+                    <td rowspan={{commande.produits|length}} style="max-width: 390px">
+                        <div class="d-table-row"><span style="color:#999" class="d-table-cell pr-2">Nom complet:</span> {{ commande.nom }} {{ commande.prenom }}</div>
+                        <div class="d-table-row"><span style="color:#999" class="d-table-cell pr-2">Tel:</span> {{ commande.client.tel }}</div>
+                        <div class="d-table-row"><span style="color:#999" class="d-table-cell pr-2">Adresse de réception:</span> {{ commande.adresselivraison }}</div>
+                        <div class="d-table-row"><span style="color:#999" class="d-table-cell pr-2">Ville:</span> {{ commande.ville }}</div>
+                        <div class="d-table-row"><span style="color:#999" class="d-table-cell pr-2">Code postal:</span> {{ commande.codepostal }}</div>
+                    </td>
+                    {% endif %}
                                         
                     <td><strong>{{ (d.produit.prixtva + d.produit.prixht) * d.quantite }} Dhs</strong></td>
                     <td>
