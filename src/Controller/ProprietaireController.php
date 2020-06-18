@@ -243,7 +243,8 @@ class ProprietaireController extends AbstractController
             'pagetitle'=>'Vente',
             'path'=>'home_proprietaire',
             'form2' => $form2->createView(),
-            'prixTotal' => $prixTotal
+            'prixTotal' => $prixTotal,
+            'commandes' => $commandes 
         ]);
     }
       /**
@@ -276,7 +277,8 @@ class ProprietaireController extends AbstractController
         return $this->render('proprietaire/commande.html.twig',[
             'page'=> $page,
             'pagetitle'=>'Commande',
-            'path'=>'home_proprietaire',            
+            'path'=>'home_proprietaire',  
+            'commandes' => $commandes          
         ]);
     }
 

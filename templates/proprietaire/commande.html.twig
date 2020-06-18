@@ -11,33 +11,44 @@
         {% endfor %}
         <table class="table table-bordered">
             <thead>
-                <tr>
-                    <td>Numero</td>
-                    <td>Image</td>
-                    <td>Nom</td>
-                    <td>Quantité</td>
+                <tr class="table-active">
+                    <td>Description</td>
+                    <td>Adresse Livraison</td>
                     <td>Prix</td>
-                    <td>Nom Client</td>
-                    <td>Email Client</td>
-                    <td>Date</td>
                     <td>Action</td>
                     <td>Status</td>
                 </tr>  
             </thead>
+        {% if commandes %}
         {% for commande in page %}
-            {% for d in commande.produits %}
-            <tbody>   
+            <tbody>
                 <tr>
-                <td>{{ commande.id }}</td>
+                    <td colspan="5"><strong>No commande: {{ commande.id }}</strong> <span class="text-muted">{{ commande.date | date('d/m/Y') }}</span></td>
+                </tr>
+                <tr>
+                    <td colspan="5"><span class="text-primary">Email client :</span> {{ commande.client.user.email }}
+                    </td>
+                </tr>
+            </tbody>
+            <tbody>
+            {% for d in commande.produits %}   
+                <tr>
                     <td>
                         <img src={{ asset('images/' ~ d.produit.image) }} alt="Image" style="width: 120px;">
+                        <div class="d-inline-block">
+                        <div> <strong>{{ d.produit.nom }}</strong></div>
+                        <div><span style="color:#999">QTE</span> {{ d.quantite }}</div>
                     </td>
-                    <td>{{ d.produit.nom }}</td>
-                    <td><span class="text-muted">QTE</span> {{ d.quantite }}</td>
+                    {% if loop.first %}
+                    <td rowspan={{commande.produits|length}} style="max-width: 390px">
+                        <div class="d-table-row"><span style="color:#999" class="d-table-cell pr-2">Nom complet:</span> {{ commande.nom }} {{ commande.prenom }}</div>
+                        <div class="d-table-row"><span style="color:#999" class="d-table-cell pr-2">Tel:</span> {{ commande.client.tel }}</div>
+                        <div class="d-table-row"><span style="color:#999" class="d-table-cell pr-2">Adresse de réception:</span> {{ commande.adresselivraison }}</div>
+                        <div class="d-table-row"><span style="color:#999" class="d-table-cell pr-2">Ville:</span> {{ commande.ville }}</div>
+                        <div class="d-table-row"><span style="color:#999" class="d-table-cell pr-2">Code postal:</span> {{ commande.codepostal }}</div>
+                    </td>
+                    {% endif %}
                     <td><strong>{{ (d.produit.prixtva + d.produit.prixht) * d.quantite }} Dhs</strong></td>
-                    <td>{{ commande.client.user.nom }} {{ commande.client.user.prenom }}</td>
-                    <td>{{ commande.client.user.email }}</td>
-                    <td>{{ commande.date | date('d/m/Y') }}</td>
                     <td>
                         <a href="{{ path('commande_proprietaire_livré',{'id':d.id})}}" class="btn btn-outline-primary btn-sm d-block mb-2" style="width: 100px" onclick="return confirm('Tu es sure que cette commande est livré ?')">Livrer</a>
                         <a href="{{ path('commande_proprietaire_encours',{'id':d.id})}}" class="btn btn-outline-info btn-sm d-block mb-2" style="width: 100px" onclick="return confirm('Tu es sure que cette commande est en cours de livraison ?')">En cours</a>
@@ -52,10 +63,19 @@
                         {% endif %}    
                     </td>
                 </tr>
-            </tbody>
             {% endfor %}
+            </tbody>
         {% endfor %}
+        {% else %}
+        <tbody>
+                <tr>
+                    <td scope="col" colspan="5">Aucune commande </td>
+                </tr>
+        </tbody>                     
+        {% endif %}
+        
         </table>
+        
         <div class:"navigation">
             {{ knp_pagination_render(page)}}
         </div> 

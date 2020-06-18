@@ -53,11 +53,13 @@ button:hover, a:hover {
 }
 </style>
 <br><br>
+<center><h1> Les Parapharmacie </h1></center>
+<br><br>
 <div class="cards">
 {% for pharmacies in page %}
       <div class="card">
   <img src="/w3images/team2.jpg" alt="" style="width:100%">
-  <center><h3>Pharmacie<br> {{pharmacies.nomPharmacie}}</h3></center>
+  <center><h3>Parapharmacie<br> {{pharmacies.nomPharmacie}}</h3></center>
   <center><p class="title">{{pharmacies.adresse}}</p></center>
  <center> <p>{{pharmacies.ville}}</p></center>
  <center> <div style="margin: 24px 0;">
