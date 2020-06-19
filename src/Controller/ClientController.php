@@ -187,8 +187,8 @@ class ClientController extends AbstractController
      * @Route("/chekout", name="c")
      */
     public function check()
-    {
-        return $this->render('client/chekout.html.twig');
+    {  
+        //return $this->render('client/chekout.html.twig',['villes'=>$villes]);
     }
 
 
@@ -312,9 +312,13 @@ class ClientController extends AbstractController
         //------------------------//
         
         $frm=$request->request->get('form');
+        $villes=[
+            'Casablanca', 'Fès', 'Salé', 'Tanger',   'Meknès', 'Rabat', 'Oujda',
+            'Kénitra','Agadir', 'Tétouan', 'Témara', 'Safi', 'Mohammédia', 'Khouribga',
+             'El Jadida', 'Béni Mellal',  'Nador',   'Taza', 'Khémisset',];
       //json_decode($frm['items']);
       //die();
-      return $this->render('client/chekout.html.twig',['items'=>json_decode($frm['items'])]); 
+      return $this->render('client/chekout.html.twig',['villes'=>$villes,'items'=>json_decode($frm['items'])]); 
 
       
     }

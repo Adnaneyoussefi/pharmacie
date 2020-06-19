@@ -1,9 +1,11 @@
 {% extends 'client/base.html.twig' %}
 
 {% block title %}Checkout{% endblock %}
-
 {% block nav %}{% endblock %}
 {% block body %}
+<script>
+  if(idd=='guest') window.location.href='/login'
+</script>
 
 <div class="site-section">
       <div class="container">
@@ -52,8 +54,11 @@
                 </div>
                 <div class="col-md-6">
                   <label for="c_diff_address" class="text-black">Ville <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_ville" name="c_ville"
-                    placeholder="ville">
+                  <select class="form-control" id="c_ville" name="c_ville">
+                    {% for ville in villes %}
+                    <option value='{{ville}}'>{{ville}}</option>
+                    {% endfor %}
+                  </select>
               </div>
     
             
