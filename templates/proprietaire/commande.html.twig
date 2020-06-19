@@ -14,7 +14,7 @@
                 <tr class="table-active">
                     <td>Description</td>
                     <td>Adresse Livraison</td>
-                    <td>Prix</td>
+                    <td>Prix total</td>
                     <td>Action</td>
                     <td>Status</td>
                 </tr>  
@@ -36,8 +36,9 @@
                     <td>
                         <img src={{ asset('images/' ~ d.produit.image) }} alt="Image" style="width: 120px;">
                         <div class="d-inline-block">
-                        <div> <strong>{{ d.produit.nom }}</strong></div>
+                        <div><strong>{{ d.produit.nom }}</strong></div>
                         <div><span style="color:#999">QTE</span> {{ d.quantite }}</div>
+                        <div><span style="color:#999">Prix unitaire</span> {{ d.produit.prixtva + d.produit.prixht }} Dhs</div>
                     </td>
                     {% if loop.first %}
                     <td rowspan={{commande.produits|length}} style="max-width: 390px">

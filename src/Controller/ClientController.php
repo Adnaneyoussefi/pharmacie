@@ -302,7 +302,8 @@ class ClientController extends AbstractController
       
         return $this->render('client/shop.html.twig',[
             'pagetitle'=>'shop',
-            'page' => $page
+            'page' => $page,
+            'products' => $produits,
             ]);
      
 

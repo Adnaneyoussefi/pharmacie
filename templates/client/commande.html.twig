@@ -10,9 +10,9 @@
                 <tr class="table-active">
                     <td class="text-muted">Description</td>
                     <td class="text-muted">Adresse Livraison</td>
-                    <td class="text-muted">Prix Unitaire</td>
-                    <td class="text-muted">Status</td>
                     <td class="text-muted">Prix total</td>
+                    <td class="text-muted">Status</td>
+                    <td class="text-muted">Total</td>
                 </tr>  
             </thead>  
             <tbody>   
@@ -30,7 +30,8 @@
                         <div class="d-inline-block">
                         <div> <strong>{{ d.produit.nom }}</strong></div>
                         <div><span style="color:#999">QTE</span> {{ d.quantite }}</div>
-                        <div>Parapharmacie: {{ d.produit.proprietaire.nompharmacie }}</div>
+                        <div><span style="color:#999">Prix unitaire</span> {{ d.produit.prixtva + d.produit.prixht }} Dhs</div>
+                        <div><span style="color:#999">Parapharmacie</span> <a href="{{ path('profile', {'id':d.produit.proprietaire.id})}}">{{ d.produit.proprietaire.nompharmacie }}</a></div>
                         </div>
                     </td>
 
