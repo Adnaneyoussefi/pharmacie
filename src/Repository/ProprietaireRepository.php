@@ -84,6 +84,30 @@ class ProprietaireRepository extends ServiceEntityRepository
             ->setMaxResults(6);
         return $query->getResult();
         }
+
+        public function search($nom,$ville)
+        {        
+            $query = $this
+                ->createQueryBuilder('p');
+            if(!empty($nom))
+            {
+                $query = $query
+                    ->andWhere('p.nom_pharmacie LIKE :nom')
+                    ->setParameter('nom','%'.$nom.'%');
+            }
+            if(!empty($ville))
+            {
+                $query = $query
+                ->andWhere('p.ville=:ville')
+                ->setParameter('ville',$ville);
+            }
+            return $query->getQuery()->getResult();
+        }
+
+
+
+
+
     // /**
     //  * @return Proprietaire[] Returns an array of Proprietaire objects
     //  */
