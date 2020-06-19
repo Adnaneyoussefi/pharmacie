@@ -370,7 +370,7 @@ class ClientController extends AbstractController
         $page = $paginator->paginate(
             $pharmacies,
             $request->query->getInt('page', 1),
-            1
+            9
         );
         return $this->render('client/list-pharmacie.html.twig',[
             'pagetitle'=>'pharmacie',
