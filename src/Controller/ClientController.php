@@ -331,11 +331,11 @@ class ClientController extends AbstractController
            $frm=$request->request->get('form'); 
            if(!$frm)
            {
-            $produits=$session->get('temp',[]);
+            $produits=$session->get('Storetemp',[]);
            }
            else{
            $produits=$this->getDoctrine()->getRepository(Produit::class)->search($frm['crit'], $frm['ville'], $frm['min'], $frm['max']);
-           $session->set('temp',$produits);
+           $session->set('Storetemp',$produits);
            }
          $page = $paginator->paginate(
             $produits,
