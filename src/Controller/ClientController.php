@@ -336,7 +336,7 @@ class ClientController extends AbstractController
          $page = $paginator->paginate(
             $produits,
             $request->query->getInt('page', 1),
-            1
+            8
         );
        
           
