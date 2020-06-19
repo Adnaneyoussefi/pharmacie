@@ -26,6 +26,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 
 
@@ -279,18 +280,28 @@ class ClientController extends AbstractController
      * @Route("/HandleSearch", name="HandleSearch")
      */
     
-    public function HandleSearch(Request $request,PaginatorInterface $paginator)
-    {    $frm=$request->request->get('form');  
-         $produits=$this->getDoctrine()->getRepository(Produit::class)->search($frm['crit'], $frm['ville'], $frm['min'], $frm['max']);
-         //$_SESSION['products']=$produits;
+    public function HandleSearch(Request $request,PaginatorInterface $paginator,SessionInterface $session)
+    {    
+           $frm=$request->request->get('form'); 
+           if(!$frm)
+           {
+            $produits=$session->get('temp',[]);
+           }
+           else{
+           $produits=$this->getDoctrine()->getRepository(Produit::class)->search($frm['crit'], $frm['ville'], $frm['min'], $frm['max']);
+           $session->set('temp',$produits);
+           }
          $page = $paginator->paginate(
             $produits,
             $request->query->getInt('page', 1),
             8
         );
+       
+          
+        
+      
         return $this->render('client/shop.html.twig',[
             'pagetitle'=>'shop',
-            'products' => $produits,
             'page' => $page
             ]);
      
@@ -409,7 +420,6 @@ class ClientController extends AbstractController
         );
         return $this->render('client/shop.html.twig',[
             'pagetitle'=>'shop',
-            'products' => $result,
             'page' => $page
             ]);
 
