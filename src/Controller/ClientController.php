@@ -259,6 +259,49 @@ class ClientController extends AbstractController
         return $this->render('client/SearchForm.html.twig',['form'=>$form->createView()]);
 
     }
+
+    public function searchprop()
+    {
+        $form=$this->createFormBuilder(null)
+        ->setAction($this->generateUrl('HandleSearchProp'))
+        ->add('nom',TextType::class, array('label' => false,'required'=>false,'attr' => array(
+            'placeholder' => 'Entrer le nom du Parapharmacie','style'=>'width:350px'
+        )))
+        ->add('ville', ChoiceType::class,[
+            'choices'  => [
+                'toutes les villes'=> false,
+                'Casablanca' => 'Casablanca',
+                'Fès' => 'Fès',
+                'Salé' => 'Salé',
+                'Tanger' => 'Tanger',
+                'Marrakech' => 'Marrakech',
+                'Meknès' => 'Meknès',
+                'Rabat' => 'Rabat',
+                'Oujda' => 'Oujda',
+                'Kénitra' => 'Kénitra',
+                'Agadir' => 'Agadir',
+                'Tétouan' => 'Tétouan',
+                'Témara' => 'Témara',
+                'Safi' => 'Safi',
+                'Mohammédia' => 'Mohammédia',
+                'Khouribga' => 'Khouribga',
+                'El Jadida' => 'El Jadida',
+                'Béni Mellal' => 'Béni Mellal',
+                'Nador' => 'Nador',
+                'Taza' => 'Taza',
+                'Khémisset' => 'Khémisset',
+                'Autre...' => 'Autre',
+            ],'label'=>false
+        ])
+        ->add('Chercher', SubmitType::class, array(
+            'attr'=>array(
+                'class'=>'btn btn-primary mt-2'
+            )
+            ))
+        ->getForm();
+        return $this->render('client/SearchFormProp.html.twig',['form'=>$form->createView()]);
+
+    }
     /**
      * @Route("/HandleCheckout", name="HandleCheckout")
      */
@@ -294,7 +337,7 @@ class ClientController extends AbstractController
          $page = $paginator->paginate(
             $produits,
             $request->query->getInt('page', 1),
-            8
+            1
         );
        
           
@@ -304,6 +347,36 @@ class ClientController extends AbstractController
             'pagetitle'=>'shop',
             'page' => $page,
             'products' => $produits,
+            ]);
+     
+
+      
+    }
+
+      /**
+     * @Route("/pharmacie", name="HandleSearchProp")
+     */
+    public function HandleSearchProp(Request $request,PaginatorInterface $paginator, SessionInterface $session)
+    {       
+        $frm=$request->request->get('form');
+        
+        if(!$frm)
+           {
+            $pharmacies=$session->get('temp',[]);
+           }
+           else{
+        $pharmacies=$this->getDoctrine()->getRepository(Proprietaire::class)->search($frm['nom'], $frm['ville']);
+        $session->set('temp',$pharmacies);
+    }
+        $page = $paginator->paginate(
+            $pharmacies,
+            $request->query->getInt('page', 1),
+            9
+        );
+        return $this->render('client/list-pharmacie.html.twig',[
+            'pagetitle'=>'pharmacie',
+            'pharmacies' => $pharmacies,
+            'page' => $page
             ]);
      
 

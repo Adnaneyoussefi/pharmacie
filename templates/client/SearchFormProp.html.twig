@@ -1,0 +1,8 @@
+
+<div class='search d-flex justify-content-center'>
+{{ form_start(form, {'attr': {'id': 'search_prop_form', 'placeholder':'chercher une para','class':'form-inline','style': 'display:inline;margin:0px auto'}}) }}
+    {{ form_widget(form.nom) }}
+    {{ form_widget(form.ville) }}
+    {{ form_widget(form.Chercher,{'attr':{'style':'margin-bottom:9px', 'method':'POST'}}) }}      
+{{ form_end(form) }}
+</div>
