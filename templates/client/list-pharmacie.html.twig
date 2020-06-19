@@ -54,7 +54,9 @@ button:hover, a:hover {
 </style>
 <br><br>
 <center><h1> Les Parapharmacie </h1></center>
-<br><br>
+<br>
+      {{render(controller('App\\Controller\\ClientController::SearchProp'))}}
+<br>
 <div class="cards">
 {% for pharmacies in page %}
       <div class="card">
