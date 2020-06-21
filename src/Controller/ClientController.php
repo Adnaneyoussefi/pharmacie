@@ -27,6 +27,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 
 
@@ -200,9 +201,9 @@ class ClientController extends AbstractController
                  ;
          return $this->render('client/CheckoutForm.html.twig',['form'=>$form->createView()]);        
     }
-    public function search()
+    public function search($categorie=null)
     {
-
+    
         // class="form-control my-0 py-1 amber-border" type="text" placeholder="Search" aria-label="Search"
         $form=$this->createFormBuilder(null)
         ->setAction($this->generateUrl('HandleSearch'))
@@ -254,6 +255,7 @@ class ClientController extends AbstractController
                 'class'=>'btn btn-primary mt-2'
             )
             ))
+        ->add('categorie', HiddenType::class,['data'=>$categorie])   
         ->getForm();
         return $this->render('client/SearchForm.html.twig',['form'=>$form->createView()]);
 
@@ -334,7 +336,7 @@ class ClientController extends AbstractController
             $produits=$session->get('Storetemp',[]);
            }
            else{
-           $produits=$this->getDoctrine()->getRepository(Produit::class)->search($frm['crit'], $frm['ville'], $frm['min'], $frm['max']);
+           $produits=$this->getDoctrine()->getRepository(Produit::class)->search($frm['crit'], $frm['ville'], $frm['min'], $frm['max'],$frm['categorie']);
            $session->set('Storetemp',$produits);
            }
          $page = $paginator->paginate(
@@ -496,6 +498,7 @@ class ClientController extends AbstractController
         );
         return $this->render('client/shop.html.twig',[
             'pagetitle'=>'shop',
+            'categorie'=>$name,
             'page' => $page
             ]);
 

@@ -7,7 +7,7 @@
 
 
 <div class="site-section" >
-      {{render(controller('App\\Controller\\ClientController::Search'))}}
+      {{render(controller('App\\Controller\\ClientController::Search',{'categorie':(categorie is defined) ? categorie : null}))}}
       <div class="container">
         
         <div class="row">
