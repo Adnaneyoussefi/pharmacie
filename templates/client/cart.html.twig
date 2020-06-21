@@ -117,7 +117,7 @@ function CalcTotal()
 }
 function SubmitOrder()
 {       if(idd=='guest')
-      { //sessionStorage.setItem('redirect',true)
+      { sessionStorage.setItem('redirect',true)
         window.location.href="login"
         return
       }

@@ -2,6 +2,60 @@
 <html>
    <head>
         <meta charset="UTF-8">
+        <script>
+          const idd='{{app.user.id is defined ? app.user.id:"guest"}}'
+          console.log(idd)
+            if(idd!=='guest')
+            {
+              if(JSON.parse(localStorage.getItem("my_cart_infos")).filter(x=>x.id=="guest").length)
+                             {      let strg=JSON.parse(localStorage.getItem("my_cart_infos"));
+                                   console.log(JSON.parse(localStorage.getItem("my_cart_infos")).filter(x=>x.id=="guest"));
+                                    if(!JSON.parse(localStorage.getItem("my_cart_infos")).filter(x=>x.id==idd).length)
+                                       {
+                                            console.log(1)
+                                          
+                                           let crt={id:idd,items:strg.filter(x=>x.id=="guest")[0].items};
+                                         
+                                           strg.push(crt);
+                                       }  
+                                    else{
+                                        console.log(2)
+                                       let arr1=strg.filter(x=>x.id=="guest")[0].items;
+                                       
+                                       let arr2=strg.filter(x=>x.id==idd)[0].items;
+                                     
+                                        let ar=(arr1.length>arr2.length)?arr1:arr2;
+                                       let av=(ar==arr1)?arr2:arr1;
+                                       let av_id=av.map(x=>x.id);
+                                       for(i in ar)
+                                       {
+                                         if(av_id.indexOf(ar[i].id)!==-1)
+                                         {
+                                           ar[i].qt=Math.min(ar[i].qt*1 + av[av_id.indexOf(ar[i].id)].qt*1,ar[i].stock );
+                                           av.splice(av_id.indexOf(ar[i].id),1)
+                                         }
+
+                                       }
+
+                                       ar=ar.concat(av)
+  
+                                       strg.splice(strg.map(x=>x.id).indexOf(idd),1);
+                                       strg.push({id:idd,items:ar});
+                                    }
+                                    strg.splice(strg.map(x=>x.id).indexOf("guest"),1);
+                                    localStorage.setItem("my_cart_infos",JSON.stringify(strg));
+
+                             }
+            }
+          
+          
+          
+            if(sessionStorage.getItem('redirect') && idd!=='guest')
+               { 
+                 sessionStorage.clear('redirect')
+                 window.location.href='/cart'
+               }
+        </script>
         <title>{% block title %}{{pagetitle}}{% endblock %}</title>
         <link href="https://fonts.googleapis.com/css?family=Rubik:400,700|Crimson+Text:400,400i" rel="stylesheet">
 
@@ -13,8 +67,6 @@
         <link rel="stylesheet" href="{{ asset('css/jquery-ui.css') }}">
         <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}">
         <link rel="stylesheet" href="{{ asset('css/owl.theme.default.min.css') }}">
-
-
         <link rel="stylesheet" href="{{ asset('css/aos.css') }}">
 
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
@@ -50,7 +102,7 @@
                             <div class="site-logo">
 
                           
-                            <a href="{{ path('home') }}">     <img src="{{asset('images/logosite.png')}}" alt="" style="max-height:50px"/></a>
+                            <a href="{{ path('home') }}" class="js-logo-clone">PARACLIC</a>
 
                             </div>
                         </div>
@@ -91,52 +143,12 @@
                             </ul>
                             </li>
                             {% if not app.user %}    
-                            <script> const idd="guest"; </script>
+                            <script>  </script>
                             <li class="connexion">
                             <a href="{{ path('app_login') }}">Connexion</a></li>
                             </ul>
                             {% else %}
-                            <script> const idd="{{app.user.id}}" ;
-                             if(JSON.parse(localStorage.getItem("my_cart_infos")).filter(x=>x.id=="guest").length)
-                             {      let strg=JSON.parse(localStorage.getItem("my_cart_infos"));
-                                    if(!JSON.parse(localStorage.getItem("my_cart_infos")).filter(x=>x.id==idd).length)
-                                       {
-                                         // console.log( strg.filter(x=>x.id=="guest"));
-                                        let crt={id:idd,items:strg.filter(x=>x.id=="guest")[0].items};
-                                         
-                                           strg.push(crt);
-                                          // console.log(strg.map(x=>x.id).indexOf("guest"));
-                                         
-                                         
-                                          
-                                       }  
-                                    else{
-                                       let arr1=strg.filter(x=>x.id=="guest")[0].items;
-                                       let arr2=strg.filter(x=>x.id==idd)[0].items;
-                                       let ar=(arr1.length>arr2.length)?arr1:arr2;
-                                       let av=(ar==arr1)?arr2:arr1;
-                                       let av_id=av.map(x=>x.id);
-                                       for(i in ar)
-                                       {
-                                         if(av_id.indexOf(ar[i].id)!==-1)
-                                         {
-                                           ar[i].qt=Math.min(ar[i].qt*1 + av[av_id.indexOf(ar[i].id)].qt*1,ar[i].stock );
-                                         }
-
-                                       }
-                                       
-                                       strg.splice(strg.map(x=>x.id).indexOf(idd),1);
-                                       strg.push({id:idd,items:ar});
-
-                                     //  console.log(ar);
-                                      
-                                   
-                                    }
-                                    strg.splice(strg.map(x=>x.id).indexOf("guest"),1);
-                                    localStorage.setItem("my_cart_infos",JSON.stringify(strg));
-
-                             }
-
+                            <script> 
                             
                             
                             </script>
