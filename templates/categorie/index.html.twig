@@ -27,7 +27,6 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Nom</th>
                 <th>Actions</th>
             </tr>
@@ -35,7 +34,6 @@
         <tbody>
         {% for categorie in categories %}
             <tr>
-                <td>{{ categorie.id }}</td>
                 <td>{{ categorie.nom }}</td>
                 <td>
                     <a href="{{ path('categorie_edit', {'id': categorie.id}) }}" class="btn btn-warning btn-sm d-block mb-1" style="width: 100px">Modifier</a>
