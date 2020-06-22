@@ -91,7 +91,7 @@ var items=JSON.parse(localStorage.getItem("my_cart_infos")).filter( x=>x.id==idd
   {
     if(!items.length) return
    let tmp=this.parentElement.parentElement.childNodes[1]
-   if(this.className.includes('minus')) {if(tmp.value==0)return
+   if(this.className.includes('minus')) {if(tmp.value==1)return
                                     tmp.value--
                                     }
    else tmp.value++
