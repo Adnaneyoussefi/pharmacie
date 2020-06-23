@@ -51,7 +51,7 @@ class Proprietaire
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity=Produit::class, mappedBy="proprietaire", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Produit::class, mappedBy="proprietaire", orphanRemoval=true, cascade={"remove"})
      */
     private $produits;
 

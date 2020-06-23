@@ -85,7 +85,7 @@ class User implements UserInterface
     private $isActive;
 
     /**
-     * @ORM\OneToMany(targetEntity=Reclamation::class, mappedBy="user")
+     * @ORM\OneToMany(targetEntity=Reclamation::class, mappedBy="user", cascade={"remove"})
      */
     private $reclamation;
 

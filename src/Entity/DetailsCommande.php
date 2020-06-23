@@ -17,7 +17,7 @@ class DetailsCommande
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Commande", inversedBy="produits")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Commande", inversedBy="produits", cascade={"remove"})
      */
     private $commande;
 

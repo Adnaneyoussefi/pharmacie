@@ -67,7 +67,7 @@ class Produit
     private $categorie;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\DetailsCommande", mappedBy="produit")
+     * @ORM\OneToMany(targetEntity="App\Entity\DetailsCommande", mappedBy="produit", cascade={"remove"})
      */
     private $commandes;
 
