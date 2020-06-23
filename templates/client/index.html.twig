@@ -121,7 +121,7 @@ button:hover, a:hover {
         <div class="col-sm-6 col-lg-4 mt-3">
           <div class="card">
             <div class="card-body text-center item mb-4">
-              <img src="{{asset('images/'~produit.image)}}" alt="Image" style="max-height:250px">
+              <img src="{{asset('images/'~produit.image)}}" alt="Image" class="cart-item" style="height:220px;max-height:220px;max-width:327px">
               <h5>{{produit.nom}}</h5>
               <p class="price">{{produit.prixtva + produit.prixht}} DH</p>
               <a class="btn btn-success" href=" {{path('details', {'id':produit.id})}}" role="button">Découvrir</a>

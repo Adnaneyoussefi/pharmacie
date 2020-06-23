@@ -30,8 +30,7 @@ class CommandeRepository extends ServiceEntityRepository
             ->join('c.produits', 'd')
             ->join('d.produit', 'p')
             ->where('p.proprietaire = :prop')
-            ->andwhere('d.livraison is NULL ')
-            ->orWhere('d.livraison = :encours')
+            ->andwhere('d.livraison = :encours  OR d.livraison IS NULL')
             ->orderBy('c.date', 'DESC')
             ->setParameter('prop', $user->getProprietaire())
             ->setParameter('encours', 'encours');
