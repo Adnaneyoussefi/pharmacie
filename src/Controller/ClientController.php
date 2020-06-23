@@ -430,7 +430,7 @@ class ClientController extends AbstractController
          if($limit)
          return $this->json(['c'=>array_map(function($x){return $x->getNom();}, $cat),'haveMore'=>$t],200);
         else 
-         return $this->redirect('allCategories'); 
+         return $this->redirectToRoute('Allcategories'); 
         
     }
       /**
