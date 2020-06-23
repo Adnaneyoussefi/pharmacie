@@ -270,7 +270,7 @@ return $this->render('admin/list-pharmacie.html.twig', [
        dump($user);
          $em->remove($user);
           $em->flush();
- 
+          $this->addFlash('success', 'Vous avez supprimer le compte avec succés !');
          return $this->redirectToRoute('listpharmacie_admin');
     }
 
@@ -416,7 +416,8 @@ public function deletreclamationclient($id) {
        dump($user);
          $em->remove($user);
           $em->flush();
- 
+          $this->addFlash('success', 'Vous avez supprimer le compte avec succés !');
+
          return $this->redirectToRoute('listclient_admin');
     }
 
