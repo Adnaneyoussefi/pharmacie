@@ -81,11 +81,12 @@ class ProduitRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();    
     }
 
-    public function search($crit,$ville,$min,$max)
+    public function search($crit,$ville,$min,$max,$categorie)
     {
         $query = $this
             ->createQueryBuilder('p')
             ->leftjoin('p.proprietaire','u')
+            ->leftjoin('p.categorie','y')
             ->where('p.date_expiration > CURRENT_DATE()');
         if(!empty($crit))
         {
@@ -110,6 +111,13 @@ class ProduitRepository extends ServiceEntityRepository
             $query = $query
             ->andWhere('p.prix_tva<= :max')
             ->setParameter('max', $max);
+        }
+        if(!empty($categorie))
+        {
+           $query = $query
+            ->andWhere('y.nom=:cat')
+            ->setParameter('cat',$categorie);
+           // dd($query->getQuery()->getResult());
         }
         return $query->getQuery()->getResult();
         /*if($ville=='all')

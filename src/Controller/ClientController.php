@@ -27,6 +27,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 
 
@@ -122,7 +123,6 @@ class ClientController extends AbstractController
         );
         return $this->render('client/shop.html.twig',[
             'pagetitle'=>'shop',
-            'products' => $produits,
             'page' => $page
             ]);
     
@@ -188,8 +188,8 @@ class ClientController extends AbstractController
      * @Route("/chekout", name="c")
      */
     public function check()
-    {
-        return $this->render('client/chekout.html.twig');
+    {  
+        //return $this->render('client/chekout.html.twig',['villes'=>$villes]);
     }
 
 
@@ -201,9 +201,9 @@ class ClientController extends AbstractController
                  ;
          return $this->render('client/CheckoutForm.html.twig',['form'=>$form->createView()]);        
     }
-    public function search()
+    public function search($categorie=null)
     {
-
+    
         // class="form-control my-0 py-1 amber-border" type="text" placeholder="Search" aria-label="Search"
         $form=$this->createFormBuilder(null)
         ->setAction($this->generateUrl('HandleSearch'))
@@ -255,6 +255,7 @@ class ClientController extends AbstractController
                 'class'=>'btn btn-primary mt-2'
             )
             ))
+        ->add('categorie', HiddenType::class,['data'=>$categorie])   
         ->getForm();
         return $this->render('client/SearchForm.html.twig',['form'=>$form->createView()]);
 
@@ -313,9 +314,13 @@ class ClientController extends AbstractController
         //------------------------//
         
         $frm=$request->request->get('form');
+        $villes=[
+            'Casablanca', 'Fès', 'Salé', 'Tanger',   'Meknès', 'Rabat', 'Oujda',
+            'Kénitra','Agadir', 'Tétouan', 'Témara', 'Safi', 'Mohammédia', 'Khouribga',
+             'El Jadida', 'Béni Mellal',  'Nador',   'Taza', 'Khémisset',];
       //json_decode($frm['items']);
       //die();
-      return $this->render('client/chekout.html.twig',['items'=>json_decode($frm['items'])]); 
+      return $this->render('client/chekout.html.twig',['villes'=>$villes,'items'=>json_decode($frm['items'])]); 
 
       
     }
@@ -328,16 +333,16 @@ class ClientController extends AbstractController
            $frm=$request->request->get('form'); 
            if(!$frm)
            {
-            $produits=$session->get('temp',[]);
+            $produits=$session->get('Storetemp',[]);
            }
            else{
-           $produits=$this->getDoctrine()->getRepository(Produit::class)->search($frm['crit'], $frm['ville'], $frm['min'], $frm['max']);
-           $session->set('temp',$produits);
+           $produits=$this->getDoctrine()->getRepository(Produit::class)->search($frm['crit'], $frm['ville'], $frm['min'], $frm['max'],$frm['categorie']);
+           $session->set('Storetemp',$produits);
            }
          $page = $paginator->paginate(
             $produits,
             $request->query->getInt('page', 1),
-            1
+            8
         );
        
           
@@ -426,7 +431,7 @@ class ClientController extends AbstractController
          if($limit)
          return $this->json(['c'=>array_map(function($x){return $x->getNom();}, $cat),'haveMore'=>$t],200);
         else 
-         return $this->redirect('allCategories'); 
+         return $this->redirectToRoute('Allcategories'); 
         
     }
       /**
@@ -494,6 +499,7 @@ class ClientController extends AbstractController
         );
         return $this->render('client/shop.html.twig',[
             'pagetitle'=>'shop',
+            'categorie'=>$name,
             'page' => $page
             ]);
 

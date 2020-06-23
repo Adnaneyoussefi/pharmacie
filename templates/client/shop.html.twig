@@ -7,11 +7,11 @@
 
 
 <div class="site-section" >
-      {{render(controller('App\\Controller\\ClientController::Search'))}}
+      {{render(controller('App\\Controller\\ClientController::Search',{'categorie':(categorie is defined) ? categorie : null}))}}
       <div class="container">
         
         <div class="row">
-          {% if products %}
+          {% if page %}
             {% for prod in page %}
               <div class="col-lg-3 col-md-6 mt-3">
                 <div class="card">
