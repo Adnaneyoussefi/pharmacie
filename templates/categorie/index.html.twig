@@ -33,7 +33,7 @@
             </tr>
         </thead>
         <tbody>
-        {% for categorie in categories %}
+        {% for categorie in page %}
             <tr>
                 <td>{{ categorie.nom }}</td>
                 <td>
@@ -48,7 +48,9 @@
         {% endfor %}
         </tbody>
     </table>
-
+<div class:"navigation">
+              {{ knp_pagination_render(page)}}
+              </div>
     </div>
 </div>    
 {% endblock %}
