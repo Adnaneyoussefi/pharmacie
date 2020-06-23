@@ -25,7 +25,7 @@ class CategorieController extends AbstractController
         $page = $paginator->paginate (
             $categorieRepository->findAll(),
             $request->query->getInt('page', 1),
-            3
+            10
         );
         return $this->render('categorie/index.html.twig', [
             'categories' => $categorieRepository->findAll(),
