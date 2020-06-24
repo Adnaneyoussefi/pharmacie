@@ -80,6 +80,13 @@ class ProduitRepository extends ServiceEntityRepository
         }
         return $query->getQuery()->getResult();    
     }
+    public function getProducts()
+    {
+        return $this->createQueryBuilder('p')
+                        ->where('p.date_expiration > CURRENT_DATE()')
+                        ->getQuery()
+                        ->getResult();
+    }
 
     public function search($crit,$ville,$min,$max,$categorie)
     {

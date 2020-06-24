@@ -63,62 +63,18 @@
     
     
               <div class="form-group">
-                <label for="c_ship_different_address" class="text-black" data-toggle="collapse"
-                  href="#ship_different_address" role="button" aria-expanded="false"
-                  aria-controls="ship_different_address"><input type="checkbox" value="1" id="c_ship_different_address">
-                  Ship To A Different Address?</label>
+                
                 <div class="collapse" id="ship_different_address">
                   <div class="py-2">
-    
-        
-    
-    
-                    <div class="form-group row">
-                      <div class="col-md-6">
-                        <label for="c_diff_fname" class="text-black">First Name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="c_diff_fname" name="c_diff_fname">
-                      </div>
-                      <div class="col-md-6">
-                        <label for="c_diff_lname" class="text-black">Last Name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="c_diff_lname" name="c_diff_lname">
-                      </div>
+
                     </div>
-    
-    
-                    <div class="form-group row">
-                      <div class="col-md-12">
-                        <label for="c_diff_address" class="text-black">Address <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="c_diff_address" name="c_diff_address"
-                          placeholder="Street address">
-                          
-                      </div>
-                      
-                      </div>
-                    </div>
-    
-                   
-    
-                   
-    
-                    <div class="form-group row mb-5">
-                    
-                      <div class="col-md-6">
-                        <label for="c_diff_phone" class="text-black">Phone <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="c_diff_phone" name="c_diff_phone"
-                          placeholder="Phone Number">
-                      </div>
-                    </div>
-    
+
                   </div>
     
                 </div>
               </div>
     
-              <div class="form-group">
-                <label for="c_order_notes" class="text-black">Order Notes</label>
-                <textarea name="c_order_notes" id="c_order_notes" cols="30" rows="5" class="form-control"
-                  placeholder="Write your notes here..."></textarea>
-              </div>
+              
     
             </div>
           </div>
@@ -140,13 +96,13 @@
                             {% if items|length == key+1 %}
                             <tr>
                                 <td class="text-black font-weight-bold"><strong>Cart Subtotal</strong></td>
-                                <td class="text-black">${{item.total}}</td>
+                                <td class="text-black">{{item.total}} DHs</td>
                               </tr>   
 
                             {% else %}
                             <tr>
                                 <td>{{item.prod_name}} <strong class="mx-2">x</strong> {{item.qt}}</td>
-                                <td>${{item.price *item.qt}}</td>
+                                <td>{{item.price *item.qt}} DHs</td>
                               </tr>
                                     
                             {% endif %}
@@ -159,8 +115,7 @@
                       
                     </tbody>
                   </table>
-    
-                  <div class="border mb-3">
+    <!--     <div class="border mb-3">
                     <h3 class="h6 mb-0"><a class="d-block" data-toggle="collapse" href="#collapsebank" role="button"
                         aria-expanded="false" aria-controls="collapsebank">Direct Bank Transfer</a></h3>
     
@@ -195,6 +150,7 @@
                       </div>
                     </div>
                   </div>
+                -->
     
                   <div class="form-group">
                     <button class="btn btn-primary btn-lg btn-block" id='place'>Commander</button>
