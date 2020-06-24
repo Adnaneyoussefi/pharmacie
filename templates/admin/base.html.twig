@@ -32,10 +32,10 @@
                 <div class="main-nav d-none d-lg-block">
                   <nav class="site-navigation text-right text-md-center" role="navigation">
                     <ul class="site-menu js-clone-nav d-none d-lg-block">
-                      <li class="{{ app.request.get('_route') == 'home_admin' ? 'active' }}"><a href="{{path('home_admin')}}" class="hyper">Home</a></li>       
+                      <li class="{{ app.request.get('_route') == 'home_admin' ? 'active' }}"><a href="{{path('home_admin')}}" class="hyper">Accueil</a></li>       
                       <li class="{{ app.request.get('_route') == 'listpharmacie_admin' ? 'active' }}"><a href="{{path('listpharmacie_admin')}}" class="hyper">tableau Parapharmacie</a></li>       
                       <li class="{{ app.request.get('_route') == 'listclient_admin' ? 'active' }}"><a href="{{path('listclient_admin')}}" class="hyper">tableau client</a></li>
-                      <li class="{{ app.request.get('_route') == 'categorie_index' ? 'active' }}"><a href="{{path('categorie_index')}}" class="hyper">Catégorie</a></li>       
+                      <li class="{{ app.request.get('_route') == 'categorie_index' ? 'active' }}"><a href="{{path('categorie_index')}}" class="hyper">Catégories</a></li>       
                     </ul>
                   </nav>
                 </div>
@@ -64,7 +64,7 @@
           <div class="container">
             <div class="row">
               <div class="col-md-12 mb-0">
-                <a href="{{path('home_admin')}}">Home</a> <span class="mx-2 mb-0">/</span>
+                <a href="{{path('home_admin')}}">Accueil</a> <span class="mx-2 mb-0">/</span>
                 <strong class="text-black">{{ pagetitle}}</strong>
               </div>
             </div>
