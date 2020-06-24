@@ -28,7 +28,7 @@
 
          {% endfor %}
          {% else %}
-                             <p style='margin:auto'>No results found </p>
+                             <p style='margin:auto'>Aucun produit </p>
          {% endif %}
          
         
@@ -116,7 +116,7 @@
    }
 
    localStorage.setItem("my_cart_infos", JSON.stringify(items_table));
-   alert(" product  has been added to your cart!!");
+   alert(" le produit '"+prodName+"' est ajouté dans votre panier ");
    
    //CartProdNumber();//update product numbers in the cart
    let cart=document.getElementById("my-cart");

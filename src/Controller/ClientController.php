@@ -115,7 +115,7 @@ class ClientController extends AbstractController
             'totalPages'=>ceil($totalPages/$maxPerPage),
             'current'=>$page
         ]);*/
-        $produits=$this->getDoctrine()->getRepository(Produit::class)->findAll();
+        $produits=$this->getDoctrine()->getRepository(Produit::class)->getProducts();
         $page = $paginator->paginate(
             $produits,
             $request->query->getInt('page', 1),

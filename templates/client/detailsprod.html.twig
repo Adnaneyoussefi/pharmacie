@@ -197,7 +197,7 @@ document.getElementById('addprod').addEventListener('click',(e)=>{
    {cart.childNodes[3].innerHTML=JSON.parse(storage).filter( x=>x.id==idd).map(y=>y.items)[0].reduce(function(acc,v){return {qt:acc.qt*1 +v.qt*1}}).qt +qtt*1}
    else
    {cart.childNodes[3].innerHTML=cart.childNodes[3].innerHTML*1+qtt*1;}
-   alert(" product  has been added to your cart!!");
+   alert(" le produit '{{produit.nom}}' est ajouté dans votre panier");
 
         
 
