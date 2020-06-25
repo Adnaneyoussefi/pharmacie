@@ -110,8 +110,8 @@
                             <nav class="site-navigation text-right text-md-center" role="navigation">
                             <ul class="site-menu js-clone-nav d-none d-lg-block" >
                                 <li class="{{ app.request.get('_route') == 'home' ? 'active' }}"><a href="{{ path('home') }}" class="hyper">Acceuil</a></li>
-                                <li class="{{ app.request.get('_route') == 'shop' ? 'active' }}"><a href="{{ path('shop') }}"class="hyper">Produits</a></li>                            
-                                <li class="{{ app.request.get('_route') == 'cat' ? 'active' }} has-children">
+                                <li class="{{ app.request.get('_route') == 'shop' or app.request.get('_route') == 'HandleSearch'  and not categorie ? 'active' }}"><a href="{{ path('shop') }}"class="hyper">Produits</a></li>                            
+                                <li class="{{ (categorie is defined and categorie) or  app.request.get('_route') == 'cat' ? 'active' }} has-children">
                                 <a href="#" class="hyper">Catégorie</a>
                                 <ul class="dropdown" id='categories'>
                                 </ul>
