@@ -102,7 +102,7 @@ class ClientController extends AbstractController
     /**
      * @Route("/shop", name="shop")
      */
-    public function shop(Request $request,PaginatorInterface $paginator)
+    public function shop(Request $request,PaginatorInterface $paginator,SessionInterface $session)
         {   /*$totalPages=$this->getDoctrine()->getRepository(Produit::class)->totalPages();
             $maxPerPage=6;
             $offset=$page*$maxPerPage;
@@ -115,6 +115,8 @@ class ClientController extends AbstractController
             'totalPages'=>ceil($totalPages/$maxPerPage),
             'current'=>$page
         ]);*/
+
+        $session->set("tempCategorie",null);
         $produits=$this->getDoctrine()->getRepository(Produit::class)->getProducts();
         $page = $paginator->paginate(
             $produits,
@@ -334,10 +336,13 @@ class ClientController extends AbstractController
            if(!$frm)
            {
             $produits=$session->get('Storetemp',[]);
+            
            }
            else{
            $produits=$this->getDoctrine()->getRepository(Produit::class)->search($frm['crit'], $frm['ville'], $frm['min'], $frm['max'],$frm['categorie']);
            $session->set('Storetemp',$produits);
+           if($frm['categorie'])
+                $session->set("tempCategorie",$frm['categorie']);
            }
          $page = $paginator->paginate(
             $produits,
@@ -345,18 +350,14 @@ class ClientController extends AbstractController
             8
         );
        
-          
+        $tmp=($session->get('tempCategorie'))?$session->get('tempCategorie'):null;
         
-      
         return $this->render('client/shop.html.twig',[
             'pagetitle'=>'shop',
             'page' => $page,
-            "categorie"=>$frm['categorie'],
+            "categorie"=>$tmp,
             'products' => $produits,
-            ]);
-     
-
-      
+            ]);      
     }
 
       /**
