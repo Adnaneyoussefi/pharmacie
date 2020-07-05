@@ -71,6 +71,11 @@ class ClientController extends AbstractController
       //nombre de visite du site
       $nb_visite = $this->getDoctrine()->getManager(); 
       $nb = $nb_visite->getRepository(Visite::class)->findOneBy(['id' => '1']);
+      $doctrine = $this->getDoctrine();
+      $repository = $doctrine->getRepository(Categorie::class);
+      $totalCategories=$repository->totalCategories();
+      $categories_footer=$repository->getLimitedCategories(4);
+      $categories_footer[]= ['haveMore'=>($totalCategories == count($categories_footer))?false:true];
      if($nb){
          $nb->setNbVisite($nb->getNbVisite()+1);
        $nb_visite->persist($nb);
@@ -95,8 +100,27 @@ class ClientController extends AbstractController
            'nb_visite'=>$nb,
            'produits'=>$produits,
            'categories'=>$categories,
-            'pharmacie'=>$pharmacie
+            'pharmacie'=>$pharmacie,
+            'categories_footer'=>$categories_footer
         ]);
+    }
+    /**
+     * @Route("/categories/{limit}", name="categories")
+     */
+    
+    public function categories($limit)
+    {   //change max results in dropdown here
+        $maxResult=5;
+        $doctrine = $this->getDoctrine();
+        $repository = $doctrine->getRepository(Categorie::class);
+        $totalCategories=$repository->totalCategories();
+        $cat=$repository->getLimitedCategories(($limit)?$maxResult:false);
+        $t=($totalCategories == count($cat))?false:true;
+         if($limit)
+         return $this->json(['c'=>array_map(function($x){return $x->getNom();}, $cat),'haveMore'=>$t],200);
+        else 
+         return $this->redirectToRoute('Allcategories'); 
+        
     }
 
     /**
@@ -418,24 +442,7 @@ class ClientController extends AbstractController
         //return $this->render('client/detailsprod.html.twig', ['pagetitle'=>'details produit','produit'=>$produits[0]]);
     
     }
-     /**
-     * @Route("/categories/{limit}", name="categories")
-     */
-    
-    public function categories($limit)
-    {   //change max results in dropdown here
-        $maxResult=4;
-        $doctrine = $this->getDoctrine();
-        $repository = $doctrine->getRepository(Categorie::class);
-        $totalCategories=$repository->totalCategories();
-        $cat=$repository->getLimitedCategories(($limit)?$maxResult:false);
-        $t=($totalCategories == count($cat))?false:true;
-         if($limit)
-         return $this->json(['c'=>array_map(function($x){return $x->getNom();}, $cat),'haveMore'=>$t],200);
-        else 
-         return $this->redirectToRoute('Allcategories'); 
-        
-    }
+     
       /**
      * @Route("/Allcategories", name="Allcategories")
      */
