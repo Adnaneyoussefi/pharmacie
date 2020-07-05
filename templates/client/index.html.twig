@@ -137,34 +137,6 @@ button:hover, a:hover {
       <br><hr><br>
 {% else %}
 {% endif %}
-{% if categories_footer %}
-<center><h1> Les Categories </h1></center>
-<br><br>
-<div class="container">
-    <div class="row">
-        {% for key,ct in categories_footer  %}
-         
-    
-         {% if key < categories_footer|length -2 %}
-        <div class="col-sm-6 col-lg-4 mt-3">
-          <div class="card">
-            <div class="card-body text-center item mb-4">
-              <a class="btn btn-success" href="{{path('cat',{'name':ct.nom})}}" role="button">{{ct.nom}}</a>
-            </div>
-          </div>
-        </div>
-        {% endif %}
-        
-        {% endfor %}
-        {% if categories_footer[categories_footer|length - 1].haveMore  %}
-       
-        {% endif %}
-    </div>
-</div>
-<br><br>
-<center><a href="{{path('Allcategories')}}" type="button" class="btn btn-success"> afficher tous </a></center>
-<br><hr><br>
-{% endif %}
 {% if pharmacie %}
 <center><h1> Les nouvelles Parapharmacies </h1></center>
 <br><br>
@@ -272,4 +244,5 @@ button:hover, a:hover {
         </div>
       </div>
     </div>
+    
 {% endblock %}

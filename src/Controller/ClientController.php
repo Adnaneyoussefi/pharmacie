@@ -75,7 +75,7 @@ class ClientController extends AbstractController
       $repository = $doctrine->getRepository(Categorie::class);
       $totalCategories=$repository->totalCategories();
       $categories_footer=$repository->getLimitedCategories(4);
-      $categories_footer[]= ['haveMore'=>($totalCategories == count($categories_footer))?false:true];
+      //$categories_footer[]= ['haveMore'=>($totalCategories == count($categories_footer))?false:true];
      if($nb){
          $nb->setNbVisite($nb->getNbVisite()+1);
        $nb_visite->persist($nb);
@@ -101,7 +101,7 @@ class ClientController extends AbstractController
            'produits'=>$produits,
            'categories'=>$categories,
             'pharmacie'=>$pharmacie,
-            'categories_footer'=>$categories_footer
+
         ]);
     }
     /**
@@ -110,7 +110,7 @@ class ClientController extends AbstractController
     
     public function categories($limit)
     {   //change max results in dropdown here
-        $maxResult=5;
+        $maxResult=4;
         $doctrine = $this->getDoctrine();
         $repository = $doctrine->getRepository(Categorie::class);
         $totalCategories=$repository->totalCategories();

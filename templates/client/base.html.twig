@@ -199,13 +199,10 @@
                   </div>
                   <div class="col-lg-3 mx-auto mb-5 mb-lg-0">
                     <h3 class="footer-heading mb-4">Quick Links</h3>
-                    <ul class="list-unstyled">
-                      <li><a href="#">Supplements</a></li>
-                      <li><a href="#">Vitamins</a></li>
-                      <li><a href="#">Diet &amp; Nutrition</a></li>
-                      <li><a href="#">Tea &amp; Coffee</a></li>
+                    <ul class="list-unstyled" id='quicklinks'>
+        
                     </ul>
-                    <u> <a href="{{ path('shop') }}" class="text-primary">Voir plus dans le marquet</a></u>
+                   
                   </div>
 
                   <div class="col-md-6 col-lg-3">
@@ -232,6 +229,7 @@
         <script>
           axios.get('{{path("categories",{"limit":true})}}').then(function(response){
             let categories=document.getElementById('categories')
+            let quicklinks=document.getElementById('quicklinks')
             let url="{{path('cat', {'name':'X'})}}"
             for( i in response.data.c)
             {
@@ -242,6 +240,12 @@
                   href.innerHTML=categorie_name
                   li.append(href)
                   categories.append(li)
+                  let li2=document.createElement('li');
+                  let href2=document.createElement('a');  
+                  href2.href=url.replace('X',categorie_name) 
+                  href2.innerHTML=categorie_name 
+                  li2.append(href2)    
+                  quicklinks.append(li2)
 
             }
             if(response.data.haveMore)
@@ -250,9 +254,18 @@
             showAll.href='{{path("categories",{"limit":0})}}';
             showAll.innerHTML='Afficher tout';
             li.append(showAll)
-            categories.append(li)
+            let li2=document.createElement('li');
+            //<u>
+            let h=document.createElement('a')
+            h.href="{{ path('shop') }}"
+            h.className='text-primary'
+            h.innerHTML='Voir plus dans le marquet'
+            li2.append(h)
+            quicklinks.append(li2)
+            
             }
             //console.log(response.data)
+    
             })
         </script>
             <script>
