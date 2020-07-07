@@ -35,7 +35,7 @@
             ParaPharmacie:<b>  <a href="{{ path('profile', {'id':produit.proprietaire.id})}}">{{produit.proprietaire.nomPharmacie}} </a></b>
             
 
-            <p><strong class="text-primary h4">{{produit.prixtva}}</strong></p>
+            <p><strong class="text-primary h4">{{produit.prixtva}} </strong> <strong class="text-primary h6">DH ttc</strong></p>
 
             
             
@@ -204,7 +204,9 @@ document.getElementById('addprod').addEventListener('click',(e)=>{
 
 
 
-})
+});
+[...document.getElementsByClassName('form-control text-center')].forEach((text)=> text.addEventListener('input',function(){if(!Number(this.value)){this.value=1}}
+                                                                                                                               ))
 
 
   </script>

@@ -258,7 +258,8 @@
             let li2=document.createElement('li');
             //<u>
             let h=document.createElement('a')
-            h.href="{{ path('shop') }}"
+            //h.href="{{ path('shop') }}"
+            h.href='{{path("categories",{"limit":0})}}';
             h.className='text-primary'
             h.innerHTML='Voir plus dans le marquet'
             li2.append(h)

@@ -5,17 +5,22 @@
 {% block nav %}{% endblock %}
 {% block body %}
  <div class="site-section">
-      <div class="container">
-        
- {% for categorie in categories %}
+     
  
         
-           <a href="{{path("cat",{"name":categorie.nom})}}">{{categorie.nom}}</a> &nbsp;
-        
-     
- {% endfor %}
- </div>
-    </div>
+           
+           <div class="container">
+          <div class="row">
+          {% for categorie in categories %}
+           <div class="col-sm col-lg-2 mt-2" >
+          <div class="card">
+            <div class="card-body text-center item mb-4">
+              <a href="{{path("cat",{"name":categorie.nom})}}">{{categorie.nom}}</a> &nbsp;
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+
 
 
 {% endblock %}
