@@ -1,0 +1,56 @@
+stages:
+  - test
+  - deploy
+
+variables:
+  DOCKER_DRIVER: overlay2
+  DOCKER_TLS_CERTDIR: "/certs"
+
+# ──────────────────────────────────────────────
+# STAGE 1: Test (optional but recommended)
+# ──────────────────────────────────────────────
+test:
+  stage: test
+  image: php:7.4-cli
+  before_script:
+    - apt-get update && apt-get install -y git unzip libzip-dev libpng-dev libonig-dev libxml2-dev zip
+    - docker-php-ext-install pdo_mysql mbstring zip
+    - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+    - composer install --no-interaction --prefer-dist
+  script:
+    - php bin/console lint:yaml config --parse-tags
+    - php bin/console lint:twig templates
+    - echo "Lint checks passed!"
+  only:
+    - main
+    - master
+    - develop
+  # Remove this block if you have no tests yet
+  allow_failure: true
+
+# ──────────────────────────────────────────────
+# STAGE 2: Deploy to Railway
+# ──────────────────────────────────────────────
+deploy:
+  stage: deploy
+  image: docker:24
+  services:
+    - docker:24-dind
+  before_script:
+    # Install Railway CLI
+    - apk add --no-cache curl bash
+    - curl -fsSL https://railway.app/install.sh | bash
+    - export PATH="$HOME/.railway/bin:$PATH"
+  script:
+    # Login to Railway using token (set RAILWAY_TOKEN in GitLab CI/CD variables)
+    - railway login --browserless --token $RAILWAY_TOKEN
+    # Link to your Railway project (set RAILWAY_PROJECT_ID in GitLab CI/CD variables)
+    - railway link --project $RAILWAY_PROJECT_ID --environment production
+    # Deploy to Railway
+    - railway up --detach
+  only:
+    - main
+    - master
+  environment:
+    name: production
+    url: $RAILWAY_PUBLIC_URL
