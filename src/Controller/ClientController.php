@@ -88,7 +88,6 @@ class ClientController extends AbstractController
         $manager->persist($user);
         $manager->flush();
       }
-      dump($nb);
       $doctrine = $this->getDoctrine();
       $repository = $doctrine->getRepository(Produit::class);
       $produits=$repository->getLastProduct();
@@ -465,7 +464,6 @@ class ClientController extends AbstractController
         ->setParameter('prop', $id)
         ->getQuery()
         ->getResult();
-        dump($produits);
         $page = $paginator->paginate(
             $produits,
             $request->query->getInt('page', 1),

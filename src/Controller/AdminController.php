@@ -182,7 +182,6 @@ class AdminController extends AbstractController
     {
 
         $user = $this->getDoctrine()->getRepository(User::class)->findPharmacie();
-        dump($user);
         $totalpharma = $this->getDoctrine()->getRepository(User::class)->createQueryBuilder('u')
         ->select('count(u.id)')
         ->where('u.roles = :client')
@@ -249,7 +248,6 @@ return $this->render('admin/list-pharmacie.html.twig', [
 
         $em = $this->getDoctrine()->getManager(); 
         $reclamation = $em->getRepository(Reclamation::class)->findOneBy(['id' => $id]);
-       dump($reclamation);
          $em->remove($reclamation);
           $em->flush();
           $this->addFlash('success', 'Vous avez supprimer la reclamation!');
@@ -267,7 +265,7 @@ return $this->render('admin/list-pharmacie.html.twig', [
 
         $em = $this->getDoctrine()->getManager(); 
         $user = $em->getRepository(User::class)->findOneBy(['id' => $id]);
-       dump($user);
+
          $em->remove($user);
           $em->flush();
           $this->addFlash('success', 'Vous avez supprimer le compte avec succés !');
@@ -283,7 +281,7 @@ return $this->render('admin/list-pharmacie.html.twig', [
 
         $em = $this->getDoctrine()->getManager(); 
         $user = $em->getRepository(User::class)->findOneBy(['id' => $id]);
-       dump($user);
+
        if($user->getIsActive() === false){
            $user->setIsActive(true);
            $user->setStatut('Activé');
@@ -306,7 +304,7 @@ return $this->render('admin/list-pharmacie.html.twig', [
 
         $em = $this->getDoctrine()->getManager(); 
         $user = $em->getRepository(User::class)->findOneBy(['id' => $id]);
-       dump($user);
+
        if($user->getIsActive()=== true){
            $user->setIsActive(false);
            $user->setStatut('Desactivé');
@@ -330,7 +328,7 @@ return $this->render('admin/list-pharmacie.html.twig', [
     {
         
         $user = $this->getDoctrine()->getRepository(User::class)->findClients();
-        dump($user);
+
         $totalclients = $this->getDoctrine()->getRepository(User::class)->createQueryBuilder('u')
         ->select('count(u.id)')
         ->where('u.roles = :client')
@@ -397,7 +395,6 @@ public function deletreclamationclient($id) {
 
     $em = $this->getDoctrine()->getManager(); 
     $reclamation = $em->getRepository(Reclamation::class)->findOneBy(['id' => $id]);
-   dump($reclamation);
      $em->remove($reclamation);
       $em->flush();
       $this->addFlash('success', 'Vous avez supprimer la reclamation!');
@@ -413,7 +410,7 @@ public function deletreclamationclient($id) {
 
         $em = $this->getDoctrine()->getManager(); 
         $user = $em->getRepository(User::class)->findOneBy(['id' => $id]);
-       dump($user);
+
          $em->remove($user);
           $em->flush();
           $this->addFlash('success', 'Vous avez supprimer le compte avec succés !');
@@ -431,7 +428,7 @@ public function deletreclamationclient($id) {
 
         $em = $this->getDoctrine()->getManager(); 
         $user = $em->getRepository(User::class)->findOneBy(['id' => $id]);
-       dump($user);
+
        if($user->getIsActive() === false){
            $user->setIsActive(true);
            $user->setStatut('Activé');
@@ -453,7 +450,7 @@ public function deletreclamationclient($id) {
 
         $em = $this->getDoctrine()->getManager(); 
         $user = $em->getRepository(User::class)->findOneBy(['id' => $id]);
-       dump($user);
+
        if($user->getIsActive()=== true){
            $user->setIsActive(false);
            $user->setStatut('Desactivé');

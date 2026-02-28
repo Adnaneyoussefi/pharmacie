@@ -94,7 +94,6 @@ class ProprietaireController extends AbstractController
                 }
             }
         }
-        dump($p);
         return $this->render('proprietaire/acceuil.html.twig',[
             'pagetitle'=>'Home',
             'path'=>'home_proprietaire',
