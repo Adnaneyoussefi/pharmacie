@@ -17,6 +17,9 @@ RUN apt-get update && apt-get install -y \
 
 RUN a2enmod rewrite
 
+RUN a2dismod mpm_event mpm_worker || true \
+    && a2enmod mpm_prefork rewrite \
+
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
