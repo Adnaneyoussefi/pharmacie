@@ -5,7 +5,7 @@
     "dockerfilePath": "Dockerfile"
   },
   "deploy": {
-    "startCommand": "until php bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration; do echo 'Waiting for DB...'; sleep 3; done && apache2-foreground",
+    "startCommand": "bash -c 'until php bin/console doctrine:migrations:migrate --no-interaction --allow-no-migration; do echo Waiting for DB...; sleep 3; done && apache2-foreground'",
     "restartPolicyType": "ON_FAILURE"
   }
 }
