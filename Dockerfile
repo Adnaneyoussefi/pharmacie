@@ -47,7 +47,8 @@ RUN if [ "$APP_ENV" = "prod" ]; then \
         > /usr/local/etc/php/conf.d/symfony.ini; \
     fi
 
-RUN echo '<VirtualHost *:80>\n\
+RUN echo 'Listen ${PORT}\n\
+<VirtualHost *:${PORT}>\n\
     DocumentRoot /var/www/html/public\n\
     <Directory /var/www/html/public>\n\
         AllowOverride All\n\
@@ -63,6 +64,7 @@ RUN echo '<VirtualHost *:80>\n\
     CustomLog ${APACHE_LOG_DIR}/access.log combined\n\
 </VirtualHost>' > /etc/apache2/sites-available/000-default.conf
 
-EXPOSE 80
+# Make Apache use the PORT env variable
+RUN sed -i 's/Listen 80//' /etc/apache2/ports.conf
 
-CMD ["apache2-foreground"]
+CMD ["sh", "-c", "apache2-foreground"]
