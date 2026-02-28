@@ -6,15 +6,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      args:
-        APP_ENV: ${APP_ENV:-dev}
     container_name: symfony_app
     ports:
       - "8080:80"
-    environment:
-      APP_ENV: ${APP_ENV:-dev}
-      APP_SECRET: ${APP_SECRET}
-      DATABASE_URL: mysql://root:root@db:3306/pharmaciebd?serverVersion=mariadb-10.4.17
     volumes:
       - .:/var/www/html
       - uploads_data:/var/www/html/public/uploads
