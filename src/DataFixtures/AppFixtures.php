@@ -71,7 +71,7 @@ class AppFixtures extends Fixture
                 'quantite'        => 50,
                 'date_expiration' => new \DateTime('2027-06-01'),
                 'categorie'       => 'Soins du visage',
-                'image'           => 'creme_visage.png',
+                'image'           => 'creme_visage.jpg',
             ],
             [
                 'nom'             => 'Sérum Anti-Âge à la Vitamine C',
